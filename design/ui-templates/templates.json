@@ -1,0 +1,1164 @@
+{
+  "source": "https://github.com/KKshitiz/Awesome-UI-Templates",
+  "source_commit": "46b74e51b1aa74ac410a436c1d4c52dbff6105af",
+  "note": "All designs belong to their respective creators on Dribbble. Only links are stored here; no images are redistributed.",
+  "total_templates": 129,
+  "categories": [
+    {
+      "category": "Art & Design",
+      "slug": "art-and-design",
+      "examples": "Sketchbooks, painter tools, art & design tools, coloring books",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/282462/screenshots/11421000/media/ca75af14d0bdc1804250896bee08200c.png",
+          "shot_url": "https://dribbble.com/shots/11421000",
+          "dribbble_shot_id": "11421000",
+          "dribbble_user_id": "282462"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2399102/screenshots/11497998/media/c29d3032ff16245a356a6aef3ba5df8e.png",
+          "shot_url": "https://dribbble.com/shots/11497998",
+          "dribbble_shot_id": "11497998",
+          "dribbble_user_id": "2399102"
+        }
+      ]
+    },
+    {
+      "category": "Auto & Vehicles",
+      "slug": "auto-and-vehicles",
+      "examples": "Auto shopping, auto insurance, auto price comparison, road safety, auto reviews & news",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4563983/screenshots/11432511/media/c5e75a0f318d4d5fe1dccd08edb5e9d6.png",
+          "shot_url": "https://dribbble.com/shots/11432511",
+          "dribbble_shot_id": "11432511",
+          "dribbble_user_id": "4563983"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/6561370/car-market_dr_4x.png",
+          "shot_url": "https://dribbble.com/shots/6561370",
+          "dribbble_shot_id": "6561370",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2459704/screenshots/6439809/do_wrzucenia_4x.png",
+          "shot_url": "https://dribbble.com/shots/6439809",
+          "dribbble_shot_id": "6439809",
+          "dribbble_user_id": "2459704"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2139523/screenshots/10788498/media/cb9978c124090b6a19a0d250a34001b9.png",
+          "shot_url": "https://dribbble.com/shots/10788498",
+          "dribbble_shot_id": "10788498",
+          "dribbble_user_id": "2139523"
+        }
+      ]
+    },
+    {
+      "category": "Beauty",
+      "slug": "beauty",
+      "examples": "Makeup tutorials, makeover tools, hair styling, beauty shopping, makeup simulators",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/617630/screenshots/11424813/media/5ad9a5fd22e4e268958fef2235e864ab.jpg",
+          "shot_url": "https://dribbble.com/shots/11424813",
+          "dribbble_shot_id": "11424813",
+          "dribbble_user_id": "617630"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/702789/screenshots/7133681/media/3c94d0c57b5670ef0e48a26a2b6e579d.png",
+          "shot_url": "https://dribbble.com/shots/7133681",
+          "dribbble_shot_id": "7133681",
+          "dribbble_user_id": "702789"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1522015/screenshots/8427898/media/f342fc3cd44a6928bfa324437cdbfa4a.png",
+          "shot_url": "https://dribbble.com/shots/8427898",
+          "dribbble_shot_id": "8427898",
+          "dribbble_user_id": "1522015"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/719258/screenshots/7988469/media/6819f16b86e7922f04fcd69fb826a048.png",
+          "shot_url": "https://dribbble.com/shots/7988469",
+          "dribbble_shot_id": "7988469",
+          "dribbble_user_id": "719258"
+        }
+      ]
+    },
+    {
+      "category": "Books & Reference",
+      "slug": "books-and-reference",
+      "examples": "Book readers, reference books, text books, dictionaries, thesaurus, wikis",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2742725/screenshots/11444023/media/029b9a23f9d91a8f6401bb0c716dbcea.png",
+          "shot_url": "https://dribbble.com/shots/11444023",
+          "dribbble_shot_id": "11444023",
+          "dribbble_user_id": "2742725"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/970912/screenshots/9532828/media/f6e5b4010a95ad9c05bd3532c266a91c.png",
+          "shot_url": "https://dribbble.com/shots/9532828",
+          "dribbble_shot_id": "9532828",
+          "dribbble_user_id": "970912"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/11222627/media/7649c993c25fe4eddeeeba985e7562c2.png",
+          "shot_url": "https://dribbble.com/shots/11222627",
+          "dribbble_shot_id": "11222627",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/957817/screenshots/10682895/media/2d0601e00d6629815c80f7e7337be5dc.png",
+          "shot_url": "https://dribbble.com/shots/10682895",
+          "dribbble_shot_id": "10682895",
+          "dribbble_user_id": "957817"
+        }
+      ]
+    },
+    {
+      "category": "Business",
+      "slug": "business",
+      "examples": "Document editor/reader, package tracking, remote desktop, email management, job search",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1400508/screenshots/11443360/media/fd3e64439d02f6bc18eb92375298bd73.png",
+          "shot_url": "https://dribbble.com/shots/11443360",
+          "dribbble_shot_id": "11443360",
+          "dribbble_user_id": "1400508"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1624253/screenshots/11414220/media/da6a5a38da50b9f6b9c856a2fb027d13.png",
+          "shot_url": "https://dribbble.com/shots/11414220",
+          "dribbble_shot_id": "11414220",
+          "dribbble_user_id": "1624253"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/24612/screenshots/11418143/media/633ff999f18cea46f008aa088677d192.png",
+          "shot_url": "https://dribbble.com/shots/11418143",
+          "dribbble_shot_id": "11418143",
+          "dribbble_user_id": "24612"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/26642/screenshots/9956276/media/8762ab3ac674d1cb551d45349e91ad9d.png",
+          "shot_url": "https://dribbble.com/shots/9956276",
+          "dribbble_shot_id": "9956276",
+          "dribbble_user_id": "26642"
+        }
+      ]
+    },
+    {
+      "category": "Comics",
+      "slug": "comics",
+      "examples": "Comic players, comic titles",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/5712308/vision_3_4x.png",
+          "shot_url": "https://dribbble.com/shots/5712308",
+          "dribbble_shot_id": "5712308",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2268952/screenshots/7589581/media/5ac7159b5da258499fec7a3a9221c202.png",
+          "shot_url": "https://dribbble.com/shots/7589581",
+          "dribbble_shot_id": "7589581",
+          "dribbble_user_id": "2268952"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/806561/screenshots/11131804/media/979f60c7d98b3922d3015ccd00bc38d4.jpg",
+          "shot_url": "https://dribbble.com/shots/11131804",
+          "dribbble_shot_id": "11131804",
+          "dribbble_user_id": "806561"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1910002/screenshots/7097037/media/7692602c76739da2429fb3afb2668e8e.jpg",
+          "shot_url": "https://dribbble.com/shots/7097037",
+          "dribbble_shot_id": "7097037",
+          "dribbble_user_id": "1910002"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1910002/screenshots/7038519/media/eaeabe5183c0adf367d0c2a95eee7431.jpg",
+          "shot_url": "https://dribbble.com/shots/7038519",
+          "dribbble_shot_id": "7038519",
+          "dribbble_user_id": "1910002"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4841291/screenshots/10083415/media/0ede90bcb4f3b63e38635673f185f040.png",
+          "shot_url": "https://dribbble.com/shots/10083415",
+          "dribbble_shot_id": "10083415",
+          "dribbble_user_id": "4841291"
+        }
+      ]
+    },
+    {
+      "category": "Communications",
+      "slug": "communications",
+      "examples": "Messaging, chat/IM, dialers, address books, browsers, call management",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4603767/screenshots/11415731/media/d86115ab2009f0ef4fc8d8481323beec.png",
+          "shot_url": "https://dribbble.com/shots/11415731",
+          "dribbble_shot_id": "11415731",
+          "dribbble_user_id": "4603767"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/5031392/screenshots/11029900/media/923107b955c4c79d3a6cdb8d1d6bd96d.png",
+          "shot_url": "https://dribbble.com/shots/11029900",
+          "dribbble_shot_id": "11029900",
+          "dribbble_user_id": "5031392"
+        }
+      ]
+    },
+    {
+      "category": "Dating",
+      "slug": "dating",
+      "examples": "Matchmaking, courtship, relationship building, meeting new people, finding love",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2508569/screenshots/11433338/media/32dc25af5d6334397565c8b88dfa7f69.png",
+          "shot_url": "https://dribbble.com/shots/11433338",
+          "dribbble_shot_id": "11433338",
+          "dribbble_user_id": "2508569"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1603204/screenshots/6858469/dribbble_29.07_.png",
+          "shot_url": "https://dribbble.com/shots/6858469",
+          "dribbble_shot_id": "6858469",
+          "dribbble_user_id": "1603204"
+        }
+      ]
+    },
+    {
+      "category": "Education",
+      "slug": "education",
+      "examples": "Exam preparations, study-aids, vocabulary, educational games, language learning",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2146089/screenshots/11436820/media/6a2806fcd7609150b5ea1da4db433149.png",
+          "shot_url": "https://dribbble.com/shots/11436820",
+          "dribbble_shot_id": "11436820",
+          "dribbble_user_id": "2146089"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/962032/screenshots/11432796/media/b01b4366438e003b5c1452633f8911ed.png",
+          "shot_url": "https://dribbble.com/shots/11432796",
+          "dribbble_shot_id": "11432796",
+          "dribbble_user_id": "962032"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1868453/screenshots/11439721/media/d6a7a0d0f953c77644281ad868903ea7.png",
+          "shot_url": "https://dribbble.com/shots/11439721",
+          "dribbble_shot_id": "11439721",
+          "dribbble_user_id": "1868453"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/556962/screenshots/11436066/media/c803f5817e3caa0b151a7e0092c7a6cb.jpg",
+          "shot_url": "https://dribbble.com/shots/11436066",
+          "dribbble_shot_id": "11436066",
+          "dribbble_user_id": "556962"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/982406/screenshots/11434001/media/6e137dc804b7fad623223ef8ef27ad93.png",
+          "shot_url": "https://dribbble.com/shots/11434001",
+          "dribbble_shot_id": "11434001",
+          "dribbble_user_id": "982406"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/6727007/ulesson.png",
+          "shot_url": "https://dribbble.com/shots/6727007",
+          "dribbble_shot_id": "6727007",
+          "dribbble_user_id": "4859"
+        }
+      ]
+    },
+    {
+      "category": "Entertainment",
+      "slug": "entertainment",
+      "examples": "Streaming video, Movies, TV, interactive entertainment",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/11420266/media/d798aa4732f9708950e701a7656ec8a1.png",
+          "shot_url": "https://dribbble.com/shots/11420266",
+          "dribbble_shot_id": "11420266",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1726280/screenshots/11432145/media/b29c67fdd7b99247a02e61fb2f270359.jpg",
+          "shot_url": "https://dribbble.com/shots/11432145",
+          "dribbble_shot_id": "11432145",
+          "dribbble_user_id": "1726280"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/267263/screenshots/11413278/media/4c271aef30a6dba04875828432dda1d3.png",
+          "shot_url": "https://dribbble.com/shots/11413278",
+          "dribbble_shot_id": "11413278",
+          "dribbble_user_id": "267263"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2399102/screenshots/6987253/netflix-redesign__1_.jpg",
+          "shot_url": "https://dribbble.com/shots/6987253",
+          "dribbble_shot_id": "6987253",
+          "dribbble_user_id": "2399102"
+        }
+      ]
+    },
+    {
+      "category": "Events",
+      "slug": "events",
+      "examples": "Concert tickets, sporting event tickets, ticket resales, movie tickets",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2017098/screenshots/7374953/media/a8ad9999143f13963b52f588df04c8c7.png",
+          "shot_url": "https://dribbble.com/shots/7374953",
+          "dribbble_shot_id": "7374953",
+          "dribbble_user_id": "2017098"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/918572/screenshots/6529420/footbollchik_4x.png",
+          "shot_url": "https://dribbble.com/shots/6529420-FootPlace-Schedule-New-Event",
+          "dribbble_shot_id": "6529420",
+          "dribbble_user_id": "918572"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/369497/screenshots/6792614/2019-010_4x.png",
+          "shot_url": "https://dribbble.com/shots/6792614-Concert-App-UI",
+          "dribbble_shot_id": "6792614",
+          "dribbble_user_id": "369497"
+        }
+      ]
+    },
+    {
+      "category": "Finance",
+      "slug": "finance",
+      "examples": "Banking, payment, ATM finders, financial news, insurance, taxes, portfolio/trading, tip calculators",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1333371/screenshots/11444807/media/cf61982be23b047cb755d4e6391f4858.jpg",
+          "shot_url": "https://dribbble.com/shots/11444807",
+          "dribbble_shot_id": "11444807",
+          "dribbble_user_id": "1333371"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1810466/screenshots/11416444/media/a72810eb50b19e688f3553c155611ba0.png",
+          "shot_url": "https://dribbble.com/shots/11416444",
+          "dribbble_shot_id": "11416444",
+          "dribbble_user_id": "1810466"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/981250/screenshots/11434885/media/3191db9c120238a29c15fbc91797c14a.png",
+          "shot_url": "https://dribbble.com/shots/11434885",
+          "dribbble_shot_id": "11434885",
+          "dribbble_user_id": "981250"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/449285/screenshots/11431787/media/f5ceb5b4ff4145062324560001d9508e.png",
+          "shot_url": "https://dribbble.com/shots/11431787",
+          "dribbble_shot_id": "11431787",
+          "dribbble_user_id": "449285"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/11404832/media/62aabebf69f0bb9699a44a6397f8a81f.png",
+          "shot_url": "https://dribbble.com/shots/11404832",
+          "dribbble_shot_id": "11404832",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2569995/screenshots/11422621/media/da457339d256ed7c3d924d78ffca4c5d.jpg",
+          "shot_url": "https://dribbble.com/shots/11422621",
+          "dribbble_shot_id": "11422621",
+          "dribbble_user_id": "2569995"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1348777/screenshots/11446183/media/240d4d5f8ccc4227e3f772754aba0b26.png",
+          "shot_url": "https://dribbble.com/shots/11446183",
+          "dribbble_shot_id": "11446183",
+          "dribbble_user_id": "1348777"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2376408/screenshots/11370857/media/9f0306361b582fec3a999d0cd027f8fc.png",
+          "shot_url": "https://dribbble.com/shots/11370857",
+          "dribbble_shot_id": "11370857",
+          "dribbble_user_id": "2376408"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4030207/screenshots/13990108/media/b5de96ef1ee946cf172cf97139a52351.jpg",
+          "shot_url": "https://dribbble.com/shots/13990108",
+          "dribbble_shot_id": "13990108",
+          "dribbble_user_id": "4030207"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/7417866/screenshots/16539912/media/318c81d8b5e5cd33e5a472811450dc21.png",
+          "shot_url": "https://dribbble.com/shots/16539912",
+          "dribbble_shot_id": "16539912",
+          "dribbble_user_id": "7417866"
+        }
+      ]
+    },
+    {
+      "category": "Food & Drink",
+      "slug": "food-and-drink",
+      "examples": "Recipes, restaurants, food guides, wine tasting & discovery, beverage recipes",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/584216/screenshots/11434381/media/4e74882d06665362bf09c1b1a1b6e2f2.png",
+          "shot_url": "https://dribbble.com/shots/11434381",
+          "dribbble_shot_id": "11434381",
+          "dribbble_user_id": "584216"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2472186/screenshots/11431740/media/3417bdd35951a64855a8d31ff9a26f41.png",
+          "shot_url": "https://dribbble.com/shots/11431740",
+          "dribbble_shot_id": "11431740",
+          "dribbble_user_id": "2472186"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1254731/screenshots/11443635/media/c8f4cbf03d265906447fc9f08fb523ab.png",
+          "shot_url": "https://dribbble.com/shots/11443635",
+          "dribbble_shot_id": "11443635",
+          "dribbble_user_id": "1254731"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/941243/screenshots/11441696/media/c52d99651c258bab861a734f18ffccbf.png",
+          "shot_url": "https://dribbble.com/shots/11441696",
+          "dribbble_shot_id": "11441696",
+          "dribbble_user_id": "941243"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4859/screenshots/8386945/media/800a18bb3c9d370fb514b1ac8cc9e245.png",
+          "shot_url": "https://dribbble.com/shots/8386945",
+          "dribbble_shot_id": "8386945",
+          "dribbble_user_id": "4859"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1909255/screenshots/11020723/media/25df2adc24472c122f2c5549851eb428.png",
+          "shot_url": "https://dribbble.com/shots/11020723",
+          "dribbble_shot_id": "11020723",
+          "dribbble_user_id": "1909255"
+        }
+      ]
+    },
+    {
+      "category": "Health & Fitness",
+      "slug": "health-and-fitness",
+      "examples": "Personal fitness, workout tracking, diet and nutritional tips, health & safety, etc.",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/110372/screenshots/11433553/media/9b94cfa1c261a114a51437f2ed8496d7.png",
+          "shot_url": "https://dribbble.com/shots/11433553",
+          "dribbble_shot_id": "11433553",
+          "dribbble_user_id": "110372"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4801636/screenshots/11426683/media/265f480dbd933dcf9cb7d05dffd688f7.png",
+          "shot_url": "https://dribbble.com/shots/11426683",
+          "dribbble_shot_id": "11426683",
+          "dribbble_user_id": "4801636"
+        }
+      ]
+    },
+    {
+      "category": "House & Home",
+      "slug": "house-and-home",
+      "examples": "House & apartment search, home improvement, interior decoration, mortgages, real estate",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/915817/screenshots/11444184/media/f03fef5b57320a2f38432220430391d4.png",
+          "shot_url": "https://dribbble.com/shots/11444184",
+          "dribbble_shot_id": "11444184",
+          "dribbble_user_id": "915817"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/3949873/screenshots/11437629/media/27a4a892c14ade07d8b7c28382b0e4ba.png",
+          "shot_url": "https://dribbble.com/shots/11437629",
+          "dribbble_shot_id": "11437629",
+          "dribbble_user_id": "3949873"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2376408/screenshots/11370939/media/b43a634709dbff06271d04546c9c758d.png",
+          "shot_url": "https://dribbble.com/shots/11370939",
+          "dribbble_shot_id": "11370939",
+          "dribbble_user_id": "2376408"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2340587/screenshots/11425704/media/338a6afff57029e7c2663e199bc804b6.png",
+          "shot_url": "https://dribbble.com/shots/11425704",
+          "dribbble_shot_id": "11425704",
+          "dribbble_user_id": "2340587"
+        }
+      ]
+    },
+    {
+      "category": "Libraries & Demo",
+      "slug": "libraries-and-demo",
+      "examples": "Software libraries, technical demos",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1863078/screenshots/10172217/media/f251e977b6e65299adfc0197fbe1308c.png",
+          "shot_url": "https://dribbble.com/shots/10172217",
+          "dribbble_shot_id": "10172217",
+          "dribbble_user_id": "1863078"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2153809/screenshots/6491185/day14-library_app.png",
+          "shot_url": "https://dribbble.com/shots/6491185",
+          "dribbble_shot_id": "6491185",
+          "dribbble_user_id": "2153809"
+        }
+      ]
+    },
+    {
+      "category": "Lifestyle",
+      "slug": "lifestyle",
+      "examples": "Style guides, wedding & party planning, how-to guides",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1454669/screenshots/11424463/media/a6230aa7aea2ab2a21c9062a4c2179fd.png",
+          "shot_url": "https://dribbble.com/shots/11424463",
+          "dribbble_shot_id": "11424463",
+          "dribbble_user_id": "1454669"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2117939/screenshots/7570048/media/57aed1302b0dbb615f85b0a12379be6c.png",
+          "shot_url": "https://dribbble.com/shots/7570048",
+          "dribbble_shot_id": "7570048",
+          "dribbble_user_id": "2117939"
+        }
+      ]
+    },
+    {
+      "category": "Maps & Navigation",
+      "slug": "maps-and-navigation",
+      "examples": "Navigation tools, GPS, mapping, transit tools, public transportation",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2399102/screenshots/6645932/google-map-redesign_v2__2_.jpg",
+          "shot_url": "https://dribbble.com/shots/6645932",
+          "dribbble_shot_id": "6645932",
+          "dribbble_user_id": "2399102"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/112840/screenshots/7024230/media/4f96e4b46c71dee70d49e805bb886678.png",
+          "shot_url": "https://dribbble.com/shots/7024230",
+          "dribbble_shot_id": "7024230",
+          "dribbble_user_id": "112840"
+        }
+      ]
+    },
+    {
+      "category": "Medical",
+      "slug": "medical",
+      "examples": "Drug & clinical references, calculators, handbooks for health-care providers, medical journals & news",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2959458/screenshots/11179642/media/f0de26cca199ac49bd953e288b84afcb.jpg",
+          "shot_url": "https://dribbble.com/shots/11179642",
+          "dribbble_shot_id": "11179642",
+          "dribbble_user_id": "2959458"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/758684/screenshots/10769817/media/f4576ba0fb4709ed57b95c3dcffde922.jpg",
+          "shot_url": "https://dribbble.com/shots/10769817",
+          "dribbble_shot_id": "10769817",
+          "dribbble_user_id": "758684"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2566888/screenshots/10765598/media/d8e7b74145e2422e4dd53431403259ae.png",
+          "shot_url": "https://dribbble.com/shots/10765598",
+          "dribbble_shot_id": "10765598",
+          "dribbble_user_id": "2566888"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/9438894/media/adfdb96cf0f764dca09cab6eeb568853.png",
+          "shot_url": "https://dribbble.com/shots/9438894",
+          "dribbble_shot_id": "9438894",
+          "dribbble_user_id": "4189231"
+        }
+      ]
+    },
+    {
+      "category": "Music & Audio",
+      "slug": "music-and-audio",
+      "examples": "Music services, radios, music players",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1343196/screenshots/11442028/media/6363208a7677dafaa23bc695e42b7936.png",
+          "shot_url": "https://dribbble.com/shots/11442028",
+          "dribbble_shot_id": "11442028",
+          "dribbble_user_id": "1343196"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1080850/screenshots/11416888/media/cc0d6d0437675932f1844d840c3a0413.png",
+          "shot_url": "https://dribbble.com/shots/11416888",
+          "dribbble_shot_id": "11416888",
+          "dribbble_user_id": "1080850"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/821812/screenshots/11433091/media/e972502bc4c5b0eaa82fbe61c94e87e3.jpg",
+          "shot_url": "https://dribbble.com/shots/11433091",
+          "dribbble_shot_id": "11433091",
+          "dribbble_user_id": "821812"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2285351/screenshots/11445072/media/2fb168dde77824a78ac64c8134db9813.png",
+          "shot_url": "https://dribbble.com/shots/11445072",
+          "dribbble_shot_id": "11445072",
+          "dribbble_user_id": "2285351"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/5114364/screenshots/11427679/media/f347704bee8f13cc272e44281a98992d.jpg",
+          "shot_url": "https://dribbble.com/shots/11427679",
+          "dribbble_shot_id": "11427679",
+          "dribbble_user_id": "5114364"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/551602/screenshots/11484096/media/9548fcca5b188e006a45a36b46bf2ab2.png",
+          "shot_url": "https://dribbble.com/shots/11484096",
+          "dribbble_shot_id": "11484096",
+          "dribbble_user_id": "551602"
+        }
+      ]
+    },
+    {
+      "category": "News & Magazines",
+      "slug": "news-and-magazines",
+      "examples": "Newspapers, news aggregators, magazines, blogging",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/20409/screenshots/9513371/media/60382bda3268edbfcc6c8248d7986089.jpg",
+          "shot_url": "https://dribbble.com/shots/9513371-Gator-mobile-news-app/1539042?mode=media",
+          "dribbble_shot_id": "9513371",
+          "dribbble_user_id": "20409"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/957817/screenshots/11298372/media/23715522f447547099449c901aafc8dc.png",
+          "shot_url": "https://dribbble.com/shots/11298372-Newspaper-App/2908112?mode=media",
+          "dribbble_shot_id": "11298372",
+          "dribbble_user_id": "957817"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1998993/screenshots/11107575/media/200decdb1ef01360fd296b41090bbf84.png",
+          "shot_url": "https://dribbble.com/shots/11107575-magazine-app/2707258?mode=media",
+          "dribbble_shot_id": "11107575",
+          "dribbble_user_id": "1998993"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/851372/screenshots/7229348/media/c923c6d61b4b3913cd5da3b8c7cf3e64.png",
+          "shot_url": "https://dribbble.com/shots/7229348-Newspaper/213346?mode=media",
+          "dribbble_shot_id": "7229348",
+          "dribbble_user_id": "851372"
+        }
+      ]
+    },
+    {
+      "category": "Parenting",
+      "slug": "parenting",
+      "examples": "Pregnancy, infant care & monitoring, childcare",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/167041/screenshots/2036651/htc_one_mockup.png",
+          "shot_url": "https://dribbble.com/shots/2036651-Kids2School-Apps-Concept",
+          "dribbble_shot_id": "2036651",
+          "dribbble_user_id": "167041"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/31642/screenshots/5647159/family-five.jpg",
+          "shot_url": "https://dribbble.com/shots/5647159-Family5-app",
+          "dribbble_shot_id": "5647159",
+          "dribbble_user_id": "31642"
+        }
+      ]
+    },
+    {
+      "category": "Personalization",
+      "slug": "personalization",
+      "examples": "Wallpapers, live wallpapers, home screen, lock screen, ringtones",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/3620707/screenshots/10011242/gif_export.gif",
+          "shot_url": "https://dribbble.com/shots/10011242",
+          "dribbble_shot_id": "10011242",
+          "dribbble_user_id": "3620707"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/308480/screenshots/2197810/firefly800.gif",
+          "shot_url": "https://dribbble.com/shots/2197810",
+          "dribbble_shot_id": "2197810",
+          "dribbble_user_id": "308480"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/592548/screenshots/4343539/img_3496.png",
+          "shot_url": "https://dribbble.com/shots/4343539-Concept-Design",
+          "dribbble_shot_id": "4343539",
+          "dribbble_user_id": "592548"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/607129/screenshots/10374763/media/c57654bd46f714446a93b63927c27df2.png",
+          "shot_url": "https://dribbble.com/shots/10374763-Live-Wallpaper-Gallery-UI-Design",
+          "dribbble_shot_id": "10374763",
+          "dribbble_user_id": "607129"
+        }
+      ]
+    },
+    {
+      "category": "Photography",
+      "slug": "photography",
+      "examples": "Cameras, photo editing tools, photo management and sharing",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/5261198/screenshots/11499940/media/ff5e54953c28625a2e0454d5fe3784af.png",
+          "shot_url": "https://dribbble.com/shots/11499940",
+          "dribbble_shot_id": "11499940",
+          "dribbble_user_id": "5261198"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1998993/screenshots/8970542/media/e6920d4fc9e1f0e68ecc2fedb4d8bfb7.png",
+          "shot_url": "https://dribbble.com/shots/8970542",
+          "dribbble_shot_id": "8970542",
+          "dribbble_user_id": "1998993"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/9021000/media/ef03129a2448d56583075ba8e1fe79c0.png",
+          "shot_url": "https://dribbble.com/shots/9021000-Photography-Discovering-App-Design/1144243?mode=media",
+          "dribbble_shot_id": "9021000",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/8572922/media/b82307e05b0c55c053a03a1c8ec12bf1.jpg",
+          "shot_url": "https://dribbble.com/shots/8572922-Social-network-for-photographers-Mobile-App/840044?mode=media",
+          "dribbble_shot_id": "8572922",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2083577/screenshots/7016896/media/b41eb941b345e7eed2c905458c44850c.png",
+          "shot_url": "https://dribbble.com/shots/7016896-Blue-Photography-Collection/19115?mode=media",
+          "dribbble_shot_id": "7016896",
+          "dribbble_user_id": "2083577"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1615730/screenshots/6218920/camera_2_4x.png",
+          "shot_url": "https://dribbble.com/shots/6218920-Profile-Album-Camera",
+          "dribbble_shot_id": "6218920",
+          "dribbble_user_id": "1615730"
+        }
+      ]
+    },
+    {
+      "category": "Productivity",
+      "slug": "productivity",
+      "examples": "Notepad, to do list, keyboard, printing, calendar, backup, calculator, conversion",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/1788965/screenshots/11417389/media/ed3090853fa3e03375212e27eef63243.png",
+          "shot_url": "https://dribbble.com/shots/11417389",
+          "dribbble_shot_id": "11417389",
+          "dribbble_user_id": "1788965"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/3429790/screenshots/11483935/media/849f6ddc33127d76171e468d709cde2b.png",
+          "shot_url": "https://dribbble.com/shots/11483935",
+          "dribbble_shot_id": "11483935",
+          "dribbble_user_id": "3429790"
+        }
+      ]
+    },
+    {
+      "category": "Shopping",
+      "slug": "shopping",
+      "examples": "Online shopping, auctions, coupons, price comparison, grocery lists, product reviews",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2461751/screenshots/11431532/media/ea8130287e3561e0325788b545c81c02.png",
+          "shot_url": "https://dribbble.com/shots/11431532",
+          "dribbble_shot_id": "11431532",
+          "dribbble_user_id": "2461751"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2461751/screenshots/11431532/media/8bbc58e69c36cca86069177544334fb5.png",
+          "shot_url": "https://dribbble.com/shots/11431532",
+          "dribbble_shot_id": "11431532",
+          "dribbble_user_id": "2461751"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/11433982/media/75bfd296c90538886a36e2d2d8c0516f.jpg",
+          "shot_url": "https://dribbble.com/shots/11433982",
+          "dribbble_shot_id": "11433982",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/11433982/media/75bfd296c90538886a36e2d2d8c0516f.jpg",
+          "shot_url": "https://dribbble.com/shots/11433982",
+          "dribbble_shot_id": "11433982",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/267263/screenshots/11432692/media/030fe6c64224ebd6ebf1644b96f8a35f.png",
+          "shot_url": "https://dribbble.com/shots/11432692",
+          "dribbble_shot_id": "11432692",
+          "dribbble_user_id": "267263"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/3860505/screenshots/11431718/media/391af1676a522462dfb9dbb1f400f65e.png",
+          "shot_url": "https://dribbble.com/shots/11431718",
+          "dribbble_shot_id": "11431718",
+          "dribbble_user_id": "3860505"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/2616177/screenshots/11424419/media/b2a3089695298bdf81e05f7cbdea23a7.png",
+          "shot_url": "https://dribbble.com/shots/11424419",
+          "dribbble_shot_id": "11424419",
+          "dribbble_user_id": "2616177"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1997192/screenshots/11426864/media/5f0164544fc9c51b3dba7c51d8057e44.png",
+          "shot_url": "https://dribbble.com/shots/11426864",
+          "dribbble_shot_id": "11426864",
+          "dribbble_user_id": "1997192"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1997192/screenshots/11426864/media/c4f51586bb2d431b1305971529e0fe26.png",
+          "shot_url": "https://dribbble.com/shots/11426864",
+          "dribbble_shot_id": "11426864",
+          "dribbble_user_id": "1997192"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4107199/screenshots/11426999/media/5fa1a407f7dc5a95b52e51af28af7fe0.png",
+          "shot_url": "https://dribbble.com/shots/11426999",
+          "dribbble_shot_id": "11426999",
+          "dribbble_user_id": "4107199"
+        }
+      ]
+    },
+    {
+      "category": "Social",
+      "slug": "social",
+      "examples": "Social networking, check-in",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/310943/screenshots/11416015/media/10f64ed22538ab13cfbac00070c044d6.png",
+          "shot_url": "https://dribbble.com/shots/11416015",
+          "dribbble_shot_id": "11416015",
+          "dribbble_user_id": "310943"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4271438/screenshots/11437682/media/d2e2ecf1e1ccbe68afb285b8570346d7.png",
+          "shot_url": "https://dribbble.com/shots/11437682",
+          "dribbble_shot_id": "11437682",
+          "dribbble_user_id": "4271438"
+        }
+      ]
+    },
+    {
+      "category": "Sports",
+      "slug": "sports",
+      "examples": "Sports news & commentary, score tracking, fantasy team management, game coverage",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/9834834/media/afc87b29367d6a68c780175bd80fff24.png",
+          "shot_url": "https://dribbble.com/shots/9834834",
+          "dribbble_shot_id": "9834834",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/960843/screenshots/10527118/media/76f1d3ae62ec84cadb2c6a48e3aa2263.jpg",
+          "shot_url": "https://dribbble.com/shots/10527118",
+          "dribbble_shot_id": "10527118",
+          "dribbble_user_id": "960843"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4189231/screenshots/9913251/media/fb7855c4620c0202a91d9c53d7b93ead.jpg",
+          "shot_url": "https://dribbble.com/shots/9913251-Sports-App-Mobile-App/1947286?mode=media",
+          "dribbble_shot_id": "9913251",
+          "dribbble_user_id": "4189231"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1371502/screenshots/7902496/media/b9164541fe165246afffc6ef0e700422.png",
+          "shot_url": "https://dribbble.com/shots/7902496/499953?mode=media",
+          "dribbble_shot_id": "7902496",
+          "dribbble_user_id": "1371502"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/239075/screenshots/6228690/map_and_schedule_by_iftikhar_shaikh_4x.png",
+          "shot_url": "https://dribbble.com/shots/6228690-Team-management-iOS-App",
+          "dribbble_shot_id": "6228690",
+          "dribbble_user_id": "239075"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1146422/screenshots/6923463/shot_for_dribbble_4x.png",
+          "shot_url": "https://dribbble.com/shots/6923463-Sports-News-App",
+          "dribbble_shot_id": "6923463",
+          "dribbble_user_id": "1146422"
+        }
+      ]
+    },
+    {
+      "category": "Tools",
+      "slug": "tools",
+      "examples": "Tools for Android devices",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/4110200/screenshots/11416582/media/0425353703c34881c4e3dc46d521bbaf.png",
+          "shot_url": "https://dribbble.com/shots/11416582",
+          "dribbble_shot_id": "11416582",
+          "dribbble_user_id": "4110200"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1677049/screenshots/11438183/media/286f937a137b90d3152dec8b80ac62b4.jpg",
+          "shot_url": "https://dribbble.com/shots/11438183",
+          "dribbble_shot_id": "11438183",
+          "dribbble_user_id": "1677049"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1518948/screenshots/11416247/media/2520fe01169356b6d09d1492aca11283.jpg",
+          "shot_url": "https://dribbble.com/shots/11416247",
+          "dribbble_shot_id": "11416247",
+          "dribbble_user_id": "1518948"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/997070/screenshots/6752188/01.png",
+          "shot_url": "https://dribbble.com/shots/6752188",
+          "dribbble_shot_id": "6752188",
+          "dribbble_user_id": "997070"
+        }
+      ]
+    },
+    {
+      "category": "Travel & Local",
+      "slug": "travel-and-local",
+      "examples": "Trip booking tools, ride sharing, taxis, city guides, local business information, trip management tools, tour booking",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/915817/screenshots/11424144/media/61d8d07315209af454e9f493ad73817e.png",
+          "shot_url": "https://dribbble.com/shots/11424144",
+          "dribbble_shot_id": "11424144",
+          "dribbble_user_id": "915817"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/380831/screenshots/11433770/media/00fb36b882fb175e72b4ceb1c0fc3e01.png",
+          "shot_url": "https://dribbble.com/shots/11433770",
+          "dribbble_shot_id": "11433770",
+          "dribbble_user_id": "380831"
+        }
+      ]
+    },
+    {
+      "category": "Video Players & Editors",
+      "slug": "video-players-and-editors",
+      "examples": "Video players, video editors, media storage",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/2399102/screenshots/6682768/video-editing-app_4x.jpg",
+          "shot_url": "https://dribbble.com/shots/6682768",
+          "dribbble_shot_id": "6682768",
+          "dribbble_user_id": "2399102"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/103962/screenshots/5540105/slidelab_1_4x.png",
+          "shot_url": "https://dribbble.com/shots/5540105",
+          "dribbble_shot_id": "5540105",
+          "dribbble_user_id": "103962"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/31232/screenshots/7076568/media/d5d40845e69aad1018a97534a6ef58d3.png",
+          "shot_url": "https://dribbble.com/shots/7076568",
+          "dribbble_shot_id": "7076568",
+          "dribbble_user_id": "31232"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/4429/screenshots/7666611/media/53a9350cbda0f3ef366f5d88cf2f299a.png",
+          "shot_url": "https://dribbble.com/shots/7666611",
+          "dribbble_shot_id": "7666611",
+          "dribbble_user_id": "4429"
+        }
+      ]
+    },
+    {
+      "category": "Weather",
+      "slug": "weather",
+      "examples": "Weather reports",
+      "templates": [
+        {
+          "image": "https://cdn.dribbble.com/users/498270/screenshots/11435940/media/e07211b33eaf38547b014277c184614f.jpg",
+          "shot_url": "https://dribbble.com/shots/11435940",
+          "dribbble_shot_id": "11435940",
+          "dribbble_user_id": "498270"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/3681220/screenshots/7119800/media/e6b22b74932fe92606ad502441a180e0.png",
+          "shot_url": "https://dribbble.com/shots/7119800",
+          "dribbble_shot_id": "7119800",
+          "dribbble_user_id": "3681220"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/1852987/screenshots/10179352/media/f7047cab0407a96ce62093e15c6ebde6.png",
+          "shot_url": "https://dribbble.com/shots/10179352",
+          "dribbble_shot_id": "10179352",
+          "dribbble_user_id": "1852987"
+        },
+        {
+          "image": "https://cdn.dribbble.com/users/702789/screenshots/6932038/weather_-_shot_4x.png",
+          "shot_url": "https://dribbble.com/shots/6932038",
+          "dribbble_shot_id": "6932038",
+          "dribbble_user_id": "702789"
+        }
+      ]
+    }
+  ],
+  "design_resources": {
+    "Color": [
+      {
+        "name": "Coolors",
+        "url": "https://coolors.co/"
+      },
+      {
+        "name": "Picular",
+        "url": "https://picular.co/"
+      },
+      {
+        "name": "Muzli Colors",
+        "url": "https://colors.muz.li/"
+      },
+      {
+        "name": "Colorable",
+        "url": "https://colorable.jxnblk.com/"
+      },
+      {
+        "name": "Flat Ui Colors",
+        "url": "https://flatuicolors.com/"
+      },
+      {
+        "name": "Color Leap",
+        "url": "https://colorleap.app/home"
+      }
+    ],
+    "Ui Gradients": [
+      {
+        "name": "Grabient",
+        "url": "https://www.grabient.com/"
+      },
+      {
+        "name": "UI Gradients",
+        "url": "https://uigradients.com/"
+      },
+      {
+        "name": "CoolHue",
+        "url": "https://webkul.github.io/coolhue/"
+      },
+      {
+        "name": "Granim.js",
+        "url": "https://sarcadass.github.io/granim.js/"
+      },
+      {
+        "name": "CSS Gradient",
+        "url": "https://cssgradient.io/"
+      },
+      {
+        "name": "Web Gradients",
+        "url": "https://webgradients.com/"
+      }
+    ],
+    "Font Tools": [
+      {
+        "name": "FontArk",
+        "url": "https://fontark.net/farkwp/"
+      },
+      {
+        "name": "Calligraphr",
+        "url": "https://www.calligraphr.com/en/"
+      },
+      {
+        "name": "BirdFont",
+        "url": "https://birdfont.org/"
+      },
+      {
+        "name": "FontForge",
+        "url": "https://fontforge.org/en-US/"
+      },
+      {
+        "name": "FontStruct",
+        "url": "https://fontstruct.com/"
+      },
+      {
+        "name": "Glyphr Studio",
+        "url": "http://www.glyphrstudio.com/"
+      }
+    ],
+    "Stock Images": [
+      {
+        "name": "Pixabay",
+        "url": "https://pixabay.com/"
+      },
+      {
+        "name": "Stocksnap",
+        "url": "https://stocksnap.io/"
+      },
+      {
+        "name": "Burst",
+        "url": "https://burst.shopify.com/"
+      },
+      {
+        "name": "Pexels",
+        "url": "https://www.pexels.com/"
+      },
+      {
+        "name": "Splashbase",
+        "url": "http://www.splashbase.co/"
+      },
+      {
+        "name": "Unsplash",
+        "url": "https://unsplash.com/"
+      }
+    ],
+    "Ux Research": [
+      {
+        "name": "Keep It Usable",
+        "url": "https://www.keepitusable.com/"
+      },
+      {
+        "name": "UX Myths",
+        "url": "https://uxmyths.com/"
+      },
+      {
+        "name": "UX Movement",
+        "url": "https://uxmovement.com/"
+      },
+      {
+        "name": "UX Matters",
+        "url": "https://www.uxmatters.com/"
+      },
+      {
+        "name": "UX Stack Exchange",
+        "url": "https://ux.stackexchange.com/"
+      },
+      {
+        "name": "Laws of UX",
+        "url": "https://lawsofux.com/"
+      }
+    ],
+    "Others": [
+      {
+        "name": "Design Principles",
+        "url": "http://learndesignprinciples.com/"
+      },
+      {
+        "name": "Learn Colors",
+        "url": "https://www.canva.com/colors/"
+      },
+      {
+        "name": "Typography Handbook",
+        "url": "https://typographyhandbook.com/"
+      },
+      {
+        "name": "Material Design",
+        "url": "https://material.io/design"
+      },
+      {
+        "name": "HI Guidelines",
+        "url": "https://developer.apple.com/design/human-interface-guidelines/"
+      },
+      {
+        "name": "HeyDesigner",
+        "url": "https://heydesigner.com/"
+      }
+    ]
+  }
+}

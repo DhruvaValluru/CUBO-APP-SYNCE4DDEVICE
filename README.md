@@ -22,6 +22,10 @@ An **AI-powered driving safety app** that connects to the CUBO dash device to mo
 - React Native / Expo
 - TypeScript
 
+## Design References
+
+[`design/ui-templates`](design/ui-templates) — 129 mobile UI templates in 32 categories, extracted from [Awesome-UI-Templates](https://github.com/KKshitiz/Awesome-UI-Templates), with the CUBO-relevant ones (auto, maps, health, finance dashboards) at the top.
+
 ---
 
 ## 🔗 Connected Project: CUBO MediaPipe/YOLO Distraction Detector
