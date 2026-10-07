@@ -1,3 +1,6 @@
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,6 +12,7 @@ import { PhoneFrame } from './src/components/PhoneFrame';
 import { TabBar } from './src/components/TabBar';
 import { DashboardScreen } from './src/screens/DashboardScreen';
 import { DetectionScreen } from './src/screens/DetectionScreen';
+import { DeviceScreen } from './src/screens/DeviceScreen';
 import { DriverReportsScreen } from './src/screens/DriverReportsScreen';
 import { InsuranceScreen } from './src/screens/InsuranceScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
@@ -18,6 +22,7 @@ import { AppBlockingScreen } from './src/screens/AppBlockingScreen';
 import { VehiclesScreen } from './src/screens/VehiclesScreen';
 import { MainTabParamList, RootStackParamList } from './src/navigation/types';
 import { colors } from './src/theme/colors';
+import { cuboEvaTheme } from './src/theme/eva';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -51,6 +56,7 @@ const MainTabs = () => {
       }}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ tabBarLabel: 'Dashboard' }} />
+      <Tab.Screen name="Device" component={DeviceScreen} options={{ tabBarLabel: 'Device' }} />
       <Tab.Screen name="Insurance" component={InsuranceScreen} options={{ tabBarLabel: 'Insurance' }} />
       <Tab.Screen name="Vehicles" component={VehiclesScreen} options={{ tabBarLabel: 'Vehicles' }} />
     </Tab.Navigator>
@@ -62,20 +68,23 @@ const Wrapper = Platform.OS === 'web' ? View : GestureHandlerRootView;
 export default function App() {
   return (
     <PhoneFrame>
-      <Wrapper style={{ flex: 1 }}>
-        <NavigationContainer theme={navTheme}>
-          <StatusBar style="light" />
-          <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
-            <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
-            <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade_from_bottom' }} />
-            <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ animation: 'slide_from_right' }} />
-            <Stack.Screen name="DriverReports" component={DriverReportsScreen} options={{ animation: 'slide_from_right' }} />
-            <Stack.Screen name="DetectionLive" component={DetectionScreen} options={{ animation: 'fade_from_bottom' }} />
-            <Stack.Screen name="Profile" component={ProfileScreen} options={{ animation: 'slide_from_right' }} />
-            <Stack.Screen name="AppBlocking" component={AppBlockingScreen} options={{ animation: 'slide_from_right' }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Wrapper>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={cuboEvaTheme}>
+        <Wrapper style={{ flex: 1 }}>
+          <NavigationContainer theme={navTheme}>
+            <StatusBar style="light" />
+            <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
+              <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
+              <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade_from_bottom' }} />
+              <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="DriverReports" component={DriverReportsScreen} options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="DetectionLive" component={DetectionScreen} options={{ animation: 'fade_from_bottom' }} />
+              <Stack.Screen name="Profile" component={ProfileScreen} options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="AppBlocking" component={AppBlockingScreen} options={{ animation: 'slide_from_right' }} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Wrapper>
+      </ApplicationProvider>
     </PhoneFrame>
   );
 }

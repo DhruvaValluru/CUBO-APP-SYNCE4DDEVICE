@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   bezel: {
     flex: 1,
     borderRadius: 44,
-    backgroundColor: '#2A302C',
+    backgroundColor: '#2A2F3A',
     padding: 10,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.06)',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     height: 28,
     marginBottom: 6,
     borderRadius: 20,
-    backgroundColor: '#1A1D1B',
+    backgroundColor: '#1A1D24',
   },
   screenCutout: {
     flex: 1,

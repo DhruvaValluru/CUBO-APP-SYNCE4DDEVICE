@@ -21,6 +21,20 @@ An **AI-powered driving safety app** that connects to the CUBO dash device to mo
 
 - React Native / Expo
 - TypeScript
+- UI Kitten + Eva Design System
+
+## UI Kit
+
+Screens are built with [UI Kitten](https://akveo.github.io/react-native-ui-kitten/) (Eva Design, dark theme) on layouts ported from [akveo/kittenTricks](https://github.com/akveo/kittenTricks) (MIT), using real CUBO hardware photos from `assets/cubo/`:
+
+| Screen | kittenTricks template |
+| --- | --- |
+| Welcome | Auth → Sign In 4 |
+| Dashboard | Dashboards → Trainings 1 & 2 |
+| Device | Ecommerce → Product Details 4 + Dashboards → Settings |
+| Vehicles | Dashboards → Trainings 2 |
+| Vehicle detail | Ecommerce → Product Details 1 |
+| Profile | Social → Profile 1 + Dashboards → Settings |
 
 ## Design References
 

@@ -1,289 +1,336 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  Button,
+  Card,
+  CheckBox,
+  Divider,
+  Layout,
+  Text,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Easing, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { GlassCard } from '../components/GlassCard';
-import { ScreenShell } from '../components/ScreenShell';
+import { FadeInView, PulseDot } from '../components/Motion';
 import { SemiCircleGauge } from '../components/SemiCircleGauge';
+import { ImageOverlay } from '../components/kitten/ImageOverlay';
+import { ProfileSocial } from '../components/kitten/ProfileSocial';
+import { evaIcon } from '../components/kitten/icons';
+import { cuboDevice, cuboImages } from '../data/cuboDevice';
 import { goalsMock, trendsMock } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
-import { spacing } from '../theme/theme';
+
+const PersonIcon = evaIcon('person-outline');
+const CameraIcon = evaIcon('camera-outline');
+const ShieldIcon = evaIcon('shield-outline');
+
+const distractionBars = [6, 14, 10, 18, 8, 12, 16];
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 function formatHeaderDate(d: Date) {
-  return d
-    .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-    .toUpperCase();
+  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 }
 
-export const DashboardScreen = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const distractionBars = [6, 14, 10, 18, 8, 12, 16];
-  const maxBar = Math.max(...distractionBars, 1);
+/** Bar that grows from the baseline after `delay` ms. */
+function GrowBar({ fraction, color, delay }: { fraction: number; color: string; delay: number }) {
+  const grow = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Animating a percentage height, which the native driver can't do
+    const anim = Animated.timing(grow, {
+      toValue: 1,
+      duration: 650,
+      delay,
+      easing: Easing.out(Easing.back(1.4)),
+      useNativeDriver: false,
+    });
+    anim.start();
+    return () => anim.stop();
+  }, [delay, grow]);
 
   return (
-    <ScreenShell>
-      {/* ── Header ── */}
-      <View style={styles.topRow}>
-        <View>
-          <Text style={styles.date}>{formatHeaderDate(new Date())}</Text>
-          <Text style={styles.title}>Dashboard</Text>
-        </View>
-        <Pressable onPress={() => navigation.navigate('Profile')}>
-          <View style={styles.avatarCircle}>
-            <Ionicons name="person-outline" size={18} color={colors.textSecondary} />
-          </View>
-        </Pressable>
-      </View>
+    <Animated.View
+      style={[
+        styles.bar,
+        {
+          height: grow.interpolate({ inputRange: [0, 1], outputRange: ['0%', `${Math.round(fraction * 100)}%`] }),
+          backgroundColor: color,
+        },
+      ]}
+    />
+  );
+}
 
-      {/* ── Focus block entry ── */}
-      <Pressable onPress={() => navigation.navigate('AppBlocking')}>
-        <GlassCard style={styles.focusRow}>
-          <Ionicons name="flash-outline" size={16} color={colors.gaugeProgress} />
-          <Text style={styles.focusLabel}>App focus block</Text>
-          <Text style={styles.focusSub}>Pick apps · confirm</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
-        </GlassCard>
-      </Pressable>
+/**
+ * Dashboard built from kittenTricks "Trainings 1" (image-overlay hero card + hint section titles)
+ * and "Trainings 2" (Cards with headers, ghost tiny stat buttons).
+ */
+export const DashboardScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [goals, setGoals] = useState(goalsMock.map((label, i) => ({ label, done: i === 1 })));
+  const maxBar = Math.max(...distractionBars, 1);
+  const peakIndex = distractionBars.indexOf(maxBar);
 
-      {/* ── Score card ── */}
-      <GlassCard style={styles.scoreCard}>
-        <View style={styles.scoreHeader}>
-          <Text style={styles.cardLabel}>DRIVER DISTRACTION SCORE</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
-        </View>
-        <View style={styles.gaugeWrap}>
-          <SemiCircleGauge score={85} size={260} strokeWidth={13} />
-        </View>
-        <Text style={styles.riskLabel}>Low Risk Driver</Text>
-      </GlassCard>
+  const renderCardHeader = (title: string, hint?: string) => (
+    <View style={styles.cardHeader}>
+      <Text category="h6">{title}</Text>
+      {hint ? (
+        <Text category="c1" appearance="hint">
+          {hint}
+        </Text>
+      ) : null}
+    </View>
+  );
 
-      {/* ── Bottom row ── */}
-      <View style={styles.rowTwo}>
-        {/* Distraction time */}
-        <GlassCard style={[styles.halfCard]}>
-          <View style={styles.halfHeader}>
-            <Text style={styles.cardLabel}>DISTRACTION TIME</Text>
-            <Ionicons name="chevron-forward" size={12} color={colors.textTertiary} />
-          </View>
-          <View style={styles.bars}>
-            {distractionBars.map((h, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.bar,
-                  {
-                    height: `${Math.round((h / maxBar) * 100)}%` as unknown as number,
-                    minHeight: 4,
-                    backgroundColor: i === distractionBars.indexOf(Math.max(...distractionBars))
-                      ? colors.danger
-                      : colors.gaugeProgress,
-                    opacity: i === distractionBars.indexOf(Math.max(...distractionBars)) ? 1 : 0.55,
-                  },
-                ]}
-              />
-            ))}
-          </View>
-          <Text style={styles.barLabel}>sec / day</Text>
-        </GlassCard>
+  return (
+    <Layout style={styles.root} level="2">
+      <SafeAreaView edges={['top']}>
+        <TopNavigation
+          alignment="center"
+          title="Dashboard"
+          subtitle={formatHeaderDate(new Date())}
+          accessoryRight={() => (
+            <TopNavigationAction icon={PersonIcon} onPress={() => navigation.navigate('Profile')} />
+          )}
+        />
+      </SafeAreaView>
+      <Divider />
 
-        {/* Goals */}
-        <GlassCard style={[styles.halfCard]}>
-          <Text style={styles.cardLabel}>GOALS</Text>
-          <View style={styles.goalsList}>
-            {goalsMock.map((g) => (
-              <View key={g} style={styles.goalRow}>
-                <View style={styles.goalDot} />
-                <Text style={styles.goalLine} numberOfLines={2}>{g}</Text>
+      <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
+        <Text style={styles.headerTitle} appearance="hint">
+          YOUR CUBO
+        </Text>
+        <FadeInView>
+          <Card
+            style={styles.deviceCard}
+            onPress={() => navigation.navigate('MainTabs', { screen: 'Device' })}
+            accessibilityLabel="Open CUBO device"
+          >
+            <ImageOverlay style={styles.deviceImage} source={cuboImages.mountRear} resizeMode="cover">
+              <View style={styles.deviceStatus}>
+                <PulseDot color={colors.gaugeProgress} size={7} style={styles.deviceDot} />
+                <Text category="s1" status="control">
+                  {cuboDevice.connection.toUpperCase()}
+                </Text>
+              </View>
+              <Text category="h3" status="control">
+                {cuboDevice.pairedVehicleLabel}
+              </Text>
+              <Text category="c1" status="control">
+                Synced {cuboDevice.lastSync} · {cuboDevice.serial}
+              </Text>
+              <Button
+                style={styles.deviceButton}
+                size="tiny"
+                accessoryLeft={CameraIcon}
+                onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
+              >
+                LIVE CHECK
+              </Button>
+            </ImageOverlay>
+          </Card>
+        </FadeInView>
+
+        <Text style={styles.headerTitle} appearance="hint">
+          THIS WEEK
+        </Text>
+        <FadeInView delay={100}>
+          <Card
+            style={styles.item}
+            header={() => renderCardHeader('Driver distraction score', 'Pablo · Toyota Prius')}
+            footer={() => (
+              <View style={styles.socials}>
+                <ProfileSocial style={styles.social} hint="Trips" value="18" />
+                <ProfileSocial style={styles.social} hint="Alerts" value="4" />
+                <ProfileSocial style={styles.social} hint="Focus" value="94%" />
+              </View>
+            )}
+          >
+            <View style={styles.gauge}>
+              <SemiCircleGauge score={85} size={240} strokeWidth={12} />
+              <Text category="s1" status="primary">
+                Low risk driver
+              </Text>
+            </View>
+          </Card>
+        </FadeInView>
+
+        <FadeInView delay={180}>
+          <Card style={styles.item} header={() => renderCardHeader('Distraction time', 'Seconds per day')}>
+            <View style={styles.bars}>
+              {distractionBars.map((h, i) => (
+                <View key={i} style={styles.barColumn}>
+                  <View style={styles.barTrack}>
+                    <GrowBar
+                      fraction={h / maxBar}
+                      color={i === peakIndex ? colors.danger : colors.gaugeProgress}
+                      delay={350 + i * 70}
+                    />
+                  </View>
+                  <Text category="c2" appearance="hint">
+                    {dayLabels[i]}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </Card>
+        </FadeInView>
+
+        <FadeInView delay={260}>
+          <Card style={styles.item} header={() => renderCardHeader('Trends')}>
+            {trendsMock.map((row, i) => (
+              <View key={row.label} style={[styles.trendRow, i > 0 && styles.trendBorder]}>
+                <Text category="p2">{row.label}</Text>
+                <Button
+                  style={styles.trendButton}
+                  appearance="ghost"
+                  size="tiny"
+                  status={row.tone === 'good' ? 'success' : 'danger'}
+                  accessoryLeft={evaIcon(row.trend === 'down' ? 'trending-down-outline' : 'trending-up-outline')}
+                >
+                  {row.value}
+                </Button>
               </View>
             ))}
-          </View>
-        </GlassCard>
-      </View>
+          </Card>
+        </FadeInView>
 
-      {/* ── Trends ── */}
-      <GlassCard style={styles.trendsCard}>
-        <View style={styles.scoreHeader}>
-          <Text style={styles.cardLabel}>TRENDS</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
-        </View>
-        {trendsMock.map((row, i) => (
-          <View key={row.label} style={[styles.trendRow, i > 0 && styles.trendBorder]}>
-            <Text style={styles.trendLabel}>{row.label}</Text>
-            <Text
-              style={[
-                styles.trendValue,
-                { color: row.tone === 'good' ? colors.gaugeProgress : colors.danger },
-              ]}
-            >
-              {row.trend === 'down' ? '↓ ' : '↑ '}
-              {row.value}
+        <FadeInView delay={340}>
+          <Card style={styles.item} header={() => renderCardHeader('Goals')}>
+            {goals.map((g) => (
+              <CheckBox
+                key={g.label}
+                style={styles.goal}
+                checked={g.done}
+                onChange={(done) => setGoals((cur) => cur.map((x) => (x.label === g.label ? { ...x, done } : x)))}
+              >
+                {g.label}
+              </CheckBox>
+            ))}
+          </Card>
+        </FadeInView>
+
+        <FadeInView delay={420}>
+          <Card style={styles.item} status="primary">
+            <Text category="h6">App focus block</Text>
+            <Text appearance="hint" style={styles.focusText}>
+              Silence distracting apps on the driver&apos;s phone while CUBO is monitoring.
             </Text>
-          </View>
-        ))}
-      </GlassCard>
-    </ScreenShell>
+            <Button
+              appearance="outline"
+              accessoryLeft={ShieldIcon}
+              onPress={() => navigation.navigate('AppBlocking')}
+            >
+              CHOOSE APPS
+            </Button>
+          </Card>
+        </FadeInView>
+      </ScrollView>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingTop: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  date: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    fontWeight: '500',
-    letterSpacing: 0.8,
-    marginBottom: 3,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 24,
-    fontWeight: '600',
-    letterSpacing: -0.3,
-  },
-  avatarCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: colors.card,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 4,
-  },
-  /* Focus block */
-  focusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 11,
-  },
-  focusLabel: {
-    color: colors.text,
-    fontSize: 14,
-    fontWeight: '500',
+  root: {
     flex: 1,
   },
-  focusSub: {
-    color: colors.textTertiary,
-    fontSize: 12,
+  list: {
+    paddingVertical: 16,
+    paddingBottom: 100,
   },
-  /* Score card */
-  scoreCard: {
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
-    alignItems: 'center',
+  headerTitle: {
+    marginHorizontal: 16,
+    marginTop: 8,
   },
-  scoreHeader: {
+  deviceCard: {
+    height: 200,
+    marginVertical: 16,
+    marginHorizontal: 16,
+  },
+  deviceImage: {
+    ...StyleSheet.absoluteFillObject,
+    height: 200,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    gap: 4,
+  },
+  deviceStatus: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: spacing.xs,
   },
-  gaugeWrap: {
+  deviceDot: {
+    marginLeft: -7,
+    marginRight: -1,
+  },
+  deviceButton: {
+    position: 'absolute',
+    left: 16,
+    bottom: 16,
+    borderRadius: 16,
+  },
+  item: {
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  cardHeader: {
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    gap: 2,
+  },
+  gauge: {
     alignItems: 'center',
-    width: '100%',
+    gap: 4,
   },
-  cardLabel: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    fontWeight: '600',
-    letterSpacing: 0.9,
-  },
-  riskLabel: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '400',
-    marginTop: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  /* Bottom row */
-  rowTwo: {
+  socials: {
     flexDirection: 'row',
-    gap: spacing.sm,
+    paddingVertical: 16,
   },
-  halfCard: {
+  social: {
     flex: 1,
-    padding: spacing.md,
-    minHeight: 140,
-  },
-  halfHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
   },
   bars: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    gap: 3,
-    marginTop: spacing.sm,
+    gap: 8,
+    height: 120,
+  },
+  barColumn: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 6,
+    height: '100%',
+  },
+  barTrack: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-end',
   },
   bar: {
-    flex: 1,
-    borderRadius: 2,
-  },
-  barLabel: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    marginTop: 6,
-    fontWeight: '500',
-  },
-  goalsList: {
-    gap: 8,
-    marginTop: spacing.sm,
-  },
-  goalRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 7,
-  },
-  goalDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.gaugeProgress,
-    marginTop: 5,
-    flexShrink: 0,
-  },
-  goalLine: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    lineHeight: 17,
-    flex: 1,
-  },
-  /* Trends */
-  trendsCard: {
-    padding: spacing.md,
+    width: '100%',
+    borderRadius: 4,
+    minHeight: 4,
   },
   trendRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 9,
+    paddingVertical: 6,
   },
   trendBorder: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border,
+    borderTopColor: colors.borderStrong,
   },
-  trendLabel: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '400',
+  trendButton: {
+    paddingHorizontal: 0,
   },
-  trendValue: {
-    fontSize: 13,
-    fontWeight: '600',
+  goal: {
+    marginVertical: 8,
+  },
+  focusText: {
+    marginTop: 4,
+    marginBottom: 16,
   },
 });

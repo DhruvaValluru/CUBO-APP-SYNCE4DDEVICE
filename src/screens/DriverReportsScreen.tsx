@@ -2,8 +2,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Divider, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 
 import { GlassCard } from '../components/GlassCard';
+import { evaIcon } from '../components/kitten/icons';
 import { SemiCircleGauge } from '../components/SemiCircleGauge';
 import {
   driverReportSnapshots,
@@ -29,14 +31,16 @@ export const DriverReportsScreen = ({ navigation, route }: Props) => {
 
   return (
     <View style={styles.root}>
-      <SafeAreaView style={styles.safe} edges={['top']}>
-        <Pressable style={styles.back} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={22} color={colors.text} />
-          <Text style={styles.backText}>Drivers</Text>
-        </Pressable>
-
-        <Text style={styles.title}>{driver.name}</Text>
-        <Text style={styles.sub}>Trip & distraction reports</Text>
+      <SafeAreaView edges={['top']}>
+        <TopNavigation
+          alignment="center"
+          title={driver.name}
+          subtitle="Trip & distraction reports"
+          accessoryLeft={() => <TopNavigationAction icon={evaIcon('arrow-ios-back')} onPress={() => navigation.goBack()} />}
+        />
+      </SafeAreaView>
+      <Divider />
+      <View style={styles.safe}>
 
         <GlassCard style={styles.hero}>
           <Text style={styles.cardKicker}>Driver distraction score</Text>
@@ -79,7 +83,7 @@ export const DriverReportsScreen = ({ navigation, route }: Props) => {
         <Text style={styles.hint}>
           Live view uses your device camera with a tracking frame — same flow as before, opened from this driver.
         </Text>
-      </SafeAreaView>
+      </View>
     </View>
   );
 };
@@ -92,30 +96,8 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
     paddingBottom: spacing.xxl,
-  },
-  back: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: spacing.md,
-    alignSelf: 'flex-start',
-  },
-  backText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  title: {
-    color: colors.text,
-    fontSize: 32,
-    fontWeight: '800',
-  },
-  sub: {
-    color: colors.textSecondary,
-    fontSize: 15,
-    marginTop: 4,
-    marginBottom: spacing.lg,
   },
   hero: {
     padding: spacing.lg,

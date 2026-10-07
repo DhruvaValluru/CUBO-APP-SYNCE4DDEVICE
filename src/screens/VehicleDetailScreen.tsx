@@ -1,18 +1,38 @@
-import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Divider,
+  Layout,
+  ListItem,
+  Text,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { DriverProfileCard } from '../components/DriverProfileCard';
 import { FlatCarGlyph } from '../components/FlatCarGlyph';
-import { GlassCard } from '../components/GlassCard';
-import { ScreenShell } from '../components/ScreenShell';
+import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
+import { FadeInView } from '../components/Motion';
+import { ProfileSocial } from '../components/kitten/ProfileSocial';
+import { evaIcon } from '../components/kitten/icons';
+import { cuboDevice, cuboImages } from '../data/cuboDevice';
 import { getDriverById, getVehicleById } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
-import { colors } from '../theme/colors';
-import { radii, spacing } from '../theme/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VehicleDetail'>;
 
+const BackIcon = evaIcon('arrow-ios-back');
+const ScanIcon = evaIcon('camera-outline');
+const ReportIcon = evaIcon('file-text-outline');
+const ChevronIcon = evaIcon('chevron-right-outline');
+
+const statusTone = { Live: 'success', Ready: 'info', 'Monitoring Off': 'basic' } as const;
+
+/**
+ * Vehicle detail — kittenTricks "Product Details 1" (image + details header, category chips,
+ * full-width primary CTA, level-2 "About" block) with the vehicle's installed CUBO unit.
+ */
 export const VehicleDetailScreen = ({ navigation, route }: Props) => {
   const vehicle = getVehicleById(route.params.vehicleId);
 
@@ -21,185 +41,177 @@ export const VehicleDetailScreen = ({ navigation, route }: Props) => {
   }
 
   const driver = getDriverById(vehicle.driverId);
+  const hasCubo = vehicle.id === cuboDevice.pairedVehicleId;
 
   return (
-    <ScreenShell>
-      <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back" size={18} color={colors.text} />
-        <Text style={styles.backText}>Back</Text>
-      </Pressable>
-
-      <View style={styles.hero}>
-        <View style={styles.heroCopy}>
-          <Text style={styles.heroKicker}>{vehicle.plate}</Text>
-          <Text style={styles.heroTitle}>{vehicle.model}</Text>
-          <Text style={styles.heroText}>{vehicle.lastEvent}</Text>
-        </View>
-        <View style={[styles.heroVisual, { backgroundColor: `${vehicle.accent}28` }]}>
-          <FlatCarGlyph color={vehicle.accent} />
-        </View>
-      </View>
-
-      {driver ? <DriverProfileCard driver={driver} /> : null}
-
-      <GlassCard style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>Safety summary</Text>
-        <View style={styles.summaryGrid}>
-          <View style={styles.summaryStat}>
-            <Text style={styles.summaryLabel}>Monitoring</Text>
-            <Text style={styles.summaryValue}>{vehicle.status}</Text>
+    <Layout style={styles.root} level="1">
+      <SafeAreaView edges={['top']}>
+        <TopNavigation
+          alignment="center"
+          title={vehicle.model}
+          subtitle={vehicle.plate}
+          accessoryLeft={() => <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />}
+        />
+      </SafeAreaView>
+      <Divider />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <FadeInView style={styles.header}>
+          <Layout level="3" style={styles.productImage}>
+            <FlatCarGlyph color={vehicle.accent} />
+          </Layout>
+          <View style={styles.detailsContainer}>
+            <Text category="s1">{vehicle.name}</Text>
+            <Text style={styles.authorLabel} appearance="hint" category="c1">
+              {`Driver: ${driver?.name ?? 'Unassigned'}`}
+            </Text>
+            <View style={styles.categoryContainer}>
+              <Button style={styles.categoryItem} size="tiny" status={statusTone[vehicle.status]}>
+                {vehicle.status.toUpperCase()}
+              </Button>
+            </View>
+            <Text appearance="hint" category="c1">
+              {vehicle.cabinLabel}
+            </Text>
           </View>
-          <View style={styles.summaryStat}>
-            <Text style={styles.summaryLabel}>Safety score</Text>
-            <Text style={styles.summaryValue}>{vehicle.safetyScore}</Text>
-          </View>
-          <View style={styles.summaryStat}>
-            <Text style={styles.summaryLabel}>Focus score</Text>
-            <Text style={styles.summaryValue}>{vehicle.focusScore}</Text>
-          </View>
-          <View style={styles.summaryStat}>
-            <Text style={styles.summaryLabel}>System state</Text>
-            <Text style={styles.summaryValue}>Ready</Text>
-          </View>
-        </View>
-      </GlassCard>
+        </FadeInView>
 
-      <GlassCard style={styles.activationCard}>
-        <Text style={styles.summaryTitle}>Activate CUBO Detection</Text>
-        <Text style={styles.activationText}>
-          Launch the live camera monitoring experience and simulate MediaPipe-style face tracking for this driver.
-        </Text>
+        <FadeInView delay={80} style={styles.socials}>
+          <ProfileSocial style={styles.social} hint="Safety" value={`${vehicle.safetyScore}`} />
+          <ProfileSocial style={styles.social} hint="Focus" value={`${vehicle.focusScore}`} />
+          <ProfileSocial style={styles.social} hint="Alerts" value={`${driver?.alertsThisWeek ?? 0}`} />
+        </FadeInView>
 
-        <Pressable style={styles.activationButton} onPress={() => navigation.navigate('DetectionLive', { vehicleId: vehicle.id })}>
-          <Text style={styles.activationButtonText}>Activate CUBO Detection</Text>
-          <Ionicons name="scan" size={18} color={colors.background} />
-        </Pressable>
-        <Pressable style={styles.reportsLink} onPress={() => navigation.navigate('DriverReports', { driverId: vehicle.driverId })}>
-          <Text style={styles.reportsLinkText}>View driver reports</Text>
-          <Ionicons name="document-text-outline" size={18} color={colors.accentLime} />
-        </Pressable>
-      </GlassCard>
-    </ScreenShell>
+        <FadeInView delay={140}>
+          <Button
+            style={styles.buyButton}
+            accessoryLeft={ScanIcon}
+            onPress={() => navigation.navigate('DetectionLive', { vehicleId: vehicle.id })}
+          >
+            ACTIVATE CUBO DETECTION
+          </Button>
+        </FadeInView>
+
+        <FadeInView delay={200}>
+          <Layout style={styles.descriptionContainer} level="2">
+            <Text style={styles.aboutLabel} category="s1">
+              Latest activity
+            </Text>
+            <Text appearance="hint">{vehicle.lastEvent}</Text>
+
+            {hasCubo ? (
+              <View style={styles.unitRow}>
+                <Image source={cuboImages.mountSide} style={styles.unitImage} resizeMode="cover" />
+                <View style={styles.unitCopy}>
+                  <Text category="s2">
+                    {cuboDevice.name} {cuboDevice.serial}
+                  </Text>
+                  <Text appearance="hint" category="c1">
+                    Installed · firmware {cuboDevice.firmware}
+                  </Text>
+                  <Text status="primary" category="c1">
+                    {cuboDevice.connection} · synced {cuboDevice.lastSync}
+                  </Text>
+                </View>
+              </View>
+            ) : null}
+          </Layout>
+        </FadeInView>
+
+        {driver ? (
+          <FadeInView delay={260}>
+            <ListItem
+              title={driver.name}
+              description={`${driver.relation} · driver reports`}
+              accessoryLeft={() => <FlatPersonAvatar skin={driver.skinTone} shirt={driver.shirtColor} size={40} />}
+              accessoryRight={ChevronIcon}
+              onPress={() => navigation.navigate('DriverReports', { driverId: driver.id })}
+            />
+            <Divider />
+            <Button
+              style={styles.reportsButton}
+              appearance="ghost"
+              accessoryLeft={ReportIcon}
+              onPress={() => navigation.navigate('DriverReports', { driverId: driver.id })}
+            >
+              VIEW DRIVER REPORTS
+            </Button>
+          </FadeInView>
+        ) : null}
+      </ScrollView>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  backButton: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: colors.black06,
-    borderRadius: radii.pill,
-    paddingHorizontal: 12,
-    paddingVertical: 9,
-  },
-  backText: {
-    color: colors.text,
-    fontWeight: '600',
-  },
-  hero: {
-    borderRadius: radii.xl,
-    padding: spacing.lg,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    backgroundColor: colors.surfaceMuted,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  heroCopy: {
+  root: {
     flex: 1,
   },
-  heroKicker: {
-    color: colors.accentLime,
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1.2,
-    textTransform: 'uppercase',
-    marginBottom: 10,
+  content: {
+    paddingBottom: 32,
   },
-  heroTitle: {
-    color: colors.text,
-    fontSize: 28,
-    fontWeight: '800',
+  header: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+    padding: 16,
   },
-  heroText: {
-    color: colors.textMuted,
-    marginTop: 10,
-    lineHeight: 22,
+  detailsContainer: {
+    flex: 1,
+    marginHorizontal: 24,
   },
-  heroVisual: {
-    width: 110,
-    height: 110,
-    borderRadius: radii.xl,
+  productImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ scale: 1.65 }],
   },
-  summaryCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
+  authorLabel: {
+    marginVertical: 4,
   },
-  summaryTitle: {
-    color: colors.text,
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  summaryGrid: {
+  categoryContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.sm,
+    marginVertical: 12,
+    marginHorizontal: -4,
   },
-  summaryStat: {
-    width: '48%',
-    borderRadius: radii.md,
-    backgroundColor: colors.black06,
-    padding: spacing.md,
+  categoryItem: {
+    marginHorizontal: 4,
+    borderRadius: 16,
   },
-  summaryLabel: {
-    color: colors.textMuted,
-    fontSize: 12,
+  socials: {
+    flexDirection: 'row',
+    paddingVertical: 8,
   },
-  summaryValue: {
-    color: colors.text,
-    fontSize: 20,
-    fontWeight: '800',
-    marginTop: 8,
+  social: {
+    flex: 1,
   },
-  activationCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
+  buyButton: {
+    marginHorizontal: 16,
+    marginVertical: 24,
   },
-  activationText: {
-    color: colors.textMuted,
-    lineHeight: 22,
+  descriptionContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
   },
-  activationButton: {
-    backgroundColor: colors.accentLime,
-    borderRadius: radii.xl,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 18,
+  aboutLabel: {
+    marginBottom: 16,
+  },
+  unitRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
+    marginTop: 24,
+    gap: 16,
   },
-  activationButtonText: {
-    color: colors.background,
-    fontSize: 16,
-    fontWeight: '800',
+  unitImage: {
+    width: 72,
+    height: 96,
+    borderRadius: 4,
   },
-  reportsLink: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 14,
+  unitCopy: {
+    flex: 1,
+    gap: 2,
   },
-  reportsLinkText: {
-    color: colors.accentLime,
-    fontSize: 15,
-    fontWeight: '700',
+  reportsButton: {
+    marginVertical: 8,
   },
 });

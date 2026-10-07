@@ -1,52 +1,71 @@
-/** Reference UI: black background, #1C1C1E cards, lime / green accents */
+/**
+ * Eva Design (UI Kitten) dark palette, so hand-built screens match the kittenTricks layouts.
+ * Surfaces = color-basic-800…1100, hint text = color-basic-600, accent = Eva success green.
+ */
+const eva = {
+  basic100: '#FFFFFF',
+  basic500: '#C5CEE0',
+  basic600: '#8F9BB3',
+  basic700: '#2E3A59',
+  basic800: '#222B45',
+  basic900: '#1A2138',
+  basic1000: '#151A30',
+  basic1100: '#101426',
+  success500: '#00E096',
+  success600: '#00B383',
+  success700: '#008F72',
+  warning500: '#FFAA00',
+  danger500: '#FF3D71',
+};
+
+export const evaPalette = eva;
+
 export const colors = {
-  background: '#080808',
-  card: '#111113',
-  cardHover: '#1A1A1C',
-  cardElevated: '#1A1A1C',
-  border: 'rgba(255, 255, 255, 0.08)',
-  borderLight: 'rgba(255, 255, 255, 0.10)',
-  borderStrong: 'rgba(255, 255, 255, 0.15)',
+  background: eva.basic900,
+  card: eva.basic800,
+  cardHover: eva.basic700,
+  cardElevated: eva.basic700,
+  border: eva.basic1100,
+  borderLight: 'rgba(143, 155, 179, 0.16)',
+  borderStrong: 'rgba(143, 155, 179, 0.24)',
 
-  text: '#FFFFFF',
-  textSecondary: '#8E8E93',
-  textMuted: '#8E8E93',
-  textTertiary: '#636366',
+  text: eva.basic100,
+  textSecondary: eva.basic600,
+  textMuted: eva.basic600,
+  textTertiary: eva.basic600,
 
-  /** Semicircle / ring — stark green on dark track */
-  gaugeProgress: '#00FF88',
-  gaugeTrack: '#3A3A3C',
+  gaugeProgress: eva.success500,
+  gaugeTrack: eva.basic700,
 
-  /** Stark green accents (replaces former yellow / lime) */
-  starkGreen: '#00FF88',
-  accentLime: '#00FF88',
-  accentLimeMuted: 'rgba(0, 255, 136, 0.55)',
-  accentGreen: '#00E676',
-  mustard: '#00CC6A',
+  starkGreen: eva.success500,
+  accentLime: eva.success500,
+  accentLimeMuted: 'rgba(0, 224, 150, 0.56)',
+  accentGreen: eva.success500,
+  mustard: eva.warning500,
 
-  star: '#00FF88',
-  danger: '#FF453A',
-  dangerMuted: '#C62828',
+  star: eva.warning500,
+  danger: eva.danger500,
+  dangerMuted: '#DB2C66',
 
-  successGreen: '#34C759',
+  successGreen: eva.success500,
 
-  splashBg: '#000000',
-  splashText: '#FFFFFF',
-  logoGreen: '#00FF88',
-  logoGreenMuted: 'rgba(0, 255, 136, 0.55)',
+  splashBg: eva.basic1000,
+  splashText: eva.basic100,
+  logoGreen: eva.success500,
+  logoGreenMuted: 'rgba(0, 224, 150, 0.56)',
 
-  pageBg: '#0D0D0D',
+  pageBg: eva.basic1100,
 
-  surface: '#1C1C1E',
-  surfaceMuted: '#2C2C2E',
-  primary: '#00FF88',
-  primaryStrong: '#00E676',
-  primarySoft: 'rgba(0, 255, 136, 0.14)',
-  success: '#56C24D',
-  successSoft: 'rgba(86, 194, 77, 0.15)',
-  warning: '#00CC6A',
-  warningSoft: 'rgba(0, 255, 136, 0.18)',
-  dangerSoft: 'rgba(255, 69, 58, 0.2)',
+  surface: eva.basic800,
+  surfaceMuted: eva.basic700,
+  primary: eva.success500,
+  primaryStrong: eva.success600,
+  primarySoft: 'rgba(0, 224, 150, 0.16)',
+  success: eva.success500,
+  successSoft: 'rgba(0, 224, 150, 0.16)',
+  warning: eva.warning500,
+  warningSoft: 'rgba(255, 170, 0, 0.16)',
+  dangerSoft: 'rgba(255, 61, 113, 0.16)',
   white08: 'rgba(255, 255, 255, 0.08)',
   white20: 'rgba(255, 255, 255, 0.2)',
   black06: 'rgba(255, 255, 255, 0.06)',

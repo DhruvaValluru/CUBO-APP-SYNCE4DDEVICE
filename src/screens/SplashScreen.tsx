@@ -1,116 +1,111 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Button, Icon, Text } from '@ui-kitten/components';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { FadeInView } from '../components/Motion';
+import { ImageOverlay } from '../components/kitten/ImageOverlay';
+import { cuboImages } from '../data/cuboDevice';
 import { RootStackParamList } from '../navigation/types';
-import { colors } from '../theme/colors';
-import { radii, spacing } from '../theme/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
+/** Eva basic-1100 tint instead of the template's flat black, so the photo reads as part of the theme */
+const OVERLAY = 'rgba(16, 20, 38, 0.62)';
+
+const features = [
+  { icon: 'eye-outline', label: 'Spots head turns away from the road' },
+  { icon: 'smartphone-outline', label: 'Detects phone use behind the wheel' },
+  { icon: 'activity-outline', label: 'Scores every drive for every driver' },
+];
+
+/**
+ * Welcome screen — kittenTricks "Sign In 4" layout (full-bleed ImageOverlay,
+ * centred header, form slot, giant CTA, ghost secondary action) over a real CUBO photo.
+ */
 export const SplashScreen = ({ navigation }: Props) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.container}>
+    <ImageOverlay
+      style={[styles.container, { overlayColor: OVERLAY, paddingTop: insets.top, paddingBottom: insets.bottom }]}
+      source={cuboImages.mountSide}
+      resizeMode="cover"
+    >
       <StatusBar style="light" />
-      <View style={styles.logoBlock}>
-        <Image source={require('../../assets/cubo-logo.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="CUBO logo" />
+      <FadeInView style={styles.headerContainer}>
+        <Text category="h1" status="control">
+          CUBO
+        </Text>
+        <Text style={styles.subtitle} category="s1" status="control">
+          Driver attention, every trip
+        </Text>
+      </FadeInView>
+
+      <View style={styles.formContainer}>
+        {features.map((f, i) => (
+          <FadeInView key={f.label} delay={150 + i * 90} style={styles.featureRow}>
+            <Icon name={f.icon} style={styles.featureIcon} fill="#FFFFFF" />
+            <Text status="control" category="s2" style={styles.featureText}>
+              {f.label}
+            </Text>
+          </FadeInView>
+        ))}
       </View>
 
-      <View style={styles.copy}>
-        <Text style={styles.kicker}>Stay alert on every drive</Text>
-        <Text style={styles.title}>CUBO</Text>
-        <Text style={styles.subtitle}>Real-time distraction awareness from the cabin camera — calm UI, serious safety.</Text>
-      </View>
-
-      <View style={styles.featureRow}>
-        <View style={styles.featurePill}>
-          <Text style={styles.featureText}>Live vision</Text>
-        </View>
-        <View style={styles.featurePill}>
-          <Text style={styles.featureText}>Family & fleet</Text>
-        </View>
-      </View>
-
-      <Pressable style={styles.button} onPress={() => navigation.replace('MainTabs')}>
-        <Text style={styles.buttonText}>Enter CUBO</Text>
-        <Ionicons name="arrow-forward" size={18} color={colors.background} />
-      </Pressable>
-    </View>
+      <FadeInView delay={450}>
+        <Button style={styles.signInButton} size="giant" onPress={() => navigation.replace('MainTabs')}>
+          GET STARTED
+        </Button>
+        <Button
+          style={styles.signUpButton}
+          appearance="ghost"
+          status="control"
+          onPress={() => navigation.replace('MainTabs', { screen: 'Device' })}
+        >
+          Already have a CUBO? Pair it
+        </Button>
+      </FadeInView>
+    </ImageOverlay>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing.xl,
+  },
+  headerContainer: {
+    minHeight: 216,
     justifyContent: 'center',
-    backgroundColor: colors.splashBg,
-  },
-  logoBlock: {
     alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  logo: {
-    width: 220,
-    height: 220,
-  },
-  copy: {
-    gap: spacing.sm,
-    marginBottom: spacing.xl,
-  },
-  kicker: {
-    color: colors.logoGreenMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  title: {
-    color: colors.splashText,
-    fontSize: 48,
-    fontWeight: '900',
-    letterSpacing: 3,
   },
   subtitle: {
-    color: 'rgba(255,255,255,0.72)',
-    fontSize: 16,
-    lineHeight: 24,
-    marginTop: spacing.sm,
+    marginTop: 16,
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+    gap: 12,
   },
   featureRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    alignItems: 'center',
+    gap: 12,
   },
-  featurePill: {
-    borderRadius: radii.pill,
-    borderWidth: 1,
-    borderColor: 'rgba(52, 217, 122, 0.35)',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+  featureIcon: {
+    width: 24,
+    height: 24,
   },
   featureText: {
-    color: colors.splashText,
-    fontWeight: '600',
-    fontSize: 13,
+    flex: 1,
   },
-  button: {
-    marginTop: spacing.md,
-    backgroundColor: colors.accentLime,
-    borderRadius: radii.xl,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 18,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
+  signInButton: {
+    marginHorizontal: 16,
   },
-  buttonText: {
-    color: colors.background,
-    fontSize: 16,
-    fontWeight: '800',
+  signUpButton: {
+    marginVertical: 12,
   },
 });

@@ -12,6 +12,9 @@ import {
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Divider, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+
+import { evaIcon } from '../components/kitten/icons';
 
 import { GlassCard } from '../components/GlassCard';
 import { BLOCK_APPS } from '../data/blockApps';
@@ -244,6 +247,12 @@ export const AppBlockingScreen = () => {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      <TopNavigation
+        alignment="center"
+        title="Focus Block"
+        accessoryLeft={() => <TopNavigationAction icon={evaIcon('arrow-ios-back')} onPress={() => navigation.goBack()} />}
+      />
+      <Divider />
       {/* ── Blocked banner ── */}
       {isBlocked ? (
         <Animated.View
@@ -266,13 +275,6 @@ export const AppBlockingScreen = () => {
       ) : null}
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <Pressable style={styles.backRow} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={20} color={colors.text} />
-          <Text style={styles.backText}>Back</Text>
-        </Pressable>
-
-        <Text style={styles.title}>Focus Block</Text>
         <Text style={styles.lead}>
           {isBlocked
             ? 'Focus block is active. Tap the power button below to unblock apps.'
@@ -384,15 +386,6 @@ export const AppBlockingScreen = () => {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
   scroll: { paddingHorizontal: spacing.lg, paddingBottom: 120, gap: spacing.md },
-  backRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-    alignSelf: 'flex-start',
-    marginTop: spacing.xs,
-  },
-  backText: { color: colors.text, fontSize: 15, fontWeight: '500' },
-  title: { color: colors.text, fontSize: 24, fontWeight: '700', marginTop: spacing.sm },
   lead: { color: colors.textSecondary, fontSize: 14, lineHeight: 20 },
 
   /* Dropdown card */

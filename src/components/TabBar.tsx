@@ -1,43 +1,44 @@
-import { Ionicons } from '@expo/vector-icons';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { BottomNavigation, BottomNavigationTab, Divider } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 
-import { colors } from '../theme/colors';
+import { evaIcon } from './kitten/icons';
 
-const iconMap = {
-  Dashboard: 'speedometer-outline',
-  Insurance: 'shield-outline',
-  Vehicles: 'car-outline',
-} as const;
+const tabIcons: Record<string, [string, string]> = {
+  Dashboard: ['activity', 'activity-outline'],
+  Device: ['video', 'video-outline'],
+  Insurance: ['shield', 'shield-outline'],
+  Vehicles: ['car', 'car-outline'],
+};
 
+/** kittenTricks-style Eva BottomNavigation (animated indicator, filled icon when selected). */
 export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const insets = useSafeAreaInsets();
 
+  const onSelect = (index: number) => {
+    const route = state.routes[index];
+    const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+    if (state.index !== index && !event.defaultPrevented) navigation.navigate(route.name);
+  };
+
   return (
-    <View style={[styles.outer, { paddingBottom: Math.max(insets.bottom, 8) }]}>
-      {state.routes.map((route, index) => {
-        const isFocused = state.index === index;
-        const options = descriptors[route.key].options;
-        const label =
-          typeof options.tabBarLabel === 'string' ? options.tabBarLabel : options.title ?? route.name;
-
-        const onPress = () => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name);
-        };
-
-        return (
-          <Pressable key={route.key} onPress={onPress} style={styles.item}>
-            <Ionicons
-              name={iconMap[route.name as keyof typeof iconMap]}
-              size={20}
-              color={isFocused ? colors.gaugeProgress : colors.textTertiary}
-            />
-            <Text style={[styles.label, isFocused && styles.labelActive]}>{label}</Text>
-          </Pressable>
-        );
-      })}
+    <View style={styles.outer}>
+      <Divider />
+      <BottomNavigation
+        selectedIndex={state.index}
+        onSelect={onSelect}
+        style={{ paddingBottom: Math.max(insets.bottom, 8) }}
+      >
+        {state.routes.map((route, index) => {
+          const options = descriptors[route.key].options;
+          const title = typeof options.tabBarLabel === 'string' ? options.tabBarLabel : (options.title ?? route.name);
+          const [filled, outline] = tabIcons[route.name] ?? ['radio-button-on', 'radio-button-off'];
+          return (
+            <BottomNavigationTab key={route.key} title={title} icon={evaIcon(state.index === index ? filled : outline)} />
+          );
+        })}
+      </BottomNavigation>
     </View>
   );
 };
@@ -48,26 +49,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colors.background,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border,
-    flexDirection: 'row',
-    paddingTop: 8,
-  },
-  item: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 3,
-    paddingVertical: 4,
-  },
-  label: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    fontWeight: '500',
-    letterSpacing: 0.3,
-  },
-  labelActive: {
-    color: colors.gaugeProgress,
   },
 });

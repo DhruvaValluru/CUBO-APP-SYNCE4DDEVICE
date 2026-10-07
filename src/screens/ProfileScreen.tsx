@@ -1,144 +1,158 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  Button,
+  Divider,
+  Layout,
+  ListItem,
+  Text,
+  Toggle,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { DriverProfileCard } from '../components/DriverProfileCard';
 import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { GlassCard } from '../components/GlassCard';
-import { ScreenShell } from '../components/ScreenShell';
-import { drivers, getDriverById, profileSettings } from '../data/mockData';
-import { colors } from '../theme/colors';
-import { radii, spacing } from '../theme/theme';
+import { FadeInView } from '../components/Motion';
+import { ProfileSocial } from '../components/kitten/ProfileSocial';
+import { Setting } from '../components/kitten/Setting';
+import { evaIcon } from '../components/kitten/icons';
+import { drivers, getDriverById, profileSettings, vehicles } from '../data/mockData';
 
+const BackIcon = evaIcon('arrow-ios-back');
+const PeopleIcon = evaIcon('people-outline');
+
+/**
+ * Owner profile — kittenTricks "Profile 1" header (avatar, name, location, socials, primary
+ * button) followed by "Settings" toggle rows and a ListItem list of linked drivers.
+ */
 export const ProfileScreen = () => {
   const navigation = useNavigation();
   const [settings, setSettings] = useState(profileSettings);
   const owner = getDriverById('pablo') ?? drivers[0];
 
+  const toggle = (label: string) =>
+    setSettings((current) => current.map((s) => (s.label === label ? { ...s, enabled: !s.enabled } : s)));
+
   return (
-    <ScreenShell>
-      <Pressable style={styles.closeRow} onPress={() => navigation.goBack()}>
-        <Ionicons name="close" size={24} color={colors.text} />
-        <Text style={styles.closeText}>Close</Text>
-      </Pressable>
-      <View style={styles.header}>
-        <Text style={styles.title}>Profile</Text>
-        <Text style={styles.subtitle}>Owner controls, linked drivers, and monitoring permissions.</Text>
-      </View>
-
-      {owner ? <DriverProfileCard driver={owner} /> : null}
-
-      <GlassCard style={styles.settingsCard}>
-        <Text style={styles.sectionTitle}>Settings</Text>
-        {settings.map((setting) => (
-          <View key={setting.label} style={styles.settingRow}>
-            <View style={styles.settingCopy}>
-              <Text style={styles.settingLabel}>{setting.label}</Text>
-              <Text style={styles.settingDescription}>{setting.description}</Text>
+    <Layout style={styles.root} level="2">
+      <SafeAreaView edges={['top']}>
+        <TopNavigation
+          alignment="center"
+          title="Profile"
+          accessoryLeft={() => <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />}
+        />
+      </SafeAreaView>
+      <Divider />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <FadeInView>
+          <Layout style={styles.header} level="1">
+            <View style={styles.profileAvatar}>
+              <FlatPersonAvatar skin={owner.skinTone} shirt={owner.shirtColor} size={88} />
             </View>
-            <Switch
-              value={setting.enabled}
-              onValueChange={(value) =>
-                setSettings((current) =>
-                  current.map((item) =>
-                    item.label === setting.label ? { ...item, enabled: value } : item,
-                  ),
-                )
-              }
-              trackColor={{ false: colors.surfaceMuted, true: colors.accentLime }}
-              thumbColor="#FFFFFF"
-            />
-          </View>
-        ))}
-      </GlassCard>
-
-      <GlassCard style={styles.linkedCard}>
-        <Text style={styles.sectionTitle}>Linked drivers</Text>
-        {drivers.slice(0, 3).map((driver) => (
-          <View key={driver.id} style={styles.linkedRow}>
-            <FlatPersonAvatar skin={driver.skinTone} shirt={driver.shirtColor} size={44} />
-            <View style={styles.settingCopy}>
-              <Text style={styles.settingLabel}>{driver.name}</Text>
-              <Text style={styles.settingDescription}>{driver.relation}</Text>
+            <View style={styles.profileDetailsContainer}>
+              <Text category="h4">{owner.name}</Text>
+              <Text appearance="hint" category="s1">
+                {owner.relation} · {owner.location}
+              </Text>
+              <View style={styles.profileSocialsContainer}>
+                <ProfileSocial style={styles.profileSocialContainer} hint="Drivers" value={`${drivers.length}`} />
+                <ProfileSocial style={styles.profileSocialContainer} hint="Vehicles" value={`${vehicles.length}`} />
+                <ProfileSocial style={styles.profileSocialContainer} hint="Alerts" value={`${owner.alertsThisWeek}`} />
+              </View>
+              <Button style={styles.followButton} accessoryLeft={PeopleIcon}>
+                INVITE
+              </Button>
             </View>
-            <Text style={styles.ready}>Ready</Text>
-          </View>
-        ))}
-      </GlassCard>
-    </ScreenShell>
+          </Layout>
+        </FadeInView>
+
+        <Text style={styles.sectionLabel} appearance="hint">
+          NOTIFICATIONS
+        </Text>
+        <FadeInView delay={120}>
+          <Layout level="1">
+            {settings.map((s) => (
+              <Setting
+                key={s.label}
+                style={styles.setting}
+                hint={s.label}
+                description={s.description}
+                onPress={() => toggle(s.label)}
+              >
+                <Toggle checked={s.enabled} onChange={() => toggle(s.label)} />
+              </Setting>
+            ))}
+          </Layout>
+        </FadeInView>
+
+        <Text style={styles.sectionLabel} appearance="hint">
+          LINKED DRIVERS
+        </Text>
+        <FadeInView delay={220}>
+          <Layout level="1">
+            {drivers
+              .filter((d) => d.id !== owner.id)
+              .slice(0, 4)
+              .map((d) => (
+                <View key={d.id}>
+                  <ListItem
+                    title={d.name}
+                    description={`${d.relation} · ${d.location}`}
+                    accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
+                    accessoryRight={() => (
+                      <Text category="c1" status="success">
+                        READY
+                      </Text>
+                    )}
+                  />
+                  <Divider />
+                </View>
+              ))}
+          </Layout>
+        </FadeInView>
+      </ScrollView>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  closeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: spacing.md,
-    alignSelf: 'flex-start',
-  },
-  closeText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  header: {
-    gap: 8,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 30,
-    fontWeight: '800',
-  },
-  subtitle: {
-    color: colors.textMuted,
-    lineHeight: 20,
-  },
-  sectionTitle: {
-    color: colors.text,
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  settingsCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderRadius: radii.md,
-    backgroundColor: colors.black06,
-    padding: spacing.md,
-  },
-  settingCopy: {
+  root: {
     flex: 1,
   },
-  settingLabel: {
-    color: colors.text,
-    fontWeight: '700',
+  content: {
+    paddingBottom: 32,
   },
-  settingDescription: {
-    color: colors.textMuted,
-    marginTop: 4,
-    lineHeight: 18,
-    fontSize: 12,
-  },
-  linkedCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-  linkedRow: {
+  header: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderRadius: radii.md,
-    backgroundColor: colors.black06,
-    padding: spacing.md,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    marginBottom: 8,
   },
-  ready: {
-    color: colors.success,
-    fontWeight: '700',
+  profileAvatar: {
+    marginHorizontal: 8,
+  },
+  profileDetailsContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+  },
+  profileSocialsContainer: {
+    flexDirection: 'row',
+    marginTop: 24,
+  },
+  profileSocialContainer: {
+    flex: 1,
+  },
+  followButton: {
+    marginVertical: 16,
+  },
+  sectionLabel: {
+    marginHorizontal: 16,
+    marginTop: 24,
+    marginBottom: 8,
+  },
+  setting: {
+    padding: 16,
   },
 });
