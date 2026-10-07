@@ -1,11 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Divider, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 
 import { GlassCard } from '../components/GlassCard';
-import { evaIcon } from '../components/kitten/icons';
+import { StackHeader } from '../components/ui/StackHeader';
 import { SemiCircleGauge } from '../components/SemiCircleGauge';
 import {
   driverReportSnapshots,
@@ -32,15 +30,7 @@ export const DriverReportsScreen = ({ navigation, route }: Props) => {
 
   return (
     <View style={styles.root}>
-      <SafeAreaView edges={['top']}>
-        <TopNavigation
-          alignment="center"
-          title={driver.name}
-          subtitle="Trip & distraction reports"
-          accessoryLeft={() => <TopNavigationAction icon={evaIcon('arrow-ios-back')} onPress={() => navigation.goBack()} />}
-        />
-      </SafeAreaView>
-      <Divider />
+      <StackHeader title={`${driver.name}'s report`} onBack={() => navigation.goBack()} />
       <View style={styles.safe}>
 
         <GlassCard style={styles.hero}>

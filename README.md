@@ -21,20 +21,21 @@ An **AI-powered driving safety app** that connects to the CUBO dash device to mo
 
 - React Native / Expo
 - TypeScript
-- UI Kitten + Eva Design System
+- React Native Paper (Material 3)
 
-## UI Kit
+## Design System
 
-Screens are built with [UI Kitten](https://akveo.github.io/react-native-ui-kitten/) (Eva Design, dark theme) on layouts ported from [akveo/kittenTricks](https://github.com/akveo/kittenTricks) (MIT), using real CUBO hardware photos from `assets/cubo/`. Typography and motion follow kittenTricks too: Open Sans via Eva's custom mapping, the zoom-out splash image, and UI Kitten's built-in component animations. The Welcome and Device screens show a background-removed CUBO whose head slowly tilts on its stand (`src/components/CuboStand.tsx`).
+The UI follows the **Material 3 (Material You)** system used by the redesigned Fitbit app, built with
+[React Native Paper](https://callstack.github.io/react-native-paper/):
 
-| Screen | kittenTricks template |
-| --- | --- |
-| Welcome | Auth → Sign In 4 |
-| Dashboard | Dashboards → Trainings 1 & 2 |
-| Device | Ecommerce → Product Details 4 + Dashboards → Settings |
-| Vehicles | Dashboards → Trainings 2 |
-| Vehicle detail | Ecommerce → Product Details 1 |
-| Profile | Social → Profile 1 + Dashboards → Settings |
+- **Type:** *Cubo Sans* — static instances of Google Sans Flex (SIL OFL 1.1), the open release of the Google Sans
+  family Fitbit uses. See `assets/fonts/README.md`.
+- **Colour:** near-white canvas, dark-navy ink, flat white cards, and one pastel tonal family per metric. Primary
+  roles are generated from the CUBO green seed `#00A86B` with Google's material-color-utilities
+  (`src/theme/material.ts`).
+- **Components:** M3 navigation bar, top app bars, cards, chips, list items, switches and progress bars.
+- **Motion:** Material defaults (navigation-bar indicator, ripples, switches) plus the real CUBO unit tilting on its
+  stand, from background-removed photos (`src/components/CuboStand.tsx`).
 
 ## Design References
 

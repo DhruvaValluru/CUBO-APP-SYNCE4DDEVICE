@@ -1,15 +1,14 @@
 import { StyleSheet, Text, TextProps } from 'react-native';
 
-/** Font loaded in App.tsx and set as Eva's `text-font-family` (kittenTricks custom mapping). */
-export const APP_FONT_FAMILY = 'opensans-regular';
+import { familyForWeight } from '../theme/material';
 
-/** React Native Text in the app font, for screens that don't use UI Kitten's Text. */
+/**
+ * React Native Text in Cubo Sans, for hand-styled screens. Maps `fontWeight` onto the matching
+ * font file (unless a `fontFamily` is given) so iOS/Android never fall back to the system font
+ * or fake a bold.
+ */
 export function AppText({ style, ...rest }: TextProps) {
-  return <Text {...rest} style={[styles.base, style]} />;
+  const flat = StyleSheet.flatten(style) ?? {};
+  const fontFamily = flat.fontFamily ?? familyForWeight(flat.fontWeight);
+  return <Text {...rest} style={[flat, { fontFamily, fontWeight: 'normal' }]} />;
 }
-
-const styles = StyleSheet.create({
-  base: {
-    fontFamily: APP_FONT_FAMILY,
-  },
-});

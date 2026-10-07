@@ -1,161 +1,188 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Button, Card, Divider, Layout, List, ListItem, Text, TopNavigation } from '@ui-kitten/components';
-import { Image, ListRenderItemInfo, ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Fragment } from 'react';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Avatar, Chip, Divider, Icon, List, Text } from 'react-native-paper';
 
-import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { evaIcon } from '../components/kitten/icons';
+import { ScreenHeader } from '../components/ui/ScreenHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
 import { getDriverById, otherDriversList, pabloShowcaseVehicles } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
+import { fontFamilies, metricColors, palette, shape, space } from '../theme/material';
 
 const CAR_IMAGES = {
   prius: require('../../assets/car-prius.png'),
   sienna: require('../../assets/car-sienna.png'),
 } as const;
 
-/** Exact background baked into each car PNG, so the header and artwork blend into one banner */
+/** Exact background baked into each car PNG, so the tile and artwork read as one */
 const CAR_BACKDROP = {
   prius: '#01CC3C',
   sienna: '#D2B43A',
 } as const;
 
-const ClockIcon = evaIcon('clock-outline');
-const StarIcon = evaIcon('star');
-const ChevronIcon = evaIcon('chevron-right-outline');
+const avatarTones = [metricColors.trips, metricColors.headTurns, metricColors.phone, metricColors.focus];
 
-type ShowcaseItem = (typeof pabloShowcaseVehicles)[number];
-
-/**
- * Vehicles — kittenTricks "Trainings 2" card list (image header + h-title + ghost tiny stat buttons)
- * and a ListItem section for the other drivers.
- */
+/** Vehicles — the owner's cars as cards, then other drivers as a list. */
 export const VehiclesScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const renderItemHeader = (item: ShowcaseItem) => (
-    <View style={[styles.itemHeader, { backgroundColor: item.carKey ? CAR_BACKDROP[item.carKey] : item.tileColor }]}>
-      {item.carKey ? <Image source={CAR_IMAGES[item.carKey]} style={styles.carImage} resizeMode="contain" /> : null}
-    </View>
-  );
-
-  const renderItem = ({ item, index }: ListRenderItemInfo<ShowcaseItem>) => (
-    <Card
-      style={styles.item}
-      header={() => renderItemHeader(item)}
-      onPress={() => navigation.navigate('VehicleDetail', { vehicleId: item.linkedVehicleId })}
-    >
-      <Text category="h5">{item.model}</Text>
-      <View style={styles.itemFooter}>
-        <Button style={styles.activityButton} appearance="ghost" size="tiny" accessoryLeft={ClockIcon}>
-          {item.time}
-        </Button>
-        <Button style={styles.activityButton} appearance="ghost" size="tiny" status="warning" accessoryLeft={StarIcon}>
-          {`${item.stars} / 5`}
-        </Button>
-        <Button
-          style={styles.activityButton}
-          appearance="ghost"
-          size="tiny"
-          status={item.risk === 'low' ? 'success' : 'danger'}
-        >
-          {item.risk === 'low' ? 'LOW RISK' : 'MID RISK'}
-        </Button>
-      </View>
-    </Card>
-  );
-
   return (
-    <Layout style={styles.root} level="2">
-      <SafeAreaView edges={['top']}>
-        <TopNavigation alignment="center" title="Vehicles" subtitle="Pablo's fleet" />
-      </SafeAreaView>
-      <Divider />
+    <View style={styles.root}>
+      <ScreenHeader title="Vehicles" subtitle="Pablo's fleet" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <List
-          style={styles.list}
-          scrollEnabled={false}
-          data={pabloShowcaseVehicles}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        {pabloShowcaseVehicles.map((item) => {
+          const low = item.risk === 'low';
+          return (
+            <SurfaceCard
+              key={item.id}
+              onPress={() => navigation.navigate('VehicleDetail', { vehicleId: item.linkedVehicleId })}
+              accessibilityLabel={`Open ${item.model}`}
+            >
+              <View style={styles.vehicle}>
+                <View
+                  style={[styles.carTile, { backgroundColor: item.carKey ? CAR_BACKDROP[item.carKey] : item.tileColor }]}
+                >
+                  {item.carKey ? (
+                    <Image source={CAR_IMAGES[item.carKey]} style={styles.carImage} resizeMode="contain" />
+                  ) : null}
+                </View>
+                <View style={styles.vehicleCopy}>
+                  <Text variant="titleMedium">{item.model}</Text>
+                  <Text variant="bodyMedium" style={styles.muted}>
+                    Last trip {item.time}
+                  </Text>
+                  <View style={styles.vehicleMeta}>
+                    <Chip
+                      compact
+                      style={{ backgroundColor: low ? metricColors.focus.container : metricColors.phone.container }}
+                      textStyle={[styles.chipText, { color: low ? metricColors.focus.onContainer : metricColors.phone.onContainer }]}
+                    >
+                      {low ? 'Low risk' : 'Medium risk'}
+                    </Chip>
+                    <View style={styles.rating}>
+                      <Icon source="star" size={16} color="#E8A317" />
+                      <Text variant="labelLarge">{item.stars}</Text>
+                    </View>
+                  </View>
+                </View>
+                <Icon source="chevron-right" size={24} color={palette.onSurfaceVariant} />
+              </View>
+            </SurfaceCard>
+          );
+        })}
 
-        <Text style={styles.headerTitle} appearance="hint">
-          OTHER DRIVERS
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Other drivers
         </Text>
-        <Layout level="1">
-          {otherDriversList.map((row) => {
+        <SurfaceCard>
+          {otherDriversList.map((row, i) => {
             const d = getDriverById(row.driverId);
             if (!d) return null;
+            const tone = avatarTones[i % avatarTones.length];
             return (
-              <View key={row.driverId}>
-                <ListItem
+              <Fragment key={row.driverId}>
+                {i > 0 ? <Divider style={styles.divider} /> : null}
+                <List.Item
                   title={d.name}
                   description={`${d.relation} · ${row.vehicleLabel}`}
-                  accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
-                  accessoryRight={(props) => (
+                  titleStyle={styles.listTitle}
+                  left={() => (
+                    <Avatar.Text
+                      size={40}
+                      label={d.initials}
+                      color={tone.onContainer}
+                      style={[styles.avatar, { backgroundColor: tone.container }]}
+                    />
+                  )}
+                  right={() => (
                     <View style={styles.rowRight}>
-                      <Text category="c1" appearance="hint">
+                      <Text variant="labelMedium" style={d.alertsThisWeek ? styles.alert : styles.muted}>
                         {d.alertsThisWeek === 0
                           ? 'No alerts'
                           : `${d.alertsThisWeek} alert${d.alertsThisWeek > 1 ? 's' : ''}`}
                       </Text>
-                      {ChevronIcon(props)}
+                      <Icon source="chevron-right" size={24} color={palette.onSurfaceVariant} />
                     </View>
                   )}
                   onPress={() => navigation.navigate('DriverReports', { driverId: row.driverId })}
                 />
-                <Divider />
-              </View>
+              </Fragment>
             );
           })}
-        </Layout>
+        </SurfaceCard>
       </ScrollView>
-    </Layout>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: palette.background,
   },
   content: {
-    paddingBottom: 100,
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
   },
-  list: {
-    backgroundColor: 'transparent',
-    paddingVertical: 8,
+  vehicle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.lg,
+    padding: space.lg,
   },
-  item: {
-    borderRadius: 0,
-    marginVertical: 8,
-  },
-  itemHeader: {
-    height: 160,
+  carTile: {
+    width: 88,
+    height: 88,
+    borderRadius: shape.tile,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   carImage: {
-    width: 88,
-    height: 84,
+    width: 80,
+    height: 76,
   },
-  itemFooter: {
+  vehicleCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  vehicleMeta: {
     flexDirection: 'row',
-    marginTop: 16,
-    marginHorizontal: -4,
-    gap: 12,
+    alignItems: 'center',
+    gap: space.md,
+    marginTop: space.sm,
   },
-  activityButton: {
-    marginHorizontal: 4,
-    paddingHorizontal: 0,
+  chipText: {
+    fontFamily: fontFamilies.medium,
+    fontSize: 12,
   },
-  headerTitle: {
-    marginHorizontal: 16,
-    marginTop: 16,
-    marginBottom: 8,
+  rating: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  sectionTitle: {
+    marginTop: space.md,
+  },
+  divider: {
+    marginHorizontal: space.lg,
+  },
+  listTitle: {
+    fontFamily: fontFamilies.medium,
+  },
+  avatar: {
+    marginLeft: space.lg,
   },
   rowRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 2,
+  },
+  muted: {
+    color: palette.onSurfaceVariant,
+  },
+  alert: {
+    color: metricColors.alerts.accent,
   },
 });

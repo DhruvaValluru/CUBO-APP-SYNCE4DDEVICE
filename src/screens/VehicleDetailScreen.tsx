@@ -1,29 +1,24 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Button, Divider, Layout, ListItem, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Avatar, Button, Chip, List, Text } from 'react-native-paper';
 
 import { FlatCarGlyph } from '../components/FlatCarGlyph';
-import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { ProfileSocial } from '../components/kitten/ProfileSocial';
-import { evaIcon } from '../components/kitten/icons';
+import { StackHeader } from '../components/ui/StackHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
 import { cuboDevice, cuboImages } from '../data/cuboDevice';
 import { getDriverById, getVehicleById } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
+import { fontFamilies, metricColors, palette, shape, space } from '../theme/material';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VehicleDetail'>;
 
-const BackIcon = evaIcon('arrow-ios-back');
-const ScanIcon = evaIcon('camera-outline');
-const ReportIcon = evaIcon('file-text-outline');
-const ChevronIcon = evaIcon('chevron-right-outline');
+const statusTone = {
+  Live: metricColors.focus,
+  Ready: metricColors.trips,
+  'Monitoring Off': { accent: palette.onSurfaceVariant, container: palette.surfaceContainerHigh, onContainer: palette.onSurface },
+};
 
-const statusTone = { Live: 'success', Ready: 'info', 'Monitoring Off': 'basic' } as const;
-
-/**
- * Vehicle detail — kittenTricks "Product Details 1" (image + details header, category chips,
- * full-width primary CTA, level-2 "About" block) with the vehicle's installed CUBO unit.
- */
+/** Vehicle detail — status, scores, the installed CUBO unit and the assigned driver. */
 export const VehicleDetailScreen = ({ navigation, route }: Props) => {
   const vehicle = getVehicleById(route.params.vehicleId);
 
@@ -33,172 +28,190 @@ export const VehicleDetailScreen = ({ navigation, route }: Props) => {
 
   const driver = getDriverById(vehicle.driverId);
   const hasCubo = vehicle.id === cuboDevice.pairedVehicleId;
+  const tone = statusTone[vehicle.status];
+  const stats = [
+    { label: 'Safety', value: vehicle.safetyScore, tone: metricColors.focus },
+    { label: 'Focus', value: vehicle.focusScore, tone: metricColors.trips },
+    { label: 'Alerts', value: driver?.alertsThisWeek ?? 0, tone: metricColors.alerts },
+  ];
 
   return (
-    <Layout style={styles.root} level="1">
-      <SafeAreaView edges={['top']}>
-        <TopNavigation
-          alignment="center"
-          title={vehicle.model}
-          subtitle={vehicle.plate}
-          accessoryLeft={() => <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />}
-        />
-      </SafeAreaView>
-      <Divider />
+    <View style={styles.root}>
+      <StackHeader title={vehicle.model} onBack={() => navigation.goBack()} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Layout level="3" style={styles.productImage}>
-            <FlatCarGlyph color={vehicle.accent} />
-          </Layout>
-          <View style={styles.detailsContainer}>
-            <Text category="s1">{vehicle.name}</Text>
-            <Text style={styles.authorLabel} appearance="hint" category="c1">
-              {`Driver: ${driver?.name ?? 'Unassigned'}`}
-            </Text>
-            <View style={styles.categoryContainer}>
-              <Button style={styles.categoryItem} size="tiny" status={statusTone[vehicle.status]}>
-                {vehicle.status.toUpperCase()}
-              </Button>
-            </View>
-            <Text appearance="hint" category="c1">
-              {vehicle.cabinLabel}
-            </Text>
+        <SurfaceCard contentStyle={styles.header}>
+          <View style={[styles.glyph, { backgroundColor: `${vehicle.accent}22` }]}>
+            <FlatCarGlyph color={vehicle.accent} fill={palette.surfaceContainerLowest} />
           </View>
-        </View>
+          <View style={styles.headerCopy}>
+            <Text variant="titleLarge">{vehicle.name}</Text>
+            <Text variant="bodyMedium" style={styles.muted}>
+              {vehicle.plate} · {vehicle.cabinLabel}
+            </Text>
+            <Chip
+              compact
+              style={[styles.statusChip, { backgroundColor: tone.container }]}
+              textStyle={[styles.chipText, { color: tone.onContainer }]}
+            >
+              {vehicle.status}
+            </Chip>
+          </View>
+        </SurfaceCard>
 
-        <View style={styles.socials}>
-          <ProfileSocial style={styles.social} hint="Safety" value={`${vehicle.safetyScore}`} />
-          <ProfileSocial style={styles.social} hint="Focus" value={`${vehicle.focusScore}`} />
-          <ProfileSocial style={styles.social} hint="Alerts" value={`${driver?.alertsThisWeek ?? 0}`} />
+        <View style={styles.stats}>
+          {stats.map((s) => (
+            <View key={s.label} style={[styles.stat, { backgroundColor: s.tone.soft }]}>
+              <Text variant="headlineMedium" style={{ color: s.tone.onContainer }}>
+                {s.value}
+              </Text>
+              <Text variant="labelLarge" style={styles.muted}>
+                {s.label}
+              </Text>
+            </View>
+          ))}
         </View>
 
         <Button
-          style={styles.buyButton}
-          accessoryLeft={ScanIcon}
+          mode="contained"
+          icon="camera-outline"
+          contentStyle={styles.ctaContent}
           onPress={() => navigation.navigate('DetectionLive', { vehicleId: vehicle.id })}
         >
-          ACTIVATE CUBO DETECTION
+          Start CUBO detection
         </Button>
 
-        <Layout style={styles.descriptionContainer} level="2">
-          <Text style={styles.aboutLabel} category="s1">
-            Latest activity
+        <SurfaceCard contentStyle={styles.cardPad}>
+          <Text variant="titleMedium">Latest activity</Text>
+          <Text variant="bodyMedium" style={[styles.muted, styles.activity]}>
+            {vehicle.lastEvent}
           </Text>
-          <Text appearance="hint">{vehicle.lastEvent}</Text>
-
           {hasCubo ? (
-            <View style={styles.unitRow}>
-              <Image source={cuboImages.mountSideCutout} style={styles.unitImage} resizeMode="contain" />
+            <View style={styles.unit}>
+              <View style={styles.unitImageWrap}>
+                <Image source={cuboImages.mountSideCutout} style={styles.unitImage} resizeMode="contain" />
+              </View>
               <View style={styles.unitCopy}>
-                <Text category="s2">
+                <Text variant="titleSmall">
                   {cuboDevice.name} {cuboDevice.serial}
                 </Text>
-                <Text appearance="hint" category="c1">
+                <Text variant="bodySmall" style={styles.muted}>
                   Installed · firmware {cuboDevice.firmware}
                 </Text>
-                <Text status="primary" category="c1">
+                <Text variant="labelMedium" style={{ color: metricColors.focus.accent }}>
                   {cuboDevice.connection} · synced {cuboDevice.lastSync}
                 </Text>
               </View>
             </View>
           ) : null}
-        </Layout>
+        </SurfaceCard>
 
         {driver ? (
-          <>
-            <ListItem
+          <SurfaceCard>
+            <List.Item
               title={driver.name}
-              description={`${driver.relation} · driver reports`}
-              accessoryLeft={() => <FlatPersonAvatar skin={driver.skinTone} shirt={driver.shirtColor} size={40} />}
-              accessoryRight={ChevronIcon}
+              description={`${driver.relation} · view driver report`}
+              titleStyle={styles.listTitle}
+              left={() => (
+                <Avatar.Text
+                  size={40}
+                  label={driver.initials}
+                  color={metricColors.headTurns.onContainer}
+                  style={styles.avatar}
+                />
+              )}
+              right={(props) => <List.Icon {...props} icon="chevron-right" />}
               onPress={() => navigation.navigate('DriverReports', { driverId: driver.id })}
             />
-            <Divider />
-            <Button
-              style={styles.reportsButton}
-              appearance="ghost"
-              accessoryLeft={ReportIcon}
-              onPress={() => navigation.navigate('DriverReports', { driverId: driver.id })}
-            >
-              VIEW DRIVER REPORTS
-            </Button>
-          </>
+          </SurfaceCard>
         ) : null}
       </ScrollView>
-    </Layout>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: palette.background,
   },
   content: {
-    paddingBottom: 32,
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
   },
   header: {
     flexDirection: 'row',
-    overflow: 'hidden',
-    padding: 16,
+    alignItems: 'center',
+    gap: space.lg,
+    padding: space.lg,
   },
-  detailsContainer: {
-    flex: 1,
-    marginHorizontal: 24,
-  },
-  productImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 4,
+  glyph: {
+    width: 88,
+    height: 88,
+    borderRadius: shape.tile,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  authorLabel: {
-    marginVertical: 4,
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 12,
-    marginHorizontal: -4,
-  },
-  categoryItem: {
-    marginHorizontal: 4,
-    borderRadius: 16,
-  },
-  socials: {
-    flexDirection: 'row',
-    paddingVertical: 8,
-  },
-  social: {
+  headerCopy: {
     flex: 1,
+    gap: 2,
   },
-  buyButton: {
-    marginHorizontal: 16,
-    marginVertical: 24,
+  statusChip: {
+    alignSelf: 'flex-start',
+    marginTop: space.sm,
   },
-  descriptionContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 24,
+  chipText: {
+    fontFamily: fontFamilies.medium,
+    fontSize: 12,
   },
-  aboutLabel: {
-    marginBottom: 16,
+  stats: {
+    flexDirection: 'row',
+    gap: space.md,
   },
-  unitRow: {
+  stat: {
+    flex: 1,
+    padding: space.lg,
+    borderRadius: shape.tile,
+  },
+  ctaContent: {
+    height: 52,
+  },
+  cardPad: {
+    padding: space.xl,
+  },
+  activity: {
+    marginTop: space.xs,
+  },
+  unit: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 24,
-    gap: 16,
+    gap: space.lg,
+    marginTop: space.lg,
+  },
+  unitImageWrap: {
+    width: 64,
+    height: 88,
+    borderRadius: shape.tile,
+    backgroundColor: palette.surfaceContainerLow,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   unitImage: {
-    width: 72,
-    height: 96,
-    borderRadius: 4,
+    width: 48,
+    height: 76,
   },
   unitCopy: {
     flex: 1,
     gap: 2,
   },
-  reportsButton: {
-    marginVertical: 8,
+  listTitle: {
+    fontFamily: fontFamilies.medium,
+  },
+  avatar: {
+    marginLeft: space.lg,
+    backgroundColor: metricColors.headTurns.container,
+  },
+  muted: {
+    color: palette.onSurfaceVariant,
   },
 });

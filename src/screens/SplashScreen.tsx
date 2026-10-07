@@ -1,106 +1,120 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Button, Icon, Layout, Text } from '@ui-kitten/components';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Button, Icon, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CuboStand } from '../components/CuboStand';
 import { RootStackParamList } from '../navigation/types';
+import { metricColors, palette, shape, space } from '../theme/material';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const features = [
-  { icon: 'eye-outline', label: 'Spots head turns away from the road' },
-  { icon: 'smartphone-outline', label: 'Detects phone use behind the wheel' },
-  { icon: 'activity-outline', label: 'Scores every drive for every driver' },
+  { icon: 'head-sync-outline', label: 'Spots head turns away from the road', tone: metricColors.headTurns },
+  { icon: 'cellphone-off', label: 'Detects phone use behind the wheel', tone: metricColors.phone },
+  { icon: 'chart-donut', label: 'Scores every drive for every driver', tone: metricColors.focus },
 ];
 
-/**
- * Welcome screen — kittenTricks "Sign In 4" layout (centred header, content slot,
- * giant CTA, ghost secondary action) with the real CUBO unit in the content slot.
- */
+/** Welcome — Fitbit-style onboarding: product on a white stage, display headline, one primary action. */
 export const SplashScreen = ({ navigation }: Props) => {
   const insets = useSafeAreaInsets();
+  const [stageHeight, setStageHeight] = useState(0);
 
   return (
-    <Layout style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]} level="2">
-      <StatusBar style="light" />
-      <View style={styles.headerContainer}>
-        <Text category="h1">CUBO</Text>
-        <Text style={styles.signInLabel} category="s1" appearance="hint">
-          Driver attention, every trip
+    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + space.lg }]}>
+      <StatusBar style="dark" />
+      <View style={styles.stage} onLayout={(e) => setStageHeight(e.nativeEvent.layout.height)}>
+        {stageHeight > 0 ? <CuboStand height={Math.min(260, stageHeight * 0.82)} /> : null}
+      </View>
+
+      <View style={styles.copy}>
+        <Text variant="labelLarge" style={styles.brand}>
+          CUBO
         </Text>
+        <Text variant="headlineLarge">Eyes on the road, every trip.</Text>
+        <View style={styles.features}>
+          {features.map((f) => (
+            <View key={f.label} style={styles.featureRow}>
+              <View style={[styles.featureIcon, { backgroundColor: f.tone.container }]}>
+                <Icon source={f.icon} size={18} color={f.tone.accent} />
+              </View>
+              <Text variant="bodyLarge" style={styles.featureText}>
+                {f.label}
+              </Text>
+            </View>
+          ))}
+        </View>
       </View>
 
-      <View style={styles.formContainer}>
-        <CuboStand height={250} />
+      <View style={styles.actions}>
+        <Button
+          mode="contained"
+          contentStyle={styles.buttonContent}
+          labelStyle={styles.buttonLabel}
+          onPress={() => navigation.replace('MainTabs')}
+        >
+          Get started
+        </Button>
+        <Button mode="text" onPress={() => navigation.replace('MainTabs', { screen: 'Device' })}>
+          I already have a CUBO
+        </Button>
       </View>
-
-      <View style={styles.features}>
-        {features.map((f) => (
-          <View key={f.label} style={styles.featureRow}>
-            <Icon name={f.icon} style={styles.featureIcon} fill="#8F9BB3" />
-            <Text category="s2" style={styles.featureText}>
-              {f.label}
-            </Text>
-          </View>
-        ))}
-      </View>
-
-      <Button style={styles.signInButton} size="giant" onPress={() => navigation.replace('MainTabs')}>
-        GET STARTED
-      </Button>
-      <Button
-        style={styles.signUpButton}
-        appearance="ghost"
-        status="basic"
-        onPress={() => navigation.replace('MainTabs', { screen: 'Device' })}
-      >
-        Already have a CUBO? Pair it
-      </Button>
-    </Layout>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: palette.surfaceContainerLowest,
   },
-  headerContainer: {
-    minHeight: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  signInLabel: {
-    marginTop: 16,
-  },
-  formContainer: {
+  stage: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    margin: space.lg,
+    borderRadius: shape.sheet,
+    backgroundColor: palette.surfaceContainerLow,
+  },
+  copy: {
+    paddingHorizontal: space.xxl,
+    gap: space.sm,
+  },
+  brand: {
+    color: palette.primary,
+    letterSpacing: 1.2,
   },
   features: {
-    paddingHorizontal: 16,
-    paddingBottom: 24,
-    gap: 12,
+    gap: space.md,
+    marginTop: space.lg,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: space.md,
   },
   featureIcon: {
-    width: 24,
-    height: 24,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   featureText: {
     flex: 1,
+    color: palette.onSurfaceVariant,
   },
-  signInButton: {
-    marginHorizontal: 16,
+  actions: {
+    paddingHorizontal: space.xxl,
+    marginTop: space.xxl,
+    gap: space.xs,
   },
-  signUpButton: {
-    marginVertical: 12,
+  buttonContent: {
+    height: 52,
+  },
+  buttonLabel: {
+    fontSize: 16,
   },
 });

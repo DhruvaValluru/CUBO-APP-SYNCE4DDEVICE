@@ -1,61 +1,56 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Button, Card, Layout, List, Text, Toggle } from '@ui-kitten/components';
-import { useState } from 'react';
-import { Image, ListRenderItemInfo, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Fragment, useState } from 'react';
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Button, Chip, Divider, Icon, List, Switch, Text } from 'react-native-paper';
 
 import { CuboStand } from '../components/CuboStand';
-import { Setting } from '../components/kitten/Setting';
-import { evaIcon } from '../components/kitten/icons';
+import { ScreenHeader } from '../components/ui/ScreenHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
 import { cuboCapabilities, cuboDevice, cuboDeviceSettings, cuboGallery } from '../data/cuboDevice';
 import { RootStackParamList } from '../navigation/types';
+import { fontFamilies, metricColors, palette, shape, space } from '../theme/material';
 
 type GalleryItem = (typeof cuboGallery)[number];
 
-const options = [
-  { icon: 'video-outline', title: cuboDevice.stats[0].value },
-  { icon: 'car-outline', title: `${cuboDevice.stats[1].value} drives` },
-  { icon: 'wifi', title: cuboDevice.stats[2].value },
+const stats = [
+  { icon: 'video-outline', label: 'Camera', value: cuboDevice.stats[0].value },
+  { icon: 'car-outline', label: 'Drives', value: cuboDevice.stats[1].value },
+  { icon: 'wifi', label: 'Uptime', value: cuboDevice.stats[2].value },
 ];
 
 /**
- * Full-photo preview over the screen. Rendered in-screen (not Kitten's Modal, which centres on
- * the browser window) so it stays inside the web phone frame.
+ * Full-photo preview over the screen. Rendered in-screen (not a Portal) so it stays inside the
+ * web phone frame.
  */
 function PhotoPreview({ item, width, onClose }: { item: GalleryItem | null; width: number; onClose: () => void }) {
   if (!item) return null;
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <Pressable
-        style={[StyleSheet.absoluteFill, styles.backdrop]}
-        onPress={onClose}
-        accessibilityLabel="Close photo"
-      />
+      <Pressable style={[StyleSheet.absoluteFill, styles.backdrop]} onPress={onClose} accessibilityLabel="Close photo" />
       <View style={styles.previewCenter} pointerEvents="box-none">
-        <Layout level="1" style={[styles.previewCard, { width: width + 32 }]}>
+        <View style={[styles.previewCard, { width: width + 32 }]}>
           <Image
             source={item.source}
             style={[styles.previewImage, { width, height: width * 1.15 }]}
             resizeMode={item.key === 'device' ? 'contain' : 'cover'}
           />
-          <Text category="h6" style={styles.previewTitle}>
+          <Text variant="titleMedium" style={styles.previewTitle}>
             {item.title}
           </Text>
-          <Text appearance="hint">{item.caption}</Text>
-          <Button style={styles.previewClose} appearance="ghost" onPress={onClose}>
-            CLOSE
+          <Text variant="bodyMedium" style={styles.muted}>
+            {item.caption}
+          </Text>
+          <Button style={styles.previewClose} onPress={onClose}>
+            Close
           </Button>
-        </Layout>
+        </View>
       </View>
     </View>
   );
 }
 
-/**
- * CUBO hardware page — kittenTricks "Product Details 4" (ImageOverlay hero, overlapping filled
- * booking Card with absolute CTA, facility chips, option buttons, About, horizontal photo list)
- * followed by the "Settings" dashboard rows.
- */
+/** Device — the paired CUBO unit, its status, what it detects, photos and settings. */
 export const DeviceScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { width: windowWidth } = useWindowDimensions();
@@ -65,216 +60,245 @@ export const DeviceScreen = () => {
   const toggleSetting = (key: string) =>
     setSettings((current) => current.map((s) => (s.key === key ? { ...s, enabled: !s.enabled } : s)));
 
-  const renderImageItem = ({ item, index }: ListRenderItemInfo<GalleryItem>) => (
-    <Pressable onPress={() => setPreview(item)} accessibilityLabel={`Open ${item.title} photo`}>
-      <Image
-        style={[styles.imageItem, item.key === 'device' && styles.imageItemCutout]}
-        source={item.source}
-        resizeMode={item.key === 'device' ? 'contain' : 'cover'}
-      />
-    </Pressable>
-  );
-
-  const renderBookingFooter = () => (
-    <View>
-      <Text category="s1">Detects</Text>
-      <View style={styles.detailsList}>
-        {cuboCapabilities.map((c) => (
-          <Button key={c.label} style={styles.detailItem} appearance="outline" size="tiny">
-            {c.label}
-          </Button>
-        ))}
-      </View>
-      <View style={styles.optionList}>
-        {options.map((o) => (
-          <Button
-            key={o.icon}
-            style={styles.optionItem}
-            appearance="ghost"
-            size="small"
-            accessoryLeft={evaIcon(o.icon)}
-          >
-            {o.title}
-          </Button>
-        ))}
-      </View>
-    </View>
-  );
-
   return (
-    <Layout style={styles.root} level="2">
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <Layout style={styles.image} level="3">
-          <CuboStand height={250} />
-        </Layout>
-        <Card style={styles.bookingCard} appearance="filled" footer={renderBookingFooter} accessible={false}>
-          <Text style={styles.title} category="h6">
-            {cuboDevice.name} driver monitor
-          </Text>
-          <Text style={styles.rentLabel} appearance="hint" category="p2">
-            Paired to {cuboDevice.pairedVehicleLabel}
-          </Text>
-          <View style={styles.priceLabel}>
-            <Text category="h6" status="primary">
-              {cuboDevice.connection}
-            </Text>
+    <View style={styles.root}>
+      <ScreenHeader title="Device" subtitle={cuboDevice.serial} />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <SurfaceCard>
+          <View style={styles.stage}>
+            <CuboStand height={210} />
           </View>
-          <Button
-            style={styles.bookButton}
-            onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
-          >
-            LIVE CHECK
-          </Button>
-        </Card>
+          <View style={styles.cardPad}>
+            <View style={styles.titleRow}>
+              <Text variant="headlineSmall">
+                {cuboDevice.name} · {cuboDevice.pairedVehicleLabel}
+              </Text>
+            </View>
+            <View style={styles.statusRow}>
+              <View style={styles.liveDot} />
+              <Text variant="labelLarge" style={{ color: metricColors.focus.accent }}>
+                {cuboDevice.connection}
+              </Text>
+              <Text variant="bodyMedium" style={styles.muted}>
+                · synced {cuboDevice.lastSync}
+              </Text>
+            </View>
+            <View style={styles.actions}>
+              <Button
+                mode="contained"
+                icon="camera-outline"
+                contentStyle={styles.actionContent}
+                onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
+              >
+                Start live check
+              </Button>
+              <Button
+                mode="outlined"
+                contentStyle={styles.actionContent}
+                onPress={() => navigation.navigate('VehicleDetail', { vehicleId: cuboDevice.pairedVehicleId })}
+              >
+                View {cuboDevice.pairedVehicleLabel}
+              </Button>
+            </View>
+          </View>
+        </SurfaceCard>
 
-        <Text style={styles.sectionLabel} category="s1">
-          About
-        </Text>
-        <Text style={styles.description} appearance="hint">
-          CUBO sits on an adjustable stand facing the driver. It tracks head pose with MediaPipe Face Mesh and spots
-          phones with YOLOv8, then sends each trip&apos;s distraction events to this app. Firmware {cuboDevice.firmware}{' '}
-          · {cuboDevice.serial}.
-        </Text>
+        <View style={styles.statsRow}>
+          {stats.map((s) => (
+            <View key={s.label} style={styles.stat}>
+              <Icon source={s.icon} size={20} color={palette.primary} />
+              <Text variant="titleMedium">{s.value}</Text>
+              <Text variant="bodySmall" style={styles.muted}>
+                {s.label}
+              </Text>
+            </View>
+          ))}
+        </View>
 
-        <Text style={styles.sectionLabel} category="s1">
-          Photos
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          What CUBO detects
         </Text>
-        <List
-          contentContainerStyle={styles.imagesList}
+        <View style={styles.chips}>
+          {cuboCapabilities.map((c) => (
+            <Chip key={c.label} style={styles.chip} textStyle={styles.chipText}>
+              {c.label}
+            </Chip>
+          ))}
+        </View>
+
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Hardware
+        </Text>
+        <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
           data={cuboGallery}
-          renderItem={renderImageItem}
           keyExtractor={(item) => item.key}
+          contentContainerStyle={styles.photos}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => setPreview(item)} accessibilityLabel={`Open ${item.title} photo`}>
+              <Image
+                source={item.source}
+                style={styles.photo}
+                resizeMode={item.key === 'device' ? 'contain' : 'cover'}
+              />
+              <Text variant="labelLarge" style={styles.photoLabel}>
+                {item.title}
+              </Text>
+            </Pressable>
+          )}
         />
 
-        <Text style={[styles.sectionLabel, styles.settingsLabel]} category="s1">
-          Device settings
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Settings
         </Text>
-        <Layout level="1">
-          {settings.map((s) => (
-            <Setting
-              key={s.key}
-              style={styles.setting}
-              hint={s.label}
-              description={s.description}
-              onPress={() => toggleSetting(s.key)}
-            >
-              <Toggle checked={s.enabled} onChange={() => toggleSetting(s.key)} />
-            </Setting>
+        <SurfaceCard>
+          {settings.map((s, i) => (
+            <Fragment key={s.key}>
+              {i > 0 ? <Divider style={styles.divider} /> : null}
+              <List.Item
+                title={s.label}
+                description={s.description}
+                titleStyle={styles.listTitle}
+                onPress={() => toggleSetting(s.key)}
+                right={() => <Switch value={s.enabled} onValueChange={() => toggleSetting(s.key)} />}
+              />
+            </Fragment>
           ))}
-        </Layout>
+        </SurfaceCard>
+
+        <SurfaceCard contentStyle={styles.cardPad}>
+          <Text variant="titleMedium" style={styles.aboutTitle}>
+            About
+          </Text>
+          <Text variant="bodyMedium" style={styles.muted}>
+            CUBO sits on an adjustable stand facing the driver. It tracks head pose with MediaPipe Face Mesh and spots
+            phones with YOLOv8, then sends each trip&apos;s distraction events to this app. Firmware{' '}
+            {cuboDevice.firmware}.
+          </Text>
+        </SurfaceCard>
       </ScrollView>
 
       <PhotoPreview item={preview} width={Math.min(280, windowWidth - 80)} onClose={() => setPreview(null)} />
-    </Layout>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-  },
-  container: {
-    flex: 1,
+    backgroundColor: palette.background,
   },
   content: {
-    paddingBottom: 100,
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
   },
-  image: {
-    height: 360,
+  stage: {
+    height: 240,
     alignItems: 'center',
-    paddingTop: 24,
+    justifyContent: 'center',
+    backgroundColor: palette.surfaceContainerLow,
   },
-  bookingCard: {
-    marginTop: -80,
-    margin: 16,
+  cardPad: {
+    padding: space.xl,
   },
-  title: {
-    width: '65%',
-  },
-  rentLabel: {
-    marginTop: 24,
-    width: '55%',
-  },
-  priceLabel: {
-    marginTop: 8,
+  titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  bookButton: {
-    position: 'absolute',
-    bottom: 24,
-    right: 24,
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    marginTop: space.xs,
   },
-  detailsList: {
+  liveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: metricColors.focus.accent,
+  },
+  actions: {
+    gap: space.sm,
+    marginTop: space.lg,
+  },
+  actionContent: {
+    height: 48,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    gap: space.md,
+  },
+  stat: {
+    flex: 1,
+    alignItems: 'flex-start',
+    gap: 2,
+    padding: space.lg,
+    borderRadius: shape.tile,
+    backgroundColor: palette.surfaceContainerLowest,
+  },
+  sectionTitle: {
+    marginTop: space.md,
+  },
+  chips: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginHorizontal: -4,
-    marginVertical: 8,
+    gap: space.sm,
   },
-  detailItem: {
-    marginHorizontal: 4,
-    marginVertical: 4,
-    borderRadius: 16,
+  chip: {
+    backgroundColor: palette.surfaceContainerLowest,
   },
-  optionList: {
-    flexDirection: 'row',
-    marginHorizontal: -4,
-    marginVertical: 8,
+  chipText: {
+    fontFamily: fontFamilies.medium,
   },
-  optionItem: {
-    marginHorizontal: 4,
-    paddingHorizontal: 0,
+  photos: {
+    gap: space.md,
   },
-  description: {
-    marginHorizontal: 16,
-    marginVertical: 8,
+  photo: {
+    width: 148,
+    height: 180,
+    borderRadius: shape.tile,
+    backgroundColor: '#ECEDEF',
   },
-  sectionLabel: {
-    marginHorizontal: 16,
-    marginVertical: 8,
+  photoLabel: {
+    marginTop: space.sm,
+    color: palette.onSurfaceVariant,
   },
-  settingsLabel: {
-    marginTop: 24,
+  divider: {
+    marginHorizontal: space.lg,
   },
-  imagesList: {
-    padding: 8,
+  listTitle: {
+    fontFamily: fontFamilies.medium,
   },
-  imageItem: {
-    width: 180,
-    height: 120,
-    borderRadius: 8,
-    marginHorizontal: 8,
+  aboutTitle: {
+    marginBottom: space.sm,
   },
-  imageItemCutout: {
-    backgroundColor: '#E9EAEC',
-  },
-  setting: {
-    padding: 16,
+  muted: {
+    color: palette.onSurfaceVariant,
   },
   backdrop: {
-    backgroundColor: 'rgba(16, 20, 38, 0.8)',
+    backgroundColor: 'rgba(20, 35, 44, 0.5)',
   },
   previewCenter: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 60,
   },
   previewCard: {
-    borderRadius: 4,
-    padding: 16,
+    borderRadius: shape.sheet,
+    padding: space.lg,
+    backgroundColor: palette.surfaceContainerLowest,
   },
   previewImage: {
-    borderRadius: 4,
-    backgroundColor: '#E9EAEC',
+    borderRadius: shape.tile,
+    backgroundColor: '#ECEDEF',
   },
   previewTitle: {
-    marginTop: 16,
-    marginBottom: 2,
+    marginTop: space.lg,
   },
   previewClose: {
-    marginTop: 8,
+    marginTop: space.sm,
+    alignSelf: 'flex-end',
   },
 });

@@ -16,6 +16,7 @@ import {
 } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
+import { fontFamilies } from '../theme/material';
 import { radii, spacing } from '../theme/theme';
 import { AppText as Text } from '../components/AppText';
 
@@ -218,9 +219,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
-    fontSize: 24,
-    fontWeight: '600',
-    letterSpacing: -0.3,
+    fontFamily: fontFamilies.displayRegular,
+    fontSize: 32,
+    lineHeight: 40,
   },
   avatarBtn: {
     borderRadius: 22,
@@ -379,7 +380,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 8,
-    backgroundColor: '#E53935',
+    backgroundColor: colors.danger,
     alignItems: 'center',
     justifyContent: 'center',
   },

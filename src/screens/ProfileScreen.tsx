@@ -1,31 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import {
-  Button,
-  Divider,
-  Layout,
-  ListItem,
-  Text,
-  Toggle,
-  TopNavigation,
-  TopNavigationAction,
-} from '@ui-kitten/components';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Avatar, Button, Divider, List, Switch, Text } from 'react-native-paper';
 
-import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { ProfileSocial } from '../components/kitten/ProfileSocial';
-import { Setting } from '../components/kitten/Setting';
-import { evaIcon } from '../components/kitten/icons';
+import { StackHeader } from '../components/ui/StackHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
 import { drivers, getDriverById, profileSettings, vehicles } from '../data/mockData';
+import { fontFamilies, metricColors, palette, space } from '../theme/material';
 
-const BackIcon = evaIcon('arrow-ios-back');
-const PeopleIcon = evaIcon('people-outline');
+const avatarTones = [metricColors.trips, metricColors.focus, metricColors.phone, metricColors.alerts];
 
-/**
- * Owner profile — kittenTricks "Profile 1" header (avatar, name, location, socials, primary
- * button) followed by "Settings" toggle rows and a ListItem list of linked drivers.
- */
+/** Profile — owner summary, notification switches and linked drivers (Fitbit "You" tab style). */
 export const ProfileScreen = () => {
   const navigation = useNavigation();
   const [settings, setSettings] = useState(profileSettings);
@@ -34,118 +19,140 @@ export const ProfileScreen = () => {
   const toggle = (label: string) =>
     setSettings((current) => current.map((s) => (s.label === label ? { ...s, enabled: !s.enabled } : s)));
 
+  const stats = [
+    { label: 'Drivers', value: drivers.length },
+    { label: 'Vehicles', value: vehicles.length },
+    { label: 'Alerts this week', value: owner.alertsThisWeek },
+  ];
+
   return (
-    <Layout style={styles.root} level="2">
-      <SafeAreaView edges={['top']}>
-        <TopNavigation
-          alignment="center"
-          title="Profile"
-          accessoryLeft={() => <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />}
-        />
-      </SafeAreaView>
-      <Divider />
+    <View style={styles.root}>
+      <StackHeader title="You" onBack={() => navigation.goBack()} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Layout style={styles.header} level="1">
-          <View style={styles.profileAvatar}>
-            <FlatPersonAvatar skin={owner.skinTone} shirt={owner.shirtColor} size={88} />
-          </View>
-          <View style={styles.profileDetailsContainer}>
-            <Text category="h4">{owner.name}</Text>
-            <Text appearance="hint" category="s1">
-              {owner.relation} · {owner.location}
-            </Text>
-            <View style={styles.profileSocialsContainer}>
-              <ProfileSocial style={styles.profileSocialContainer} hint="Drivers" value={`${drivers.length}`} />
-              <ProfileSocial style={styles.profileSocialContainer} hint="Vehicles" value={`${vehicles.length}`} />
-              <ProfileSocial style={styles.profileSocialContainer} hint="Alerts" value={`${owner.alertsThisWeek}`} />
-            </View>
-            <Button style={styles.followButton} accessoryLeft={PeopleIcon}>
-              INVITE
-            </Button>
-          </View>
-        </Layout>
+        <View style={styles.identity}>
+          <Avatar.Text size={88} label={owner.initials} color={metricColors.headTurns.onContainer} style={styles.avatarLarge} />
+          <Text variant="headlineMedium">{owner.name}</Text>
+          <Text variant="bodyLarge" style={styles.muted}>
+            {owner.relation} · {owner.location}
+          </Text>
+        </View>
 
-        <Text style={styles.sectionLabel} appearance="hint">
-          NOTIFICATIONS
-        </Text>
-        <Layout level="1">
-          {settings.map((s) => (
-            <Setting
-              key={s.label}
-              style={styles.setting}
-              hint={s.label}
-              description={s.description}
-              onPress={() => toggle(s.label)}
-            >
-              <Toggle checked={s.enabled} onChange={() => toggle(s.label)} />
-            </Setting>
+        <SurfaceCard contentStyle={styles.stats}>
+          {stats.map((s, i) => (
+            <Fragment key={s.label}>
+              {i > 0 ? <View style={styles.statDivider} /> : null}
+              <View style={styles.stat}>
+                <Text variant="headlineSmall">{s.value}</Text>
+                <Text variant="bodySmall" style={styles.muted}>
+                  {s.label}
+                </Text>
+              </View>
+            </Fragment>
           ))}
-        </Layout>
+        </SurfaceCard>
 
-        <Text style={styles.sectionLabel} appearance="hint">
-          LINKED DRIVERS
+        <Button mode="contained-tonal" icon="account-plus-outline">
+          Invite a driver
+        </Button>
+
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Notifications
         </Text>
-        <Layout level="1">
+        <SurfaceCard>
+          {settings.map((s, i) => (
+            <Fragment key={s.label}>
+              {i > 0 ? <Divider style={styles.divider} /> : null}
+              <List.Item
+                title={s.label}
+                description={s.description}
+                titleStyle={styles.listTitle}
+                onPress={() => toggle(s.label)}
+                right={() => <Switch value={s.enabled} onValueChange={() => toggle(s.label)} />}
+              />
+            </Fragment>
+          ))}
+        </SurfaceCard>
+
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Linked drivers
+        </Text>
+        <SurfaceCard>
           {drivers
             .filter((d) => d.id !== owner.id)
             .slice(0, 4)
-            .map((d) => (
-              <View key={d.id}>
-                <ListItem
-                  title={d.name}
-                  description={`${d.relation} · ${d.location}`}
-                  accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
-                  accessoryRight={() => (
-                    <Text category="c1" status="success">
-                      READY
-                    </Text>
-                  )}
-                />
-                <Divider />
-              </View>
-            ))}
-        </Layout>
+            .map((d, i) => {
+              const tone = avatarTones[i % avatarTones.length];
+              return (
+                <Fragment key={d.id}>
+                  {i > 0 ? <Divider style={styles.divider} /> : null}
+                  <List.Item
+                    title={d.name}
+                    description={`${d.relation} · ${d.location}`}
+                    titleStyle={styles.listTitle}
+                    left={() => (
+                      <Avatar.Text
+                        size={40}
+                        label={d.initials}
+                        color={tone.onContainer}
+                        style={[styles.avatar, { backgroundColor: tone.container }]}
+                      />
+                    )}
+                  />
+                </Fragment>
+              );
+            })}
+        </SurfaceCard>
       </ScrollView>
-    </Layout>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: palette.background,
   },
   content: {
-    paddingBottom: 32,
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
   },
-  header: {
+  identity: {
+    alignItems: 'center',
+    gap: 2,
+    paddingVertical: space.lg,
+  },
+  avatarLarge: {
+    marginBottom: space.md,
+    backgroundColor: metricColors.headTurns.container,
+  },
+  stats: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    marginBottom: 8,
+    alignItems: 'center',
+    paddingVertical: space.lg,
   },
-  profileAvatar: {
-    marginHorizontal: 8,
-  },
-  profileDetailsContainer: {
+  stat: {
     flex: 1,
-    marginHorizontal: 8,
+    alignItems: 'center',
   },
-  profileSocialsContainer: {
-    flexDirection: 'row',
-    marginTop: 24,
+  statDivider: {
+    width: StyleSheet.hairlineWidth,
+    height: 32,
+    backgroundColor: palette.outlineVariant,
   },
-  profileSocialContainer: {
-    flex: 1,
+  sectionTitle: {
+    marginTop: space.md,
   },
-  followButton: {
-    marginVertical: 16,
+  divider: {
+    marginHorizontal: space.lg,
   },
-  sectionLabel: {
-    marginHorizontal: 16,
-    marginTop: 24,
-    marginBottom: 8,
+  listTitle: {
+    fontFamily: fontFamilies.medium,
   },
-  setting: {
-    padding: 16,
+  avatar: {
+    marginLeft: space.lg,
+  },
+  muted: {
+    color: palette.onSurfaceVariant,
   },
 });

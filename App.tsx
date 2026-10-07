@@ -1,8 +1,5 @@
-import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { useFonts } from 'expo-font';
-import type { CustomSchemaType } from '@ui-kitten/processor';
+import { PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,31 +21,27 @@ import { VehicleDetailScreen } from './src/screens/VehicleDetailScreen';
 import { AppBlockingScreen } from './src/screens/AppBlockingScreen';
 import { VehiclesScreen } from './src/screens/VehiclesScreen';
 import { MainTabParamList, RootStackParamList } from './src/navigation/types';
-import { colors, evaPalette } from './src/theme/colors';
-import mapping from './src/theme/mapping.json';
-import { cuboEvaTheme } from './src/theme/eva';
-
-// Partial override (font + TopNavigation alignment); Eva's types expect full component schemas
-const customMapping = mapping as unknown as CustomSchemaType;
+import { colors } from './src/theme/colors';
+import { fontAssets, fontFamilies, palette, paperTheme } from './src/theme/material';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const navTheme: Theme = {
-  dark: true,
+  dark: false,
   colors: {
-    primary: colors.accentLime,
-    background: colors.background,
-    card: colors.card,
-    text: colors.text,
-    border: colors.border,
-    notification: colors.danger,
+    primary: palette.primary,
+    background: palette.background,
+    card: palette.surfaceContainerLowest,
+    text: palette.onSurface,
+    border: palette.outlineVariant,
+    notification: palette.error,
   },
   fonts: {
-    regular: { fontFamily: 'System', fontWeight: '400' },
-    medium: { fontFamily: 'System', fontWeight: '500' },
-    bold: { fontFamily: 'System', fontWeight: '700' },
-    heavy: { fontFamily: 'System', fontWeight: '800' },
+    regular: { fontFamily: fontFamilies.regular, fontWeight: '400' },
+    medium: { fontFamily: fontFamilies.medium, fontWeight: '400' },
+    bold: { fontFamily: fontFamilies.bold, fontWeight: '400' },
+    heavy: { fontFamily: fontFamilies.bold, fontWeight: '400' },
   },
 };
 
@@ -62,7 +55,7 @@ const MainTabs = () => {
         sceneStyle: { backgroundColor: colors.background },
       }}
     >
-      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ tabBarLabel: 'Dashboard' }} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ tabBarLabel: 'Today' }} />
       <Tab.Screen name="Device" component={DeviceScreen} options={{ tabBarLabel: 'Device' }} />
       <Tab.Screen name="Insurance" component={InsuranceScreen} options={{ tabBarLabel: 'Insurance' }} />
       <Tab.Screen name="Vehicles" component={VehiclesScreen} options={{ tabBarLabel: 'Vehicles' }} />
@@ -73,20 +66,16 @@ const MainTabs = () => {
 const Wrapper = Platform.OS === 'web' ? View : GestureHandlerRootView;
 
 export default function App() {
-  // kittenTricks loads Open Sans before mounting and maps it as Eva's text font
-  const [fontsLoaded, fontError] = useFonts({
-    'opensans-regular': require('./assets/fonts/opensans-regular.ttf'),
-  });
+  const [fontsLoaded, fontError] = useFonts(fontAssets);
   const ready = fontsLoaded || !!fontError;
 
   return (
     <PhoneFrame>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} customMapping={customMapping} theme={cuboEvaTheme}>
+      <PaperProvider theme={paperTheme}>
         <Wrapper style={{ flex: 1 }}>
           {ready ? (
             <NavigationContainer theme={navTheme}>
-              <StatusBar style="light" />
+              <StatusBar style="dark" />
               <Stack.Navigator
                 screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
               >
@@ -102,11 +91,11 @@ export default function App() {
           ) : null}
           <SplashImage
             loading={!ready}
-            backgroundColor={evaPalette.basic1000}
+            backgroundColor={palette.surfaceContainerLowest}
             source={require('./assets/cubo/cubo-device.png')}
           />
         </Wrapper>
-      </ApplicationProvider>
+      </PaperProvider>
     </PhoneFrame>
   );
 }

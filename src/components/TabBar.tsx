@@ -1,54 +1,35 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Divider } from '@ui-kitten/components';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet, View } from 'react-native';
-
-import { evaIcon } from './kitten/icons';
+import { CommonActions } from '@react-navigation/native';
+import { BottomNavigation, Icon } from 'react-native-paper';
 
 const tabIcons: Record<string, [string, string]> = {
-  Dashboard: ['activity', 'activity-outline'],
-  Device: ['video', 'video-outline'],
-  Insurance: ['shield', 'shield-outline'],
+  Dashboard: ['view-dashboard', 'view-dashboard-outline'],
+  Device: ['webcam', 'webcam'],
+  Insurance: ['shield-check', 'shield-check-outline'],
   Vehicles: ['car', 'car-outline'],
 };
 
-/** kittenTricks home bottom navigation: Divider + Eva BottomNavigation without indicator. */
-export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
-  const insets = useSafeAreaInsets();
-
-  const onSelect = (index: number) => {
-    const route = state.routes[index];
-    const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-    if (state.index !== index && !event.defaultPrevented) navigation.navigate(route.name);
-  };
-
-  return (
-    <View style={styles.outer}>
-      <Divider />
-      <BottomNavigation
-        appearance="noIndicator"
-        selectedIndex={state.index}
-        onSelect={onSelect}
-        style={{ paddingBottom: Math.max(insets.bottom, 8) }}
-      >
-        {state.routes.map((route, index) => {
-          const options = descriptors[route.key].options;
-          const title = typeof options.tabBarLabel === 'string' ? options.tabBarLabel : (options.title ?? route.name);
-          const [filled, outline] = tabIcons[route.name] ?? ['radio-button-on', 'radio-button-off'];
-          return (
-            <BottomNavigationTab key={route.key} title={title} icon={evaIcon(state.index === index ? filled : outline)} />
-          );
-        })}
-      </BottomNavigation>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  outer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});
+/** Material 3 navigation bar (pill indicator) — the bottom bar style of the Fitbit app. */
+export const TabBar = ({ state, descriptors, navigation, insets }: BottomTabBarProps) => (
+  <BottomNavigation.Bar
+    navigationState={state}
+    safeAreaInsets={insets}
+    shifting={false}
+    onTabPress={({ route, preventDefault }) => {
+      const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+      if (event.defaultPrevented) {
+        preventDefault();
+      } else {
+        navigation.dispatch({ ...CommonActions.navigate(route.name, route.params), target: state.key });
+      }
+    }}
+    renderIcon={({ route, focused, color }) => {
+      const [active, inactive] = tabIcons[route.name] ?? ['circle', 'circle-outline'];
+      return <Icon source={focused ? active : inactive} size={24} color={color} />;
+    }}
+    getLabelText={({ route }) => {
+      const { options } = descriptors[route.key];
+      return typeof options.tabBarLabel === 'string' ? options.tabBarLabel : (options.title ?? route.name);
+    }}
+  />
+);
