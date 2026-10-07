@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { CircularScoreRing } from '../components/CircularScoreRing';
@@ -17,6 +17,7 @@ import {
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from '../components/AppText';
 
 export const InsuranceScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

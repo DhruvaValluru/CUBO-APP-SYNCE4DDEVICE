@@ -14,7 +14,6 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { FadeInView } from '../components/Motion';
 import { ProfileSocial } from '../components/kitten/ProfileSocial';
 import { Setting } from '../components/kitten/Setting';
 import { evaIcon } from '../components/kitten/icons';
@@ -46,72 +45,66 @@ export const ProfileScreen = () => {
       </SafeAreaView>
       <Divider />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <FadeInView>
-          <Layout style={styles.header} level="1">
-            <View style={styles.profileAvatar}>
-              <FlatPersonAvatar skin={owner.skinTone} shirt={owner.shirtColor} size={88} />
+        <Layout style={styles.header} level="1">
+          <View style={styles.profileAvatar}>
+            <FlatPersonAvatar skin={owner.skinTone} shirt={owner.shirtColor} size={88} />
+          </View>
+          <View style={styles.profileDetailsContainer}>
+            <Text category="h4">{owner.name}</Text>
+            <Text appearance="hint" category="s1">
+              {owner.relation} · {owner.location}
+            </Text>
+            <View style={styles.profileSocialsContainer}>
+              <ProfileSocial style={styles.profileSocialContainer} hint="Drivers" value={`${drivers.length}`} />
+              <ProfileSocial style={styles.profileSocialContainer} hint="Vehicles" value={`${vehicles.length}`} />
+              <ProfileSocial style={styles.profileSocialContainer} hint="Alerts" value={`${owner.alertsThisWeek}`} />
             </View>
-            <View style={styles.profileDetailsContainer}>
-              <Text category="h4">{owner.name}</Text>
-              <Text appearance="hint" category="s1">
-                {owner.relation} · {owner.location}
-              </Text>
-              <View style={styles.profileSocialsContainer}>
-                <ProfileSocial style={styles.profileSocialContainer} hint="Drivers" value={`${drivers.length}`} />
-                <ProfileSocial style={styles.profileSocialContainer} hint="Vehicles" value={`${vehicles.length}`} />
-                <ProfileSocial style={styles.profileSocialContainer} hint="Alerts" value={`${owner.alertsThisWeek}`} />
-              </View>
-              <Button style={styles.followButton} accessoryLeft={PeopleIcon}>
-                INVITE
-              </Button>
-            </View>
-          </Layout>
-        </FadeInView>
+            <Button style={styles.followButton} accessoryLeft={PeopleIcon}>
+              INVITE
+            </Button>
+          </View>
+        </Layout>
 
         <Text style={styles.sectionLabel} appearance="hint">
           NOTIFICATIONS
         </Text>
-        <FadeInView delay={120}>
-          <Layout level="1">
-            {settings.map((s) => (
-              <Setting
-                key={s.label}
-                style={styles.setting}
-                hint={s.label}
-                description={s.description}
-                onPress={() => toggle(s.label)}
-              >
-                <Toggle checked={s.enabled} onChange={() => toggle(s.label)} />
-              </Setting>
-            ))}
-          </Layout>
-        </FadeInView>
+        <Layout level="1">
+          {settings.map((s) => (
+            <Setting
+              key={s.label}
+              style={styles.setting}
+              hint={s.label}
+              description={s.description}
+              onPress={() => toggle(s.label)}
+            >
+              <Toggle checked={s.enabled} onChange={() => toggle(s.label)} />
+            </Setting>
+          ))}
+        </Layout>
 
         <Text style={styles.sectionLabel} appearance="hint">
           LINKED DRIVERS
         </Text>
-        <FadeInView delay={220}>
-          <Layout level="1">
-            {drivers
-              .filter((d) => d.id !== owner.id)
-              .slice(0, 4)
-              .map((d) => (
-                <View key={d.id}>
-                  <ListItem
-                    title={d.name}
-                    description={`${d.relation} · ${d.location}`}
-                    accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
-                    accessoryRight={() => (
-                      <Text category="c1" status="success">
-                        READY
-                      </Text>
-                    )}
-                  />
-                  <Divider />
-                </View>
-              ))}
-          </Layout>
-        </FadeInView>
+        <Layout level="1">
+          {drivers
+            .filter((d) => d.id !== owner.id)
+            .slice(0, 4)
+            .map((d) => (
+              <View key={d.id}>
+                <ListItem
+                  title={d.name}
+                  description={`${d.relation} · ${d.location}`}
+                  accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
+                  accessoryRight={() => (
+                    <Text category="c1" status="success">
+                      READY
+                    </Text>
+                  )}
+                />
+                <Divider />
+              </View>
+            ))}
+        </Layout>
       </ScrollView>
     </Layout>
   );

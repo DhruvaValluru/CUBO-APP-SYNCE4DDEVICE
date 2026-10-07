@@ -9,11 +9,10 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, ScrollView, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { FadeInView, PulseDot } from '../components/Motion';
 import { SemiCircleGauge } from '../components/SemiCircleGauge';
 import { ImageOverlay } from '../components/kitten/ImageOverlay';
 import { ProfileSocial } from '../components/kitten/ProfileSocial';
@@ -32,36 +31,6 @@ const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 function formatHeaderDate(d: Date) {
   return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-}
-
-/** Bar that grows from the baseline after `delay` ms. */
-function GrowBar({ fraction, color, delay }: { fraction: number; color: string; delay: number }) {
-  const grow = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    // Animating a percentage height, which the native driver can't do
-    const anim = Animated.timing(grow, {
-      toValue: 1,
-      duration: 650,
-      delay,
-      easing: Easing.out(Easing.back(1.4)),
-      useNativeDriver: false,
-    });
-    anim.start();
-    return () => anim.stop();
-  }, [delay, grow]);
-
-  return (
-    <Animated.View
-      style={[
-        styles.bar,
-        {
-          height: grow.interpolate({ inputRange: [0, 1], outputRange: ['0%', `${Math.round(fraction * 100)}%`] }),
-          backgroundColor: color,
-        },
-      ]}
-    />
-  );
 }
 
 /**
@@ -103,131 +72,118 @@ export const DashboardScreen = () => {
         <Text style={styles.headerTitle} appearance="hint">
           YOUR CUBO
         </Text>
-        <FadeInView>
-          <Card
-            style={styles.deviceCard}
-            onPress={() => navigation.navigate('MainTabs', { screen: 'Device' })}
-            accessibilityLabel="Open CUBO device"
-          >
-            <ImageOverlay style={styles.deviceImage} source={cuboImages.mountRear} resizeMode="cover">
-              <View style={styles.deviceStatus}>
-                <PulseDot color={colors.gaugeProgress} size={7} style={styles.deviceDot} />
-                <Text category="s1" status="control">
-                  {cuboDevice.connection.toUpperCase()}
-                </Text>
-              </View>
-              <Text category="h3" status="control">
-                {cuboDevice.pairedVehicleLabel}
+        <Card
+          style={styles.deviceCard}
+          onPress={() => navigation.navigate('MainTabs', { screen: 'Device' })}
+          accessibilityLabel="Open CUBO device"
+        >
+          <ImageOverlay style={styles.deviceImage} source={cuboImages.mountRear} resizeMode="cover">
+            <View style={styles.deviceStatus}>
+              <Text category="s1" status="control">
+                {cuboDevice.connection.toUpperCase()}
               </Text>
-              <Text category="c1" status="control">
-                Synced {cuboDevice.lastSync} · {cuboDevice.serial}
-              </Text>
-              <Button
-                style={styles.deviceButton}
-                size="tiny"
-                accessoryLeft={CameraIcon}
-                onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
-              >
-                LIVE CHECK
-              </Button>
-            </ImageOverlay>
-          </Card>
-        </FadeInView>
+            </View>
+            <Text category="h3" status="control">
+              {cuboDevice.pairedVehicleLabel}
+            </Text>
+            <Text category="c1" status="control">
+              Synced {cuboDevice.lastSync} · {cuboDevice.serial}
+            </Text>
+            <Button
+              style={styles.deviceButton}
+              size="tiny"
+              accessoryLeft={CameraIcon}
+              onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
+            >
+              LIVE CHECK
+            </Button>
+          </ImageOverlay>
+        </Card>
 
         <Text style={styles.headerTitle} appearance="hint">
           THIS WEEK
         </Text>
-        <FadeInView delay={100}>
-          <Card
-            style={styles.item}
-            header={() => renderCardHeader('Driver distraction score', 'Pablo · Toyota Prius')}
-            footer={() => (
-              <View style={styles.socials}>
-                <ProfileSocial style={styles.social} hint="Trips" value="18" />
-                <ProfileSocial style={styles.social} hint="Alerts" value="4" />
-                <ProfileSocial style={styles.social} hint="Focus" value="94%" />
-              </View>
-            )}
-          >
-            <View style={styles.gauge}>
-              <SemiCircleGauge score={85} size={240} strokeWidth={12} />
-              <Text category="s1" status="primary">
-                Low risk driver
-              </Text>
+        <Card
+          style={styles.item}
+          header={() => renderCardHeader('Driver distraction score', 'Pablo · Toyota Prius')}
+          footer={() => (
+            <View style={styles.socials}>
+              <ProfileSocial style={styles.social} hint="Trips" value="18" />
+              <ProfileSocial style={styles.social} hint="Alerts" value="4" />
+              <ProfileSocial style={styles.social} hint="Focus" value="94%" />
             </View>
-          </Card>
-        </FadeInView>
-
-        <FadeInView delay={180}>
-          <Card style={styles.item} header={() => renderCardHeader('Distraction time', 'Seconds per day')}>
-            <View style={styles.bars}>
-              {distractionBars.map((h, i) => (
-                <View key={i} style={styles.barColumn}>
-                  <View style={styles.barTrack}>
-                    <GrowBar
-                      fraction={h / maxBar}
-                      color={i === peakIndex ? colors.danger : colors.gaugeProgress}
-                      delay={350 + i * 70}
-                    />
-                  </View>
-                  <Text category="c2" appearance="hint">
-                    {dayLabels[i]}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </Card>
-        </FadeInView>
-
-        <FadeInView delay={260}>
-          <Card style={styles.item} header={() => renderCardHeader('Trends')}>
-            {trendsMock.map((row, i) => (
-              <View key={row.label} style={[styles.trendRow, i > 0 && styles.trendBorder]}>
-                <Text category="p2">{row.label}</Text>
-                <Button
-                  style={styles.trendButton}
-                  appearance="ghost"
-                  size="tiny"
-                  status={row.tone === 'good' ? 'success' : 'danger'}
-                  accessoryLeft={evaIcon(row.trend === 'down' ? 'trending-down-outline' : 'trending-up-outline')}
-                >
-                  {row.value}
-                </Button>
-              </View>
-            ))}
-          </Card>
-        </FadeInView>
-
-        <FadeInView delay={340}>
-          <Card style={styles.item} header={() => renderCardHeader('Goals')}>
-            {goals.map((g) => (
-              <CheckBox
-                key={g.label}
-                style={styles.goal}
-                checked={g.done}
-                onChange={(done) => setGoals((cur) => cur.map((x) => (x.label === g.label ? { ...x, done } : x)))}
-              >
-                {g.label}
-              </CheckBox>
-            ))}
-          </Card>
-        </FadeInView>
-
-        <FadeInView delay={420}>
-          <Card style={styles.item} status="primary">
-            <Text category="h6">App focus block</Text>
-            <Text appearance="hint" style={styles.focusText}>
-              Silence distracting apps on the driver&apos;s phone while CUBO is monitoring.
+          )}
+        >
+          <View style={styles.gauge}>
+            <SemiCircleGauge score={85} size={240} strokeWidth={12} />
+            <Text category="s1" status="primary">
+              Low risk driver
             </Text>
-            <Button
-              appearance="outline"
-              accessoryLeft={ShieldIcon}
-              onPress={() => navigation.navigate('AppBlocking')}
+          </View>
+        </Card>
+
+        <Card style={styles.item} header={() => renderCardHeader('Distraction time', 'Seconds per day')}>
+          <View style={styles.bars}>
+            {distractionBars.map((h, i) => (
+              <View key={i} style={styles.barColumn}>
+                <View style={styles.barTrack}>
+                  <View
+                    style={[
+                      styles.bar,
+                      {
+                        height: `${Math.round((h / maxBar) * 100)}%`,
+                        backgroundColor: i === peakIndex ? colors.danger : colors.gaugeProgress,
+                      },
+                    ]}
+                  />
+                </View>
+                <Text category="c2" appearance="hint">
+                  {dayLabels[i]}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </Card>
+
+        <Card style={styles.item} header={() => renderCardHeader('Trends')}>
+          {trendsMock.map((row, i) => (
+            <View key={row.label} style={[styles.trendRow, i > 0 && styles.trendBorder]}>
+              <Text category="p2">{row.label}</Text>
+              <Button
+                style={styles.trendButton}
+                appearance="ghost"
+                size="tiny"
+                status={row.tone === 'good' ? 'success' : 'danger'}
+                accessoryLeft={evaIcon(row.trend === 'down' ? 'trending-down-outline' : 'trending-up-outline')}
+              >
+                {row.value}
+              </Button>
+            </View>
+          ))}
+        </Card>
+
+        <Card style={styles.item} header={() => renderCardHeader('Goals')}>
+          {goals.map((g) => (
+            <CheckBox
+              key={g.label}
+              style={styles.goal}
+              checked={g.done}
+              onChange={(done) => setGoals((cur) => cur.map((x) => (x.label === g.label ? { ...x, done } : x)))}
             >
-              CHOOSE APPS
-            </Button>
-          </Card>
-        </FadeInView>
+              {g.label}
+            </CheckBox>
+          ))}
+        </Card>
+
+        <Card style={styles.item} status="primary">
+          <Text category="h6">App focus block</Text>
+          <Text appearance="hint" style={styles.focusText}>
+            Silence distracting apps on the driver&apos;s phone while CUBO is monitoring.
+          </Text>
+          <Button appearance="outline" accessoryLeft={ShieldIcon} onPress={() => navigation.navigate('AppBlocking')}>
+            CHOOSE APPS
+          </Button>
+        </Card>
       </ScrollView>
     </Layout>
   );
@@ -260,10 +216,6 @@ const styles = StyleSheet.create({
   deviceStatus: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  deviceDot: {
-    marginLeft: -7,
-    marginRight: -1,
   },
   deviceButton: {
     position: 'absolute',

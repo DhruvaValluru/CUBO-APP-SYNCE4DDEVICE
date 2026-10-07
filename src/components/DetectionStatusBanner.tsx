@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from './AppText';
 
 type DetectionStatusBannerProps = {
   distracted: boolean;

@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { getDriverById } from '../data/mockData';
 import { Vehicle } from '../types/app';
@@ -8,6 +8,7 @@ import { radii, spacing } from '../theme/theme';
 import { FlatCarGlyph } from './FlatCarGlyph';
 import { FlatPersonAvatar } from './FlatPersonAvatar';
 import { GlassCard } from './GlassCard';
+import { AppText as Text } from './AppText';
 
 type VehicleCardProps = {
   vehicle: Vehicle;

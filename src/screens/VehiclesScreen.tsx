@@ -4,7 +4,6 @@ import { Image, ListRenderItemInfo, ScrollView, StyleSheet, View } from 'react-n
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { FadeInView } from '../components/Motion';
 import { evaIcon } from '../components/kitten/icons';
 import { getDriverById, otherDriversList, pabloShowcaseVehicles } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
@@ -40,37 +39,29 @@ export const VehiclesScreen = () => {
   );
 
   const renderItem = ({ item, index }: ListRenderItemInfo<ShowcaseItem>) => (
-    <FadeInView delay={index * 90}>
-      <Card
-        style={styles.item}
-        header={() => renderItemHeader(item)}
-        onPress={() => navigation.navigate('VehicleDetail', { vehicleId: item.linkedVehicleId })}
-      >
-        <Text category="h5">{item.model}</Text>
-        <View style={styles.itemFooter}>
-          <Button style={styles.activityButton} appearance="ghost" size="tiny" accessoryLeft={ClockIcon}>
-            {item.time}
-          </Button>
-          <Button
-            style={styles.activityButton}
-            appearance="ghost"
-            size="tiny"
-            status="warning"
-            accessoryLeft={StarIcon}
-          >
-            {`${item.stars} / 5`}
-          </Button>
-          <Button
-            style={styles.activityButton}
-            appearance="ghost"
-            size="tiny"
-            status={item.risk === 'low' ? 'success' : 'danger'}
-          >
-            {item.risk === 'low' ? 'LOW RISK' : 'MID RISK'}
-          </Button>
-        </View>
-      </Card>
-    </FadeInView>
+    <Card
+      style={styles.item}
+      header={() => renderItemHeader(item)}
+      onPress={() => navigation.navigate('VehicleDetail', { vehicleId: item.linkedVehicleId })}
+    >
+      <Text category="h5">{item.model}</Text>
+      <View style={styles.itemFooter}>
+        <Button style={styles.activityButton} appearance="ghost" size="tiny" accessoryLeft={ClockIcon}>
+          {item.time}
+        </Button>
+        <Button style={styles.activityButton} appearance="ghost" size="tiny" status="warning" accessoryLeft={StarIcon}>
+          {`${item.stars} / 5`}
+        </Button>
+        <Button
+          style={styles.activityButton}
+          appearance="ghost"
+          size="tiny"
+          status={item.risk === 'low' ? 'success' : 'danger'}
+        >
+          {item.risk === 'low' ? 'LOW RISK' : 'MID RISK'}
+        </Button>
+      </View>
+    </Card>
   );
 
   return (
@@ -91,33 +82,33 @@ export const VehiclesScreen = () => {
         <Text style={styles.headerTitle} appearance="hint">
           OTHER DRIVERS
         </Text>
-        <FadeInView delay={250}>
-          <Layout level="1">
-            {otherDriversList.map((row) => {
-              const d = getDriverById(row.driverId);
-              if (!d) return null;
-              return (
-                <View key={row.driverId}>
-                  <ListItem
-                    title={d.name}
-                    description={`${d.relation} · ${row.vehicleLabel}`}
-                    accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
-                    accessoryRight={(props) => (
-                      <View style={styles.rowRight}>
-                        <Text category="c1" appearance="hint">
-                          {d.alertsThisWeek === 0 ? 'No alerts' : `${d.alertsThisWeek} alert${d.alertsThisWeek > 1 ? 's' : ''}`}
-                        </Text>
-                        {ChevronIcon(props)}
-                      </View>
-                    )}
-                    onPress={() => navigation.navigate('DriverReports', { driverId: row.driverId })}
-                  />
-                  <Divider />
-                </View>
-              );
-            })}
-          </Layout>
-        </FadeInView>
+        <Layout level="1">
+          {otherDriversList.map((row) => {
+            const d = getDriverById(row.driverId);
+            if (!d) return null;
+            return (
+              <View key={row.driverId}>
+                <ListItem
+                  title={d.name}
+                  description={`${d.relation} · ${row.vehicleLabel}`}
+                  accessoryLeft={() => <FlatPersonAvatar skin={d.skinTone} shirt={d.shirtColor} size={40} />}
+                  accessoryRight={(props) => (
+                    <View style={styles.rowRight}>
+                      <Text category="c1" appearance="hint">
+                        {d.alertsThisWeek === 0
+                          ? 'No alerts'
+                          : `${d.alertsThisWeek} alert${d.alertsThisWeek > 1 ? 's' : ''}`}
+                      </Text>
+                      {ChevronIcon(props)}
+                    </View>
+                  )}
+                  onPress={() => navigation.navigate('DriverReports', { driverId: row.driverId })}
+                />
+                <Divider />
+              </View>
+            );
+          })}
+        </Layout>
       </ScrollView>
     </Layout>
   );

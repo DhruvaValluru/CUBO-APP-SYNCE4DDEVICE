@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme/colors';
 import { shadows } from '../theme/theme';
+import { AppText as Text } from './AppText';
 
 const PHONE_W = 340;
 const PHONE_H = 780;

@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Svg, { Circle, Line, Polyline } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/theme';
+import { AppText as Text } from './AppText';
 
 export type LineChartSummary = { label: string; value: string };
 

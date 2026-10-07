@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { Animated, Platform, Pressable, ScrollView, StyleSheet, Text, View, type View as RNView } from 'react-native';
+import { Animated, Platform, Pressable, ScrollView, StyleSheet, View, type View as RNView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -12,6 +12,7 @@ import { useWebFaceLandmarks } from '../hooks/useWebFaceLandmarks';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from '../components/AppText';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DetectionLive'>;
 

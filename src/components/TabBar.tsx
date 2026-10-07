@@ -12,7 +12,7 @@ const tabIcons: Record<string, [string, string]> = {
   Vehicles: ['car', 'car-outline'],
 };
 
-/** kittenTricks-style Eva BottomNavigation (animated indicator, filled icon when selected). */
+/** kittenTricks home bottom navigation: Divider + Eva BottomNavigation without indicator. */
 export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const insets = useSafeAreaInsets();
 
@@ -26,6 +26,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
     <View style={styles.outer}>
       <Divider />
       <BottomNavigation
+        appearance="noIndicator"
         selectedIndex={state.index}
         onSelect={onSelect}
         style={{ paddingBottom: Math.max(insets.bottom, 8) }}

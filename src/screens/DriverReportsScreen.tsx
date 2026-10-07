@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divider, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
@@ -15,6 +15,7 @@ import {
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from '../components/AppText';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DriverReports'>;
 

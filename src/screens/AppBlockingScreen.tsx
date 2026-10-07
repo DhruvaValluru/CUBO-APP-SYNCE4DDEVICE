@@ -6,7 +6,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -21,6 +20,7 @@ import { BLOCK_APPS } from '../data/blockApps';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from '../components/AppText';
 
 // ─── Confirmation modal ──────────────────────────────────────────────────────
 

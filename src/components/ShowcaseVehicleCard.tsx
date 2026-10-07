@@ -1,10 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
 import { FlatCarGlyph } from './FlatCarGlyph';
 import { StarRow } from './StarRow';
+import { AppText as Text } from './AppText';
 
 const CAR_IMAGES = {
   prius: require('../../assets/car-prius.png'),

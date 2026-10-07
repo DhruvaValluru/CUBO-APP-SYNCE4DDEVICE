@@ -1,24 +1,13 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Button, Card, Layout, List, Text, Toggle } from '@ui-kitten/components';
-import { useEffect, useRef, useState } from 'react';
-import {
-  Animated,
-  Image,
-  ListRenderItemInfo,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import { useState } from 'react';
+import { Image, ListRenderItemInfo, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 
-import { FadeInView, PulseDot, ScalePressable, nativeDriver } from '../components/Motion';
-import { ImageOverlay } from '../components/kitten/ImageOverlay';
+import { CuboStand } from '../components/CuboStand';
 import { Setting } from '../components/kitten/Setting';
 import { evaIcon } from '../components/kitten/icons';
-import { cuboCapabilities, cuboDevice, cuboDeviceSettings, cuboGallery, cuboImages } from '../data/cuboDevice';
+import { cuboCapabilities, cuboDevice, cuboDeviceSettings, cuboGallery } from '../data/cuboDevice';
 import { RootStackParamList } from '../navigation/types';
-import { colors } from '../theme/colors';
 
 type GalleryItem = (typeof cuboGallery)[number];
 
@@ -29,59 +18,34 @@ const options = [
 ];
 
 /**
- * Full-photo preview that fades/springs in over the screen. Rendered in-screen (not Kitten's Modal,
- * which centres on the browser window) so it stays inside the web phone frame.
+ * Full-photo preview over the screen. Rendered in-screen (not Kitten's Modal, which centres on
+ * the browser window) so it stays inside the web phone frame.
  */
 function PhotoPreview({ item, width, onClose }: { item: GalleryItem | null; width: number; onClose: () => void }) {
-  const open = useRef(new Animated.Value(0)).current;
-  // Keep the last item mounted while the close animation plays
-  const [shown, setShown] = useState<GalleryItem | null>(item);
-
-  useEffect(() => {
-    if (item) {
-      setShown(item);
-      Animated.spring(open, { toValue: 1, friction: 8, tension: 80, useNativeDriver: nativeDriver }).start();
-    } else {
-      Animated.timing(open, { toValue: 0, duration: 180, useNativeDriver: nativeDriver }).start(({ finished }) => {
-        if (finished) setShown(null);
-      });
-    }
-  }, [item, open]);
-
-  if (!shown) return null;
-
-  const imageH = width * 1.15;
+  if (!item) return null;
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, { opacity: open }]}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Close photo" />
-      </Animated.View>
+      <Pressable
+        style={[StyleSheet.absoluteFill, styles.backdrop]}
+        onPress={onClose}
+        accessibilityLabel="Close photo"
+      />
       <View style={styles.previewCenter} pointerEvents="box-none">
-        <Animated.View
-          style={{
-            opacity: open,
-            transform: [
-              { scale: open.interpolate({ inputRange: [0, 1], outputRange: [0.9, 1] }) },
-              { translateY: open.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) },
-            ],
-          }}
-        >
-          <Layout level="1" style={[styles.previewCard, { width: width + 32 }]}>
-            <Image
-              source={shown.source}
-              style={[styles.previewImage, { width, height: imageH }]}
-              resizeMode={shown.key === 'device' ? 'contain' : 'cover'}
-            />
-            <Text category="h6" style={styles.previewTitle}>
-              {shown.title}
-            </Text>
-            <Text appearance="hint">{shown.caption}</Text>
-            <Button style={styles.previewClose} appearance="ghost" onPress={onClose}>
-              CLOSE
-            </Button>
-          </Layout>
-        </Animated.View>
+        <Layout level="1" style={[styles.previewCard, { width: width + 32 }]}>
+          <Image
+            source={item.source}
+            style={[styles.previewImage, { width, height: width * 1.15 }]}
+            resizeMode={item.key === 'device' ? 'contain' : 'cover'}
+          />
+          <Text category="h6" style={styles.previewTitle}>
+            {item.title}
+          </Text>
+          <Text appearance="hint">{item.caption}</Text>
+          <Button style={styles.previewClose} appearance="ghost" onPress={onClose}>
+            CLOSE
+          </Button>
+        </Layout>
       </View>
     </View>
   );
@@ -102,15 +66,13 @@ export const DeviceScreen = () => {
     setSettings((current) => current.map((s) => (s.key === key ? { ...s, enabled: !s.enabled } : s)));
 
   const renderImageItem = ({ item, index }: ListRenderItemInfo<GalleryItem>) => (
-    <FadeInView delay={300 + index * 80} offset={0}>
-      <ScalePressable onPress={() => setPreview(item)} accessibilityLabel={`Open ${item.title} photo`}>
-        <Image
-          style={[styles.imageItem, item.key === 'device' && styles.imageItemCutout]}
-          source={item.source}
-          resizeMode={item.key === 'device' ? 'contain' : 'cover'}
-        />
-      </ScalePressable>
-    </FadeInView>
+    <Pressable onPress={() => setPreview(item)} accessibilityLabel={`Open ${item.title} photo`}>
+      <Image
+        style={[styles.imageItem, item.key === 'device' && styles.imageItemCutout]}
+        source={item.source}
+        resizeMode={item.key === 'device' ? 'contain' : 'cover'}
+      />
+    </Pressable>
   );
 
   const renderBookingFooter = () => (
@@ -142,29 +104,28 @@ export const DeviceScreen = () => {
   return (
     <Layout style={styles.root} level="2">
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <ImageOverlay style={styles.image} source={cuboImages.mountRear} resizeMode="cover" />
-        <FadeInView delay={80} offset={24}>
-          <Card style={styles.bookingCard} appearance="filled" footer={renderBookingFooter} accessible={false}>
-            <Text style={styles.title} category="h6">
-              {cuboDevice.name} driver monitor
+        <Layout style={styles.image} level="3">
+          <CuboStand height={250} />
+        </Layout>
+        <Card style={styles.bookingCard} appearance="filled" footer={renderBookingFooter} accessible={false}>
+          <Text style={styles.title} category="h6">
+            {cuboDevice.name} driver monitor
+          </Text>
+          <Text style={styles.rentLabel} appearance="hint" category="p2">
+            Paired to {cuboDevice.pairedVehicleLabel}
+          </Text>
+          <View style={styles.priceLabel}>
+            <Text category="h6" status="primary">
+              {cuboDevice.connection}
             </Text>
-            <Text style={styles.rentLabel} appearance="hint" category="p2">
-              Paired to {cuboDevice.pairedVehicleLabel}
-            </Text>
-            <View style={styles.priceLabel}>
-              <PulseDot color={colors.gaugeProgress} size={7} style={styles.statusDot} />
-              <Text category="h6" status="primary">
-                {cuboDevice.connection}
-              </Text>
-            </View>
-            <Button
-              style={styles.bookButton}
-              onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
-            >
-              LIVE CHECK
-            </Button>
-          </Card>
-        </FadeInView>
+          </View>
+          <Button
+            style={styles.bookButton}
+            onPress={() => navigation.navigate('DetectionLive', { vehicleId: cuboDevice.pairedVehicleId })}
+          >
+            LIVE CHECK
+          </Button>
+        </Card>
 
         <Text style={styles.sectionLabel} category="s1">
           About
@@ -222,6 +183,8 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 360,
+    alignItems: 'center',
+    paddingTop: 24,
   },
   bookingCard: {
     marginTop: -80,
@@ -238,10 +201,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  statusDot: {
-    marginLeft: -7,
-    marginRight: -1,
   },
   bookButton: {
     position: 'absolute',

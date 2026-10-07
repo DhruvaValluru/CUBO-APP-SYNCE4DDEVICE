@@ -6,6 +6,8 @@ export const cuboImages = {
   device: require('../../assets/cubo/cubo-device.png') as ImageSourcePropType,
   mountRear: require('../../assets/cubo/cubo-mount-rear.jpg') as ImageSourcePropType,
   mountSide: require('../../assets/cubo/cubo-mount-side.jpg') as ImageSourcePropType,
+  /** Background-removed versions of the stand photos */
+  mountSideCutout: require('../../assets/cubo/cubo-mount-side-cutout.png') as ImageSourcePropType,
 };
 
 export const cuboGallery: { key: string; title: string; caption: string; source: ImageSourcePropType }[] = [

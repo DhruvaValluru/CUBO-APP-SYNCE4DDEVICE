@@ -1,19 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import {
-  Button,
-  Divider,
-  Layout,
-  ListItem,
-  Text,
-  TopNavigation,
-  TopNavigationAction,
-} from '@ui-kitten/components';
+import { Button, Divider, Layout, ListItem, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FlatCarGlyph } from '../components/FlatCarGlyph';
 import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { FadeInView } from '../components/Motion';
 import { ProfileSocial } from '../components/kitten/ProfileSocial';
 import { evaIcon } from '../components/kitten/icons';
 import { cuboDevice, cuboImages } from '../data/cuboDevice';
@@ -55,7 +46,7 @@ export const VehicleDetailScreen = ({ navigation, route }: Props) => {
       </SafeAreaView>
       <Divider />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <FadeInView style={styles.header}>
+        <View style={styles.header}>
           <Layout level="3" style={styles.productImage}>
             <FlatCarGlyph color={vehicle.accent} />
           </Layout>
@@ -73,52 +64,48 @@ export const VehicleDetailScreen = ({ navigation, route }: Props) => {
               {vehicle.cabinLabel}
             </Text>
           </View>
-        </FadeInView>
+        </View>
 
-        <FadeInView delay={80} style={styles.socials}>
+        <View style={styles.socials}>
           <ProfileSocial style={styles.social} hint="Safety" value={`${vehicle.safetyScore}`} />
           <ProfileSocial style={styles.social} hint="Focus" value={`${vehicle.focusScore}`} />
           <ProfileSocial style={styles.social} hint="Alerts" value={`${driver?.alertsThisWeek ?? 0}`} />
-        </FadeInView>
+        </View>
 
-        <FadeInView delay={140}>
-          <Button
-            style={styles.buyButton}
-            accessoryLeft={ScanIcon}
-            onPress={() => navigation.navigate('DetectionLive', { vehicleId: vehicle.id })}
-          >
-            ACTIVATE CUBO DETECTION
-          </Button>
-        </FadeInView>
+        <Button
+          style={styles.buyButton}
+          accessoryLeft={ScanIcon}
+          onPress={() => navigation.navigate('DetectionLive', { vehicleId: vehicle.id })}
+        >
+          ACTIVATE CUBO DETECTION
+        </Button>
 
-        <FadeInView delay={200}>
-          <Layout style={styles.descriptionContainer} level="2">
-            <Text style={styles.aboutLabel} category="s1">
-              Latest activity
-            </Text>
-            <Text appearance="hint">{vehicle.lastEvent}</Text>
+        <Layout style={styles.descriptionContainer} level="2">
+          <Text style={styles.aboutLabel} category="s1">
+            Latest activity
+          </Text>
+          <Text appearance="hint">{vehicle.lastEvent}</Text>
 
-            {hasCubo ? (
-              <View style={styles.unitRow}>
-                <Image source={cuboImages.mountSide} style={styles.unitImage} resizeMode="cover" />
-                <View style={styles.unitCopy}>
-                  <Text category="s2">
-                    {cuboDevice.name} {cuboDevice.serial}
-                  </Text>
-                  <Text appearance="hint" category="c1">
-                    Installed · firmware {cuboDevice.firmware}
-                  </Text>
-                  <Text status="primary" category="c1">
-                    {cuboDevice.connection} · synced {cuboDevice.lastSync}
-                  </Text>
-                </View>
+          {hasCubo ? (
+            <View style={styles.unitRow}>
+              <Image source={cuboImages.mountSideCutout} style={styles.unitImage} resizeMode="contain" />
+              <View style={styles.unitCopy}>
+                <Text category="s2">
+                  {cuboDevice.name} {cuboDevice.serial}
+                </Text>
+                <Text appearance="hint" category="c1">
+                  Installed · firmware {cuboDevice.firmware}
+                </Text>
+                <Text status="primary" category="c1">
+                  {cuboDevice.connection} · synced {cuboDevice.lastSync}
+                </Text>
               </View>
-            ) : null}
-          </Layout>
-        </FadeInView>
+            </View>
+          ) : null}
+        </Layout>
 
         {driver ? (
-          <FadeInView delay={260}>
+          <>
             <ListItem
               title={driver.name}
               description={`${driver.relation} · driver reports`}
@@ -135,7 +122,7 @@ export const VehicleDetailScreen = ({ navigation, route }: Props) => {
             >
               VIEW DRIVER REPORTS
             </Button>
-          </FadeInView>
+          </>
         ) : null}
       </ScrollView>
     </Layout>
