@@ -1,289 +1,293 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Avatar, Button, Chip, Icon, List, ProgressBar, Text, TouchableRipple } from 'react-native-paper';
 
-import { GlassCard } from '../components/GlassCard';
-import { ScreenShell } from '../components/ScreenShell';
-import { SemiCircleGauge } from '../components/SemiCircleGauge';
-import { goalsMock, trendsMock } from '../data/mockData';
+import { MetricTile } from '../components/ui/MetricTile';
+import { ScoreRing } from '../components/ui/ScoreRing';
+import { ScreenHeader } from '../components/ui/ScreenHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
+import { cuboDevice, cuboImages } from '../data/cuboDevice';
+import { goalsMock } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
-import { colors } from '../theme/colors';
-import { spacing } from '../theme/theme';
+import { fontFamilies, metricColors, palette, shape, space } from '../theme/material';
+
+const distractionBars = [6, 14, 10, 18, 8, 12, 16];
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const goalProgress = [0.62, 0.88];
 
 function formatHeaderDate(d: Date) {
-  return d
-    .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-    .toUpperCase();
+  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
+/** Today — Fitbit-style overview: hero ring, pastel metric tiles, weekly chart, goals, device. */
 export const DashboardScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const distractionBars = [6, 14, 10, 18, 8, 12, 16];
   const maxBar = Math.max(...distractionBars, 1);
+  const peakIndex = distractionBars.indexOf(maxBar);
+  const weekTotal = distractionBars.reduce((a, b) => a + b, 0);
 
   return (
-    <ScreenShell>
-      {/* ── Header ── */}
-      <View style={styles.topRow}>
-        <View>
-          <Text style={styles.date}>{formatHeaderDate(new Date())}</Text>
-          <Text style={styles.title}>Dashboard</Text>
+    <View style={styles.root}>
+      <ScreenHeader
+        title="Today"
+        subtitle={formatHeaderDate(new Date())}
+        right={
+          <TouchableRipple
+            onPress={() => navigation.navigate('Profile')}
+            borderless
+            style={styles.avatarHit}
+            accessibilityLabel="Open profile"
+          >
+            <Avatar.Text size={40} label="PA" style={styles.avatar} color={metricColors.headTurns.onContainer} />
+          </TouchableRipple>
+        }
+      />
+
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.chips}>
+          <Chip
+            icon={() => <View style={styles.liveDot} />}
+            style={styles.chip}
+            onPress={() => navigation.navigate('MainTabs', { screen: 'Device' })}
+          >
+            {cuboDevice.name} · {cuboDevice.connection}
+          </Chip>
         </View>
-        <Pressable onPress={() => navigation.navigate('Profile')}>
-          <View style={styles.avatarCircle}>
-            <Ionicons name="person-outline" size={18} color={colors.textSecondary} />
+
+        <SurfaceCard contentStyle={styles.hero}>
+          <View style={styles.heroHeader}>
+            <Text variant="titleMedium">Distraction score</Text>
+            <Button compact onPress={() => navigation.navigate('DriverReports', { driverId: 'pablo' })}>
+              See report
+            </Button>
           </View>
-        </Pressable>
-      </View>
+          <ScoreRing score={85} label="of 100" />
+          <Text variant="bodyMedium" style={[styles.muted, styles.heroCaption]}>
+            Low risk this week · 3 points better than last week
+          </Text>
+        </SurfaceCard>
 
-      {/* ── Focus block entry ── */}
-      <Pressable onPress={() => navigation.navigate('AppBlocking')}>
-        <GlassCard style={styles.focusRow}>
-          <Ionicons name="flash-outline" size={16} color={colors.gaugeProgress} />
-          <Text style={styles.focusLabel}>App focus block</Text>
-          <Text style={styles.focusSub}>Pick apps · confirm</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
-        </GlassCard>
-      </Pressable>
-
-      {/* ── Score card ── */}
-      <GlassCard style={styles.scoreCard}>
-        <View style={styles.scoreHeader}>
-          <Text style={styles.cardLabel}>DRIVER DISTRACTION SCORE</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
+        <View style={styles.grid}>
+          <MetricTile metric="focus" icon="eye-outline" label="Focus" value="94" unit="%" caption="+2% vs last week" />
+          <MetricTile metric="phone" icon="cellphone" label="Phone" value="6" unit="events" caption="2 more than usual" />
         </View>
-        <View style={styles.gaugeWrap}>
-          <SemiCircleGauge score={85} size={260} strokeWidth={13} />
+        <View style={styles.grid}>
+          <MetricTile metric="headTurns" icon="head-sync-outline" label="Head turns" value="19" unit="/ hr" caption="Down 4 / hr" />
+          <MetricTile metric="trips" icon="car-outline" label="Trips" value="18" caption="142 mi driven" />
         </View>
-        <Text style={styles.riskLabel}>Low Risk Driver</Text>
-      </GlassCard>
 
-      {/* ── Bottom row ── */}
-      <View style={styles.rowTwo}>
-        {/* Distraction time */}
-        <GlassCard style={[styles.halfCard]}>
-          <View style={styles.halfHeader}>
-            <Text style={styles.cardLabel}>DISTRACTION TIME</Text>
-            <Ionicons name="chevron-forward" size={12} color={colors.textTertiary} />
+        <SurfaceCard contentStyle={styles.cardPad}>
+          <View style={styles.cardHeader}>
+            <Text variant="titleMedium">Distraction time</Text>
+            <Text variant="bodyMedium" style={styles.muted}>
+              {weekTotal}s this week
+            </Text>
           </View>
           <View style={styles.bars}>
             {distractionBars.map((h, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.bar,
-                  {
-                    height: `${Math.round((h / maxBar) * 100)}%` as unknown as number,
-                    minHeight: 4,
-                    backgroundColor: i === distractionBars.indexOf(Math.max(...distractionBars))
-                      ? colors.danger
-                      : colors.gaugeProgress,
-                    opacity: i === distractionBars.indexOf(Math.max(...distractionBars)) ? 1 : 0.55,
-                  },
-                ]}
-              />
-            ))}
-          </View>
-          <Text style={styles.barLabel}>sec / day</Text>
-        </GlassCard>
-
-        {/* Goals */}
-        <GlassCard style={[styles.halfCard]}>
-          <Text style={styles.cardLabel}>GOALS</Text>
-          <View style={styles.goalsList}>
-            {goalsMock.map((g) => (
-              <View key={g} style={styles.goalRow}>
-                <View style={styles.goalDot} />
-                <Text style={styles.goalLine} numberOfLines={2}>{g}</Text>
+              <View key={i} style={styles.barColumn}>
+                <View style={styles.barTrack}>
+                  <View
+                    style={[
+                      styles.bar,
+                      {
+                        height: `${Math.round((h / maxBar) * 100)}%`,
+                        backgroundColor: i === peakIndex ? metricColors.alerts.accent : palette.primary,
+                      },
+                    ]}
+                  />
+                </View>
+                <Text variant="labelSmall" style={styles.muted}>
+                  {dayLabels[i]}
+                </Text>
               </View>
             ))}
           </View>
-        </GlassCard>
-      </View>
+        </SurfaceCard>
 
-      {/* ── Trends ── */}
-      <GlassCard style={styles.trendsCard}>
-        <View style={styles.scoreHeader}>
-          <Text style={styles.cardLabel}>TRENDS</Text>
-          <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
-        </View>
-        {trendsMock.map((row, i) => (
-          <View key={row.label} style={[styles.trendRow, i > 0 && styles.trendBorder]}>
-            <Text style={styles.trendLabel}>{row.label}</Text>
-            <Text
-              style={[
-                styles.trendValue,
-                { color: row.tone === 'good' ? colors.gaugeProgress : colors.danger },
-              ]}
-            >
-              {row.trend === 'down' ? '↓ ' : '↑ '}
-              {row.value}
-            </Text>
+        <SurfaceCard contentStyle={styles.cardPad}>
+          <Text variant="titleMedium" style={styles.cardTitle}>
+            Goals
+          </Text>
+          {goalsMock.map((g, i) => (
+            <View key={g} style={styles.goal}>
+              <View style={styles.goalRow}>
+                <Text variant="bodyLarge" style={styles.goalLabel}>
+                  {g}
+                </Text>
+                <Text variant="labelLarge" style={styles.muted}>
+                  {Math.round(goalProgress[i] * 100)}%
+                </Text>
+              </View>
+              <ProgressBar progress={goalProgress[i]} color={palette.primary} style={styles.progress} />
+            </View>
+          ))}
+        </SurfaceCard>
+
+        <SurfaceCard onPress={() => navigation.navigate('MainTabs', { screen: 'Device' })} accessibilityLabel="Open CUBO device">
+          <View style={styles.device}>
+            <View style={styles.deviceImageWrap}>
+              <Image source={cuboImages.device} style={styles.deviceImage} resizeMode="contain" />
+            </View>
+            <View style={styles.deviceCopy}>
+              <Text variant="titleMedium">
+                {cuboDevice.name} · {cuboDevice.pairedVehicleLabel}
+              </Text>
+              <Text variant="bodyMedium" style={styles.muted}>
+                Firmware {cuboDevice.firmware}
+              </Text>
+            </View>
+            <Icon source="chevron-right" size={24} color={palette.onSurfaceVariant} />
           </View>
-        ))}
-      </GlassCard>
-    </ScreenShell>
+        </SurfaceCard>
+
+        <SurfaceCard>
+          <List.Item
+            title="Focus block"
+            description="Silence distracting apps while CUBO is monitoring"
+            titleStyle={styles.listTitle}
+            left={(props) => <List.Icon {...props} icon="bell-off-outline" color={metricColors.phone.accent} />}
+            right={(props) => <List.Icon {...props} icon="chevron-right" />}
+            onPress={() => navigation.navigate('AppBlocking')}
+          />
+        </SurfaceCard>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingTop: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  date: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    fontWeight: '500',
-    letterSpacing: 0.8,
-    marginBottom: 3,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 24,
-    fontWeight: '600',
-    letterSpacing: -0.3,
-  },
-  avatarCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: colors.card,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 4,
-  },
-  /* Focus block */
-  focusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 11,
-  },
-  focusLabel: {
-    color: colors.text,
-    fontSize: 14,
-    fontWeight: '500',
+  root: {
     flex: 1,
+    backgroundColor: palette.background,
   },
-  focusSub: {
-    color: colors.textTertiary,
-    fontSize: 12,
+  content: {
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
   },
-  /* Score card */
-  scoreCard: {
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
-    alignItems: 'center',
+  avatarHit: {
+    borderRadius: 20,
   },
-  scoreHeader: {
+  avatar: {
+    backgroundColor: metricColors.headTurns.container,
+  },
+  chips: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: space.sm,
+  },
+  chip: {
+    backgroundColor: palette.surfaceContainerLowest,
+  },
+  liveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginTop: 6,
+    marginLeft: 4,
+    backgroundColor: metricColors.focus.accent,
+  },
+  hero: {
+    alignItems: 'center',
+    gap: space.md,
+    padding: space.xl,
+    paddingTop: space.md,
+  },
+  heroHeader: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: spacing.xs,
+    marginRight: -space.md,
   },
-  gaugeWrap: {
-    alignItems: 'center',
-    width: '100%',
+  heroCaption: {
+    textAlign: 'center',
   },
-  cardLabel: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    fontWeight: '600',
-    letterSpacing: 0.9,
+  muted: {
+    color: palette.onSurfaceVariant,
   },
-  riskLabel: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '400',
-    marginTop: spacing.xs,
-    marginBottom: spacing.xs,
-  },
-  /* Bottom row */
-  rowTwo: {
+  grid: {
     flexDirection: 'row',
-    gap: spacing.sm,
+    gap: space.md,
   },
-  halfCard: {
-    flex: 1,
-    padding: spacing.md,
-    minHeight: 140,
+  cardPad: {
+    padding: space.xl,
   },
-  halfHeader: {
+  cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
+    alignItems: 'baseline',
+    marginBottom: space.lg,
+  },
+  cardTitle: {
+    marginBottom: space.sm,
   },
   bars: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    gap: 3,
-    marginTop: spacing.sm,
+    gap: space.md,
+    height: 128,
+  },
+  barColumn: {
+    flex: 1,
+    alignItems: 'center',
+    gap: space.sm,
+    height: '100%',
+  },
+  barTrack: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-end',
+    borderRadius: shape.pill,
+    backgroundColor: palette.surfaceContainerLow,
+    overflow: 'hidden',
   },
   bar: {
-    flex: 1,
-    borderRadius: 2,
+    width: '100%',
+    borderRadius: shape.pill,
+    minHeight: 6,
   },
-  barLabel: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    marginTop: 6,
-    fontWeight: '500',
-  },
-  goalsList: {
-    gap: 8,
-    marginTop: spacing.sm,
+  goal: {
+    marginTop: space.md,
+    gap: space.sm,
   },
   goalRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 7,
+    justifyContent: 'space-between',
+    gap: space.md,
   },
-  goalDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.gaugeProgress,
-    marginTop: 5,
-    flexShrink: 0,
-  },
-  goalLine: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    lineHeight: 17,
+  goalLabel: {
     flex: 1,
   },
-  /* Trends */
-  trendsCard: {
-    padding: spacing.md,
+  progress: {
+    height: 8,
+    borderRadius: shape.pill,
+    backgroundColor: palette.surfaceContainerHigh,
   },
-  trendRow: {
+  device: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 9,
+    gap: space.lg,
+    padding: space.lg,
   },
-  trendBorder: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border,
+  deviceImageWrap: {
+    width: 72,
+    height: 72,
+    borderRadius: shape.tile,
+    backgroundColor: palette.surfaceContainerLow,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  trendLabel: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '400',
+  deviceImage: {
+    width: 60,
+    height: 40,
   },
-  trendValue: {
-    fontSize: 13,
-    fontWeight: '600',
+  deviceCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  listTitle: {
+    fontFamily: fontFamilies.medium,
   },
 });

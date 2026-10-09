@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
+import { AppText as Text } from './AppText';
 
 type SemiCircleGaugeProps = {
   score: number;

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from './AppText';
 
 type DetectionStatusBannerProps = {
   distracted: boolean;
@@ -15,8 +16,8 @@ export const DetectionStatusBanner = ({ distracted, title, subtitle }: Detection
       style={[
         styles.wrap,
         distracted
-          ? { backgroundColor: '#2A1A1C', borderColor: colors.danger }
-          : { backgroundColor: '#1A2418', borderColor: colors.accentGreen },
+          ? { backgroundColor: colors.dangerSoft, borderColor: colors.danger }
+          : { backgroundColor: colors.successSoft, borderColor: colors.accentGreen },
       ]}
     >
       <View style={[styles.dot, distracted ? { backgroundColor: colors.danger } : { backgroundColor: colors.accentLime }]} />

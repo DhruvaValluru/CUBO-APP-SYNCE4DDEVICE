@@ -6,18 +6,19 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { StackHeader } from '../components/ui/StackHeader';
 
 import { GlassCard } from '../components/GlassCard';
 import { BLOCK_APPS } from '../data/blockApps';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { AppText as Text } from '../components/AppText';
 
 // ─── Confirmation modal ──────────────────────────────────────────────────────
 
@@ -102,7 +103,7 @@ function BlockingSplashModal({
 
 const ms = StyleSheet.create({
   root: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.9)' },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(20,35,44,0.6)' },
   center: { alignItems: 'center', paddingHorizontal: spacing.xl, maxWidth: 340 },
   burstWrap: { width: 140, height: 140, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.lg },
   ring: {
@@ -243,7 +244,8 @@ export const AppBlockingScreen = () => {
   });
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <View style={styles.safe}>
+      <StackHeader title="Focus block" onBack={() => navigation.goBack()} />
       {/* ── Blocked banner ── */}
       {isBlocked ? (
         <Animated.View
@@ -266,13 +268,6 @@ export const AppBlockingScreen = () => {
       ) : null}
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <Pressable style={styles.backRow} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={20} color={colors.text} />
-          <Text style={styles.backText}>Back</Text>
-        </Pressable>
-
-        <Text style={styles.title}>Focus Block</Text>
         <Text style={styles.lead}>
           {isBlocked
             ? 'Focus block is active. Tap the power button below to unblock apps.'
@@ -377,22 +372,13 @@ export const AppBlockingScreen = () => {
         names={lastBlockedNames}
         onClose={() => setSplashOpen(false)}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
   scroll: { paddingHorizontal: spacing.lg, paddingBottom: 120, gap: spacing.md },
-  backRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-    alignSelf: 'flex-start',
-    marginTop: spacing.xs,
-  },
-  backText: { color: colors.text, fontSize: 15, fontWeight: '500' },
-  title: { color: colors.text, fontSize: 24, fontWeight: '700', marginTop: spacing.sm },
   lead: { color: colors.textSecondary, fontSize: 14, lineHeight: 20 },
 
   /* Dropdown card */
@@ -442,7 +428,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: 12,
   },
-  rowOn: { backgroundColor: 'rgba(0,255,136,0.05)' },
+  rowOn: { backgroundColor: colors.successSoft },
   rowIcon: { width: 36, height: 36, borderRadius: 9 },
   rowName: { flex: 1, color: colors.text, fontSize: 15, fontWeight: '400' },
   check: {
@@ -472,7 +458,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: 12,
     borderRadius: radii.md,
-    backgroundColor: 'rgba(0,255,136,0.08)',
+    backgroundColor: colors.primarySoft,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.gaugeProgress,
   },
@@ -502,7 +488,7 @@ const styles = StyleSheet.create({
 
   /* Locked card state */
   dropCardLocked: {
-    borderColor: 'rgba(0,255,136,0.2)',
+    borderColor: colors.border,
   },
 
   /* Blocked pills */
@@ -513,9 +499,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: radii.pill,
-    backgroundColor: 'rgba(255,69,58,0.1)',
+    backgroundColor: colors.dangerSoft,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(255,69,58,0.3)',
+    borderColor: colors.danger,
   },
 
   /* Power dock */

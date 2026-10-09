@@ -1,41 +1,66 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Icon, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { CuboStand } from '../components/CuboStand';
 import { RootStackParamList } from '../navigation/types';
-import { colors } from '../theme/colors';
-import { radii, spacing } from '../theme/theme';
+import { metricColors, palette, shape, space } from '../theme/material';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
+const features = [
+  { icon: 'head-sync-outline', label: 'Spots head turns away from the road', tone: metricColors.headTurns },
+  { icon: 'cellphone-off', label: 'Detects phone use behind the wheel', tone: metricColors.phone },
+  { icon: 'chart-donut', label: 'Scores every drive for every driver', tone: metricColors.focus },
+];
+
+/** Welcome — Fitbit-style onboarding: product on a white stage, display headline, one primary action. */
 export const SplashScreen = ({ navigation }: Props) => {
+  const insets = useSafeAreaInsets();
+  const [stageHeight, setStageHeight] = useState(0);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="light" />
-      <View style={styles.logoBlock}>
-        <Image source={require('../../assets/cubo-logo.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="CUBO logo" />
+    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + space.lg }]}>
+      <StatusBar style="dark" />
+      <View style={styles.stage} onLayout={(e) => setStageHeight(e.nativeEvent.layout.height)}>
+        {stageHeight > 0 ? <CuboStand height={Math.min(260, stageHeight * 0.82)} /> : null}
       </View>
 
       <View style={styles.copy}>
-        <Text style={styles.kicker}>Stay alert on every drive</Text>
-        <Text style={styles.title}>CUBO</Text>
-        <Text style={styles.subtitle}>Real-time distraction awareness from the cabin camera — calm UI, serious safety.</Text>
+        <Text variant="labelLarge" style={styles.brand}>
+          CUBO
+        </Text>
+        <Text variant="headlineLarge">Eyes on the road, every trip.</Text>
+        <View style={styles.features}>
+          {features.map((f) => (
+            <View key={f.label} style={styles.featureRow}>
+              <View style={[styles.featureIcon, { backgroundColor: f.tone.container }]}>
+                <Icon source={f.icon} size={18} color={f.tone.accent} />
+              </View>
+              <Text variant="bodyLarge" style={styles.featureText}>
+                {f.label}
+              </Text>
+            </View>
+          ))}
+        </View>
       </View>
 
-      <View style={styles.featureRow}>
-        <View style={styles.featurePill}>
-          <Text style={styles.featureText}>Live vision</Text>
-        </View>
-        <View style={styles.featurePill}>
-          <Text style={styles.featureText}>Family & fleet</Text>
-        </View>
+      <View style={styles.actions}>
+        <Button
+          mode="contained"
+          contentStyle={styles.buttonContent}
+          labelStyle={styles.buttonLabel}
+          onPress={() => navigation.replace('MainTabs')}
+        >
+          Get started
+        </Button>
+        <Button mode="text" onPress={() => navigation.replace('MainTabs', { screen: 'Device' })}>
+          I already have a CUBO
+        </Button>
       </View>
-
-      <Pressable style={styles.button} onPress={() => navigation.replace('MainTabs')}>
-        <Text style={styles.buttonText}>Enter CUBO</Text>
-        <Ionicons name="arrow-forward" size={18} color={colors.background} />
-      </Pressable>
     </View>
   );
 };
@@ -43,74 +68,53 @@ export const SplashScreen = ({ navigation }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing.xl,
-    justifyContent: 'center',
-    backgroundColor: colors.splashBg,
+    backgroundColor: palette.surfaceContainerLowest,
   },
-  logoBlock: {
+  stage: {
+    flex: 1,
     alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  logo: {
-    width: 220,
-    height: 220,
+    justifyContent: 'center',
+    margin: space.lg,
+    borderRadius: shape.sheet,
+    backgroundColor: palette.surfaceContainerLow,
   },
   copy: {
-    gap: spacing.sm,
-    marginBottom: spacing.xl,
+    paddingHorizontal: space.xxl,
+    gap: space.sm,
   },
-  kicker: {
-    color: colors.logoGreenMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    fontSize: 11,
-    fontWeight: '700',
+  brand: {
+    color: palette.primary,
+    letterSpacing: 1.2,
   },
-  title: {
-    color: colors.splashText,
-    fontSize: 48,
-    fontWeight: '900',
-    letterSpacing: 3,
-  },
-  subtitle: {
-    color: 'rgba(255,255,255,0.72)',
-    fontSize: 16,
-    lineHeight: 24,
-    marginTop: spacing.sm,
+  features: {
+    gap: space.md,
+    marginTop: space.lg,
   },
   featureRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    alignItems: 'center',
+    gap: space.md,
   },
-  featurePill: {
-    borderRadius: radii.pill,
-    borderWidth: 1,
-    borderColor: 'rgba(52, 217, 122, 0.35)',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-  },
-  featureText: {
-    color: colors.splashText,
-    fontWeight: '600',
-    fontSize: 13,
-  },
-  button: {
-    marginTop: spacing.md,
-    backgroundColor: colors.accentLime,
-    borderRadius: radii.xl,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 18,
-    flexDirection: 'row',
+  featureIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
   },
-  buttonText: {
-    color: colors.background,
+  featureText: {
+    flex: 1,
+    color: palette.onSurfaceVariant,
+  },
+  actions: {
+    paddingHorizontal: space.xxl,
+    marginTop: space.xxl,
+    gap: space.xs,
+  },
+  buttonContent: {
+    height: 52,
+  },
+  buttonLabel: {
     fontSize: 16,
-    fontWeight: '800',
   },
 });

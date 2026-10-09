@@ -1,144 +1,158 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Fragment, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Avatar, Button, Divider, List, Switch, Text } from 'react-native-paper';
 
-import { DriverProfileCard } from '../components/DriverProfileCard';
-import { FlatPersonAvatar } from '../components/FlatPersonAvatar';
-import { GlassCard } from '../components/GlassCard';
-import { ScreenShell } from '../components/ScreenShell';
-import { drivers, getDriverById, profileSettings } from '../data/mockData';
-import { colors } from '../theme/colors';
-import { radii, spacing } from '../theme/theme';
+import { StackHeader } from '../components/ui/StackHeader';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
+import { drivers, getDriverById, profileSettings, vehicles } from '../data/mockData';
+import { fontFamilies, metricColors, palette, space } from '../theme/material';
 
+const avatarTones = [metricColors.trips, metricColors.focus, metricColors.phone, metricColors.alerts];
+
+/** Profile — owner summary, notification switches and linked drivers (Fitbit "You" tab style). */
 export const ProfileScreen = () => {
   const navigation = useNavigation();
   const [settings, setSettings] = useState(profileSettings);
   const owner = getDriverById('pablo') ?? drivers[0];
 
+  const toggle = (label: string) =>
+    setSettings((current) => current.map((s) => (s.label === label ? { ...s, enabled: !s.enabled } : s)));
+
+  const stats = [
+    { label: 'Drivers', value: drivers.length },
+    { label: 'Vehicles', value: vehicles.length },
+    { label: 'Alerts this week', value: owner.alertsThisWeek },
+  ];
+
   return (
-    <ScreenShell>
-      <Pressable style={styles.closeRow} onPress={() => navigation.goBack()}>
-        <Ionicons name="close" size={24} color={colors.text} />
-        <Text style={styles.closeText}>Close</Text>
-      </Pressable>
-      <View style={styles.header}>
-        <Text style={styles.title}>Profile</Text>
-        <Text style={styles.subtitle}>Owner controls, linked drivers, and monitoring permissions.</Text>
-      </View>
+    <View style={styles.root}>
+      <StackHeader title="You" onBack={() => navigation.goBack()} />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.identity}>
+          <Avatar.Text size={88} label={owner.initials} color={metricColors.headTurns.onContainer} style={styles.avatarLarge} />
+          <Text variant="headlineMedium">{owner.name}</Text>
+          <Text variant="bodyLarge" style={styles.muted}>
+            {owner.relation} · {owner.location}
+          </Text>
+        </View>
 
-      {owner ? <DriverProfileCard driver={owner} /> : null}
+        <SurfaceCard contentStyle={styles.stats}>
+          {stats.map((s, i) => (
+            <Fragment key={s.label}>
+              {i > 0 ? <View style={styles.statDivider} /> : null}
+              <View style={styles.stat}>
+                <Text variant="headlineSmall">{s.value}</Text>
+                <Text variant="bodySmall" style={styles.muted}>
+                  {s.label}
+                </Text>
+              </View>
+            </Fragment>
+          ))}
+        </SurfaceCard>
 
-      <GlassCard style={styles.settingsCard}>
-        <Text style={styles.sectionTitle}>Settings</Text>
-        {settings.map((setting) => (
-          <View key={setting.label} style={styles.settingRow}>
-            <View style={styles.settingCopy}>
-              <Text style={styles.settingLabel}>{setting.label}</Text>
-              <Text style={styles.settingDescription}>{setting.description}</Text>
-            </View>
-            <Switch
-              value={setting.enabled}
-              onValueChange={(value) =>
-                setSettings((current) =>
-                  current.map((item) =>
-                    item.label === setting.label ? { ...item, enabled: value } : item,
-                  ),
-                )
-              }
-              trackColor={{ false: colors.surfaceMuted, true: colors.accentLime }}
-              thumbColor="#FFFFFF"
-            />
-          </View>
-        ))}
-      </GlassCard>
+        <Button mode="contained-tonal" icon="account-plus-outline">
+          Invite a driver
+        </Button>
 
-      <GlassCard style={styles.linkedCard}>
-        <Text style={styles.sectionTitle}>Linked drivers</Text>
-        {drivers.slice(0, 3).map((driver) => (
-          <View key={driver.id} style={styles.linkedRow}>
-            <FlatPersonAvatar skin={driver.skinTone} shirt={driver.shirtColor} size={44} />
-            <View style={styles.settingCopy}>
-              <Text style={styles.settingLabel}>{driver.name}</Text>
-              <Text style={styles.settingDescription}>{driver.relation}</Text>
-            </View>
-            <Text style={styles.ready}>Ready</Text>
-          </View>
-        ))}
-      </GlassCard>
-    </ScreenShell>
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Notifications
+        </Text>
+        <SurfaceCard>
+          {settings.map((s, i) => (
+            <Fragment key={s.label}>
+              {i > 0 ? <Divider style={styles.divider} /> : null}
+              <List.Item
+                title={s.label}
+                description={s.description}
+                titleStyle={styles.listTitle}
+                onPress={() => toggle(s.label)}
+                right={() => <Switch value={s.enabled} onValueChange={() => toggle(s.label)} />}
+              />
+            </Fragment>
+          ))}
+        </SurfaceCard>
+
+        <Text variant="titleMedium" style={styles.sectionTitle}>
+          Linked drivers
+        </Text>
+        <SurfaceCard>
+          {drivers
+            .filter((d) => d.id !== owner.id)
+            .slice(0, 4)
+            .map((d, i) => {
+              const tone = avatarTones[i % avatarTones.length];
+              return (
+                <Fragment key={d.id}>
+                  {i > 0 ? <Divider style={styles.divider} /> : null}
+                  <List.Item
+                    title={d.name}
+                    description={`${d.relation} · ${d.location}`}
+                    titleStyle={styles.listTitle}
+                    left={() => (
+                      <Avatar.Text
+                        size={40}
+                        label={d.initials}
+                        color={tone.onContainer}
+                        style={[styles.avatar, { backgroundColor: tone.container }]}
+                      />
+                    )}
+                  />
+                </Fragment>
+              );
+            })}
+        </SurfaceCard>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  closeRow: {
+  root: {
+    flex: 1,
+    backgroundColor: palette.background,
+  },
+  content: {
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xxl,
+    gap: space.md,
+  },
+  identity: {
+    alignItems: 'center',
+    gap: 2,
+    paddingVertical: space.lg,
+  },
+  avatarLarge: {
+    marginBottom: space.md,
+    backgroundColor: metricColors.headTurns.container,
+  },
+  stats: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: spacing.md,
-    alignSelf: 'flex-start',
+    paddingVertical: space.lg,
   },
-  closeText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
+  stat: {
+    flex: 1,
+    alignItems: 'center',
   },
-  header: {
-    gap: 8,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 30,
-    fontWeight: '800',
-  },
-  subtitle: {
-    color: colors.textMuted,
-    lineHeight: 20,
+  statDivider: {
+    width: StyleSheet.hairlineWidth,
+    height: 32,
+    backgroundColor: palette.outlineVariant,
   },
   sectionTitle: {
-    color: colors.text,
-    fontSize: 20,
-    fontWeight: '800',
+    marginTop: space.md,
   },
-  settingsCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
+  divider: {
+    marginHorizontal: space.lg,
   },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderRadius: radii.md,
-    backgroundColor: colors.black06,
-    padding: spacing.md,
+  listTitle: {
+    fontFamily: fontFamilies.medium,
   },
-  settingCopy: {
-    flex: 1,
+  avatar: {
+    marginLeft: space.lg,
   },
-  settingLabel: {
-    color: colors.text,
-    fontWeight: '700',
-  },
-  settingDescription: {
-    color: colors.textMuted,
-    marginTop: 4,
-    lineHeight: 18,
-    fontSize: 12,
-  },
-  linkedCard: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-  linkedRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderRadius: radii.md,
-    backgroundColor: colors.black06,
-    padding: spacing.md,
-  },
-  ready: {
-    color: colors.success,
-    fontWeight: '700',
+  muted: {
+    color: palette.onSurfaceVariant,
   },
 });

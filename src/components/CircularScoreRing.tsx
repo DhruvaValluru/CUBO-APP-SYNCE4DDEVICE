@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
+import { AppText as Text } from './AppText';
 
 type Props = {
   score: number;
