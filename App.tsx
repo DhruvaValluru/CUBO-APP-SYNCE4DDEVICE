@@ -67,7 +67,7 @@ export default function App() {
           <StatusBar style="light" />
           <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
             <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
-            <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade_from_bottom' }} />
+            <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade', animationDuration: 450 }} />
             <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="DriverReports" component={DriverReportsScreen} options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="DetectionLive" component={DetectionScreen} options={{ animation: 'fade_from_bottom' }} />
