@@ -17,6 +17,7 @@ import {
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 export const InsuranceScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.text,
     fontSize: 24,
-    fontWeight: '600',
+    ...font('600', 'heading'),
     letterSpacing: -0.3,
   },
   avatarBtn: {
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
   introTitle: {
     color: colors.gaugeProgress,
     fontSize: 14,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     letterSpacing: 0.5,
   },
   introBody: {
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
   snapTitle: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '600',
+    ...font('600', 'heading'),
   },
   snapGrid: {
     flexDirection: 'row',
@@ -274,18 +275,18 @@ const styles = StyleSheet.create({
   snapLabel: {
     color: colors.textSecondary,
     fontSize: 11,
-    fontWeight: '600',
+    ...font('600', 'body'),
     marginBottom: 4,
   },
   snapValue: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '600',
+    ...font('600', 'heading'),
   },
   sectionHeading: {
     color: colors.textSecondary,
     fontSize: 12,
-    fontWeight: '600',
+    ...font('600', 'body'),
     letterSpacing: 0.5,
     textTransform: 'uppercase',
     marginBottom: spacing.sm,
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
   driverTag: {
     color: colors.text,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'body'),
     flex: 1,
   },
   ringWrap: {
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
   ringCaption: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '700',
+    ...font('700', 'body'),
     textAlign: 'center',
   },
   ringDate: {
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '700',
+    ...font('700', 'heading'),
   },
   moveBtn: {
     flexDirection: 'row',
@@ -351,13 +352,13 @@ const styles = StyleSheet.create({
   },
   moveText: {
     color: colors.accentLime,
-    fontWeight: '700',
+    ...font('700', 'body'),
     fontSize: 15,
   },
   caps: {
     color: colors.textSecondary,
     fontSize: 11,
-    fontWeight: '700',
+    ...font('700', 'body'),
     letterSpacing: 1,
     marginBottom: spacing.md,
   },
@@ -384,13 +385,13 @@ const styles = StyleSheet.create({
   },
   sfText: {
     color: '#FFF',
-    fontWeight: '900',
+    ...font('900', 'body'),
     fontSize: 14,
   },
   providerName: {
     color: colors.text,
     fontSize: 17,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   providerSub: {
     color: colors.textSecondary,
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
   },
   scaleMark: {
     fontSize: 12,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   scaleHint: {
     color: colors.textTertiary,
@@ -437,7 +438,7 @@ const styles = StyleSheet.create({
   tableTitle: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '600',
+    ...font('600', 'heading'),
     marginBottom: 4,
   },
   tableRow: {
@@ -454,7 +455,7 @@ const styles = StyleSheet.create({
   tableVal: {
     color: colors.text,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'body'),
     maxWidth: '55%',
     textAlign: 'right',
   },
@@ -473,7 +474,7 @@ const styles = StyleSheet.create({
   benefitsTitle: {
     color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    ...font('600', 'heading'),
   },
   pills: {
     flexDirection: 'row',
@@ -483,7 +484,7 @@ const styles = StyleSheet.create({
   pill: {
     color: colors.textSecondary,
     fontSize: 13,
-    fontWeight: '600',
+    ...font('600', 'body'),
     backgroundColor: colors.cardElevated,
     paddingHorizontal: 12,
     paddingVertical: 8,

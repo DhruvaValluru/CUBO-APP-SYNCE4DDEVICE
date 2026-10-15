@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors } from '../theme/colors';
+import { font } from '../theme/typography';
 
 const iconMap = {
   Dashboard: 'speedometer-outline',
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.textTertiary,
     fontSize: 10,
-    fontWeight: '500',
+    ...font('500', 'body'),
     letterSpacing: 0.3,
   },
   labelActive: {

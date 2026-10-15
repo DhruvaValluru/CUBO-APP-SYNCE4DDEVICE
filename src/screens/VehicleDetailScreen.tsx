@@ -10,6 +10,7 @@ import { getDriverById, getVehicleById } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VehicleDetail'>;
 
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     color: colors.text,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   hero: {
     borderRadius: radii.xl,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   heroKicker: {
     color: colors.accentLime,
     fontSize: 12,
-    fontWeight: '700',
+    ...font('700', 'body'),
     letterSpacing: 1.2,
     textTransform: 'uppercase',
     marginBottom: 10,
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   heroTitle: {
     color: colors.text,
     fontSize: 28,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   heroText: {
     color: colors.textMuted,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
   summaryTitle: {
     color: colors.text,
     fontSize: 20,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   summaryGrid: {
     flexDirection: 'row',
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   summaryValue: {
     color: colors.text,
     fontSize: 20,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     marginTop: 8,
   },
   activationCard: {
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
   activationButtonText: {
     color: colors.background,
     fontSize: 16,
-    fontWeight: '800',
+    ...font('800', 'body'),
   },
   reportsLink: {
     flexDirection: 'row',
@@ -200,6 +201,6 @@ const styles = StyleSheet.create({
   reportsLinkText: {
     color: colors.accentLime,
     fontSize: 15,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
 });

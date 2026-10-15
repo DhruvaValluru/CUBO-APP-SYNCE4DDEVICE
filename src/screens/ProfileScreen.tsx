@@ -10,6 +10,7 @@ import { ScreenShell } from '../components/ScreenShell';
 import { drivers, getDriverById, profileSettings } from '../data/mockData';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 export const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   closeText: {
     color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   header: {
     gap: 8,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.text,
     fontSize: 30,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   subtitle: {
     color: colors.textMuted,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.text,
     fontSize: 20,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   settingsCard: {
     padding: spacing.lg,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   settingLabel: {
     color: colors.text,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   settingDescription: {
     color: colors.textMuted,
@@ -139,6 +140,6 @@ const styles = StyleSheet.create({
   },
   ready: {
     color: colors.success,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
 });

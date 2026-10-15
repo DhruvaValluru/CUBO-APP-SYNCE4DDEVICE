@@ -18,6 +18,7 @@ import { BLOCK_APPS } from '../data/blockApps';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 // ─── Confirmation modal ──────────────────────────────────────────────────────
 
@@ -126,7 +127,7 @@ const ms = StyleSheet.create({
   bigLabel: {
     color: colors.gaugeProgress,
     fontSize: 32,
-    fontWeight: '700',
+    ...font('700', 'heading'),
     letterSpacing: 0.5,
     textAlign: 'center',
   },
@@ -140,7 +141,7 @@ const ms = StyleSheet.create({
   names: {
     color: colors.text,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'body'),
     textAlign: 'center',
     marginTop: spacing.sm,
     lineHeight: 22,
@@ -154,7 +155,7 @@ const ms = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.borderStrong,
   },
-  doneTxt: { color: colors.text, fontWeight: '600', fontSize: 15 },
+  doneTxt: { color: colors.text, ...font('600', 'body'), fontSize: 15 },
 });
 
 // ─── App row ─────────────────────────────────────────────────────────────────
@@ -391,8 +392,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: spacing.xs,
   },
-  backText: { color: colors.text, fontSize: 15, fontWeight: '500' },
-  title: { color: colors.text, fontSize: 24, fontWeight: '700', marginTop: spacing.sm },
+  backText: { color: colors.text, fontSize: 15, ...font('500', 'body') },
+  title: { color: colors.text, fontSize: 24, ...font('700', 'heading'), marginTop: spacing.sm },
   lead: { color: colors.textSecondary, fontSize: 14, lineHeight: 20 },
 
   /* Dropdown card */
@@ -404,7 +405,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: 14,
   },
-  dropLabel: { flex: 1, color: colors.text, fontSize: 15, fontWeight: '500' },
+  dropLabel: { flex: 1, color: colors.text, fontSize: 15, ...font('500', 'body') },
 
   /* Pills (collapsed selected state) */
   pills: {
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
   },
   pillIcon: { width: 16, height: 16, borderRadius: 4 },
-  pillText: { color: colors.text, fontSize: 12, fontWeight: '500' },
+  pillText: { color: colors.text, fontSize: 12, ...font('500', 'body') },
 
   /* List */
   list: {},
@@ -444,7 +445,7 @@ const styles = StyleSheet.create({
   },
   rowOn: { backgroundColor: 'rgba(0,255,136,0.05)' },
   rowIcon: { width: 36, height: 36, borderRadius: 9 },
-  rowName: { flex: 1, color: colors.text, fontSize: 15, fontWeight: '400' },
+  rowName: { flex: 1, color: colors.text, fontSize: 15, ...font('400', 'body') },
   check: {
     width: 24,
     height: 24,
@@ -491,7 +492,7 @@ const styles = StyleSheet.create({
   bannerTitle: {
     color: colors.gaugeProgress,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'heading'),
   },
   bannerSub: {
     color: colors.textSecondary,
@@ -546,5 +547,5 @@ const styles = StyleSheet.create({
   powerActive: {
     backgroundColor: colors.danger,
   },
-  dockCaption: { color: colors.textSecondary, fontSize: 13, fontWeight: '500' },
+  dockCaption: { color: colors.textSecondary, fontSize: 13, ...font('500', 'body') },
 });

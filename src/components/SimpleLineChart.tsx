@@ -3,6 +3,7 @@ import Svg, { Circle, Line, Polyline } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 export type LineChartSummary = { label: string; value: string };
 
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '600',
+    ...font('600', 'heading'),
     marginBottom: 4,
   },
   subtitle: {
@@ -151,13 +152,13 @@ const styles = StyleSheet.create({
   summaryLabel: {
     color: colors.textTertiary,
     fontSize: 11,
-    fontWeight: '600',
+    ...font('600', 'body'),
     marginBottom: 4,
   },
   summaryValue: {
     color: colors.gaugeProgress,
     fontSize: 16,
-    fontWeight: '700',
+    ...font('700', 'heading'),
   },
   labels: {
     flexDirection: 'row',
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.textTertiary,
     fontSize: 10,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   unitNote: {
     color: colors.textTertiary,

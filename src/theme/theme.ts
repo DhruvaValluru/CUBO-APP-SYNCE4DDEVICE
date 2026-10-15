@@ -1,4 +1,4 @@
-import { colors } from './colors';
+import { font } from './typography';
 
 export const spacing = {
   xs: 4,
@@ -35,12 +35,11 @@ export const shadows = {
   },
 };
 
-/** System stack for SF Pro–like hierarchy on iOS / Roboto on Android */
+/** Body font faces (Source Sans 3). For headings use `font(weight, 'heading')` from ./typography. */
 export const fonts = {
-  /** Use default system UI — matches reference “clean sans” */
-  regular: { fontFamily: undefined as string | undefined, fontWeight: '400' as const },
-  medium: { fontFamily: undefined as string | undefined, fontWeight: '500' as const },
-  semibold: { fontFamily: undefined as string | undefined, fontWeight: '600' as const },
-  bold: { fontFamily: undefined as string | undefined, fontWeight: '700' as const },
-  heavy: { fontFamily: undefined as string | undefined, fontWeight: '800' as const },
+  regular: font('400'),
+  medium: font('500'),
+  semibold: font('600'),
+  bold: font('700'),
+  heavy: font('800'),
 };

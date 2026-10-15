@@ -12,6 +12,7 @@ import { useMockDetection } from '../hooks/useMockDetection';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DetectionLive'>;
 
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   topTitle: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   topSubtitle: {
     color: colors.textMuted,
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
   },
   liveText: {
     color: colors.text,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   cameraStage: {
     flex: 1,
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
   placeholderTitle: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     marginBottom: 8,
   },
   placeholderSub: {
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
   readoutLine: {
     color: colors.text,
     fontSize: 13,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   metricsGrid: {
     flexDirection: 'row',
@@ -285,7 +286,7 @@ const styles = StyleSheet.create({
   },
   metricValue: {
     color: colors.text,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     fontSize: 18,
   },
   integrationCard: {
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
   integrationTitle: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   integrationText: {
     color: colors.textMuted,

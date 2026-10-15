@@ -5,6 +5,7 @@ import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
 import { FlatPersonAvatar } from './FlatPersonAvatar';
 import { GlassCard } from './GlassCard';
+import { font } from '../theme/typography';
 
 type DriverProfileCardProps = {
   driver: Driver;
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   },
   name: {
     color: colors.text,
-    fontWeight: '700',
+    ...font('700', 'heading'),
     fontSize: 18,
   },
   role: {
@@ -73,6 +74,6 @@ const styles = StyleSheet.create({
   },
   statValue: {
     color: colors.text,
-    fontWeight: '700',
+    ...font('700', 'heading'),
   },
 });

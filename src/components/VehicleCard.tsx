@@ -8,6 +8,7 @@ import { radii, spacing } from '../theme/theme';
 import { FlatCarGlyph } from './FlatCarGlyph';
 import { FlatPersonAvatar } from './FlatPersonAvatar';
 import { GlassCard } from './GlassCard';
+import { font } from '../theme/typography';
 
 type VehicleCardProps = {
   vehicle: Vehicle;
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '700',
+    ...font('700', 'heading'),
   },
   model: {
     color: colors.textMuted,
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 12,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   driverRow: {
     flexDirection: 'row',
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   driverName: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   detail: {
     color: colors.textMuted,
@@ -164,6 +165,6 @@ const styles = StyleSheet.create({
   action: {
     color: colors.text,
     fontSize: 12,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
 });
