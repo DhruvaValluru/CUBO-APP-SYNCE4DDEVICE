@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { GlassCard } from '../components/GlassCard';
+import { GradientCard } from '../components/GradientCard';
 import { ScreenShell } from '../components/ScreenShell';
 import { SemiCircleGauge } from '../components/SemiCircleGauge';
 import { goalsMock, trendsMock } from '../data/mockData';
@@ -48,7 +49,7 @@ export const DashboardScreen = () => {
       </Pressable>
 
       {/* ── Score card ── */}
-      <GlassCard style={styles.scoreCard}>
+      <GradientCard style={styles.scoreCard}>
         <View style={styles.scoreHeader}>
           <Text style={styles.cardLabel}>DRIVER DISTRACTION SCORE</Text>
           <Ionicons name="chevron-forward" size={14} color={colors.textTertiary} />
@@ -57,7 +58,7 @@ export const DashboardScreen = () => {
           <SemiCircleGauge score={85} size={260} strokeWidth={13} />
         </View>
         <Text style={styles.riskLabel}>Low Risk Driver</Text>
-      </GlassCard>
+      </GradientCard>
 
       {/* ── Bottom row ── */}
       <View style={styles.rowTwo}>

@@ -8,7 +8,7 @@ import { font } from '../theme/typography';
 export type LineChartSummary = { label: string; value: string };
 
 type SimpleLineChartProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   data: number[];
   labels: string[];
@@ -73,7 +73,7 @@ export function SimpleLineChart({
 
   return (
     <View style={styles.box}>
-      <Text style={styles.title}>{title}</Text>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       {summaryTiles.length > 0 ? (
         <View style={styles.summaryRow}>
@@ -134,14 +134,12 @@ const styles = StyleSheet.create({
   },
   summaryRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 8,
     marginBottom: spacing.sm,
   },
   summaryCell: {
-    flexGrow: 1,
-    flexBasis: '30%',
-    minWidth: 88,
+    flex: 1,
+    minWidth: 0,
     backgroundColor: colors.cardElevated,
     borderRadius: 10,
     paddingVertical: 10,

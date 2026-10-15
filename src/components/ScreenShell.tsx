@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '../theme/colors';
@@ -21,6 +22,13 @@ export const ScreenShell = ({ children, scrollable = true }: ScreenShellProps) =
 
   return (
     <View style={styles.root}>
+      {/* Green glow bleeding down from the top of every screen */}
+      <LinearGradient
+        pointerEvents="none"
+        colors={['rgba(0, 255, 136, 0.16)', 'rgba(0, 255, 136, 0.05)', 'rgba(0, 255, 136, 0)']}
+        locations={[0, 0.5, 1]}
+        style={styles.glow}
+      />
       <SafeAreaView edges={['top']} style={styles.safeArea}>
         {content}
       </SafeAreaView>
@@ -32,6 +40,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  glow: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 300,
   },
   safeArea: {
     flex: 1,
