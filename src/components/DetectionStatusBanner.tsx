@@ -16,8 +16,8 @@ export const DetectionStatusBanner = ({ distracted, title, subtitle }: Detection
       style={[
         styles.wrap,
         distracted
-          ? { backgroundColor: '#2A1A1C', borderColor: colors.danger }
-          : { backgroundColor: '#1A2418', borderColor: colors.accentGreen },
+          ? { backgroundColor: '#3A1A1E', borderColor: colors.danger }
+          : { backgroundColor: '#14301F', borderColor: colors.accentGreen },
       ]}
     >
       <View style={[styles.dot, distracted ? { backgroundColor: colors.danger } : { backgroundColor: colors.accentLime }]} />

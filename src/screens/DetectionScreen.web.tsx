@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: colors.borderStrong,
-    backgroundColor: '#0E100F',
+    backgroundColor: '#141816',
   },
   feedHeader: {
     position: 'absolute',
