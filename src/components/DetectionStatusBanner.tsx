@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 type DetectionStatusBannerProps = {
   distracted: boolean;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     fontSize: 16,
   },
   subtitle: {

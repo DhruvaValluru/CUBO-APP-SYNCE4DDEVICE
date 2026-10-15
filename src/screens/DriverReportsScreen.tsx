@@ -13,6 +13,7 @@ import {
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DriverReports'>;
 
@@ -104,12 +105,12 @@ const styles = StyleSheet.create({
   backText: {
     color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
   title: {
     color: colors.text,
     fontSize: 32,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   sub: {
     color: colors.textSecondary,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   cardKicker: {
     color: colors.textSecondary,
     fontSize: 12,
-    fontWeight: '700',
+    ...font('700', 'body'),
     letterSpacing: 1,
     alignSelf: 'flex-start',
     marginBottom: spacing.sm,
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   risk: {
     color: colors.textSecondary,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'body'),
     marginTop: 8,
     textAlign: 'center',
   },
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
   blockTitle: {
     color: colors.text,
     fontSize: 17,
-    fontWeight: '800',
+    ...font('800', 'heading'),
   },
   bars: {
     flexDirection: 'row',
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
   ctaText: {
     color: colors.background,
     fontSize: 16,
-    fontWeight: '800',
+    ...font('800', 'body'),
   },
   hint: {
     color: colors.textSecondary,

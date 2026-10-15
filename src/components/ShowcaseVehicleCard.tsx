@@ -5,6 +5,7 @@ import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
 import { FlatCarGlyph } from './FlatCarGlyph';
 import { StarRow } from './StarRow';
+import { font } from '../theme/typography';
 
 const CAR_IMAGES = {
   prius: require('../../assets/car-prius.png'),
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   model: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '500',
+    ...font('500', 'body'),
     letterSpacing: -0.1,
     flex: 1,
   },
@@ -126,6 +127,6 @@ const styles = StyleSheet.create({
   statusText: {
     color: colors.textSecondary,
     fontSize: 14,
-    fontWeight: '600',
+    ...font('600', 'body'),
   },
 });

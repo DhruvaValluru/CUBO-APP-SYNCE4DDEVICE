@@ -8,6 +8,7 @@ import { getDriverById, otherDriversList, pabloShowcaseVehicles } from '../data/
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 export const VehiclesScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -48,14 +49,14 @@ const styles = StyleSheet.create({
   title: {
     color: colors.text,
     fontSize: 24,
-    fontWeight: '600',
+    ...font('600', 'heading'),
     letterSpacing: -0.3,
     marginBottom: spacing.md,
   },
   sectionLabel: {
     color: colors.textSecondary,
     fontSize: 12,
-    fontWeight: '600',
+    ...font('600', 'body'),
     letterSpacing: 0.5,
     textTransform: 'uppercase',
     marginBottom: spacing.sm,

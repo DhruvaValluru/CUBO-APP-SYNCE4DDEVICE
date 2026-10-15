@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
+import { font } from '../theme/typography';
 
 type Props = {
   score: number;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
   score: {
     fontSize: 44,
-    fontWeight: '800',
+    ...font('800', 'heading'),
     color: colors.gaugeProgress,
   },
 });

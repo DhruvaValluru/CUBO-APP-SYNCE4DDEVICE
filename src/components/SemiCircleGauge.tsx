@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { colors } from '../theme/colors';
+import { font } from '../theme/typography';
 
 type SemiCircleGaugeProps = {
   score: number;
@@ -52,11 +53,11 @@ const styles = StyleSheet.create({
   scale: {
     color: colors.textTertiary,
     fontSize: 11,
-    fontWeight: '400',
+    ...font('400', 'body'),
   },
   score: {
     fontSize: 48,
-    fontWeight: '300',
+    ...font('300', 'heading'),
     color: colors.gaugeProgress,
     letterSpacing: -2,
     marginBottom: 0,

@@ -5,6 +5,7 @@ import { Driver } from '../types/app';
 import { colors } from '../theme/colors';
 import { radii, spacing } from '../theme/theme';
 import { FlatPersonAvatar } from './FlatPersonAvatar';
+import { font } from '../theme/typography';
 
 type Props = {
   driver: Driver;
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.text,
     fontSize: 17,
-    fontWeight: '700',
+    ...font('700', 'body'),
   },
   vehicle: {
     color: colors.textSecondary,

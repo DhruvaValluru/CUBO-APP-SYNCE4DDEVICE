@@ -9,6 +9,7 @@ import { goalsMock, trendsMock } from '../data/mockData';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/theme';
+import { font } from '../theme/typography';
 
 function formatHeaderDate(d: Date) {
   return d
@@ -137,14 +138,14 @@ const styles = StyleSheet.create({
   date: {
     color: colors.textTertiary,
     fontSize: 10,
-    fontWeight: '500',
+    ...font('500', 'body'),
     letterSpacing: 0.8,
     marginBottom: 3,
   },
   title: {
     color: colors.text,
     fontSize: 24,
-    fontWeight: '600',
+    ...font('600', 'heading'),
     letterSpacing: -0.3,
   },
   avatarCircle: {
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   focusLabel: {
     color: colors.text,
     fontSize: 14,
-    fontWeight: '500',
+    ...font('500', 'body'),
     flex: 1,
   },
   focusSub: {
@@ -197,13 +198,13 @@ const styles = StyleSheet.create({
   cardLabel: {
     color: colors.textTertiary,
     fontSize: 10,
-    fontWeight: '600',
+    ...font('600', 'body'),
     letterSpacing: 0.9,
   },
   riskLabel: {
     color: colors.textSecondary,
     fontSize: 13,
-    fontWeight: '400',
+    ...font('400', 'body'),
     marginTop: spacing.xs,
     marginBottom: spacing.xs,
   },
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     color: colors.textTertiary,
     fontSize: 10,
     marginTop: 6,
-    fontWeight: '500',
+    ...font('500', 'body'),
   },
   goalsList: {
     gap: 8,
@@ -280,10 +281,10 @@ const styles = StyleSheet.create({
   trendLabel: {
     color: colors.textSecondary,
     fontSize: 13,
-    fontWeight: '400',
+    ...font('400', 'body'),
   },
   trendValue: {
     fontSize: 13,
-    fontWeight: '600',
+    ...font('600', 'heading'),
   },
 });
