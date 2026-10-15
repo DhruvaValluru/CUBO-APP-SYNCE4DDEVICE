@@ -39,3 +39,11 @@ The core computer vision engine that powers the distraction detection — uses *
   &nbsp;
   <a href="https://github.com/DhruvaValluru"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
 </p>
+
+## Deploy to Vercel
+
+The web build is configured via `vercel.json` (`npm run build:web` → `dist/`).
+
+1. Push this repo to GitHub.
+2. In Vercel, **Add New → Project**, import the repo, keep the detected settings, and click **Deploy**.
+3. Every push to the production branch redeploys automatically.
