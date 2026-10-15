@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Platform, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useCallback, useState } from 'react';
 import { useFonts } from 'expo-font';
 import {
   Outfit_300Light,
@@ -24,6 +25,7 @@ import {
   SourceSans3_900Black,
 } from '@expo-google-fonts/source-sans-3';
 
+import { BootSplash } from './src/components/BootSplash';
 import { PhoneFrame } from './src/components/PhoneFrame';
 import { TabBar } from './src/components/TabBar';
 import { DashboardScreen } from './src/screens/DashboardScreen';
@@ -31,7 +33,6 @@ import { DetectionScreen } from './src/screens/DetectionScreen';
 import { DriverReportsScreen } from './src/screens/DriverReportsScreen';
 import { InsuranceScreen } from './src/screens/InsuranceScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
-import { SplashScreen } from './src/screens/SplashScreen';
 import { VehicleDetailScreen } from './src/screens/VehicleDetailScreen';
 import { AppBlockingScreen } from './src/screens/AppBlockingScreen';
 import { VehiclesScreen } from './src/screens/VehiclesScreen';
@@ -98,6 +99,9 @@ export default function App() {
     SourceSans3_900Black,
   });
 
+  const [booted, setBooted] = useState(false);
+  const handleBootDone = useCallback(() => setBooted(true), []);
+
   if (!fontsLoaded && !fontError) {
     return <View style={{ flex: 1, backgroundColor: colors.splashBg }} />;
   }
@@ -108,8 +112,7 @@ export default function App() {
         <NavigationContainer theme={navTheme}>
           <StatusBar style="light" />
           <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
-            <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
-            <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade', animationDuration: 450 }} />
+            <Stack.Screen name="MainTabs" component={MainTabs} options={{ animation: 'fade' }} />
             <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="DriverReports" component={DriverReportsScreen} options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="DetectionLive" component={DetectionScreen} options={{ animation: 'fade_from_bottom' }} />
@@ -117,6 +120,7 @@ export default function App() {
             <Stack.Screen name="AppBlocking" component={AppBlockingScreen} options={{ animation: 'slide_from_right' }} />
           </Stack.Navigator>
         </NavigationContainer>
+        {!booted && <BootSplash onDone={handleBootDone} />}
       </Wrapper>
     </PhoneFrame>
   );

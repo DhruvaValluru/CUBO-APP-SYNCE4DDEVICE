@@ -1,5 +1,4 @@
 export type RootStackParamList = {
-  Splash: undefined;
   MainTabs: undefined;
   VehicleDetail: { vehicleId: string };
   DetectionLive: { vehicleId: string };
