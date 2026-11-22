@@ -1,18 +1,18 @@
 # CUBO standalone web deployment
 
-`main` is the web deployment branch. `shashank-new-ui` is its premium web-development counterpart.
-`shashank-old-ui` preserves the pre-redesign web interface, while `shashank-expo` preserves the Expo Go version.
+`main` is the web deployment branch. `new-ui` is its premium web-development counterpart.
+`old-ui` preserves the pre-redesign web interface, while `expo` preserves the Expo Go version.
 Expo still builds the source; visitors do not need Expo Go or a running laptop.
 
 ## Cloudflare Pages (free plan)
 
 1. Open https://dash.cloudflare.com/ and choose Workers & Pages, Create application,
    then Pages / Connect to Git (not a Workers deployment).
-2. Authorize only the CUBO-APP-CAC GitHub repository if possible.
+2. Authorize only this GitHub repository if possible.
 3. Select production branch `main`, framework None, build command
    `npm run build:web`, output directory `dist`, root directory blank.
 4. Set build environment variable `NODE_VERSION` to `22.16.0`.
-5. Under preview branch controls, exclude `shashank-expo` and other native-only
+5. Under preview branch controls, exclude `expo` and other native-only
    branches so Expo commits do not trigger unsupported web builds.
 6. Deploy. Use the assigned HTTPS `*.pages.dev` URL; no paid domain is required.
 7. In Firebase Authentication settings, add that exact hostname to Authorized
@@ -51,8 +51,8 @@ the laptop is off. Set up and interact only while parked.
   availability, usage policies and limits. Free frontend hosting does not remove
   those limits.
 
-Rollback: use an earlier successful Pages deployment or inspect `shashank-old-ui`.
-Keep current web code on `shashank-new-ui`/`main` and native-only setup on `shashank-expo`.
+Rollback: use an earlier successful Pages deployment or inspect `old-ui`.
+Keep current web code on `new-ui`/`main` and native-only setup on `expo`.
 
 ## Safari font/icon deployment regression
 

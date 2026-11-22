@@ -15,9 +15,9 @@ Visitors do not need Expo Go, a development server, or a connection to the devel
 | Branch | Purpose |
 | --- | --- |
 | `main` | Current premium-interface web release. GitHub pushes trigger the Cloudflare Pages production deployment. |
-| `shashank-new-ui` | Recoverable premium web-interface branch. Continue new-UI work here, then promote reviewed app revisions to `main`. |
-| `shashank-old-ui` | Preserved pre-redesign Cloudflare web app. Use only for comparison or temporary rollback. |
-| `shashank-expo` | Separate native Expo / Expo Go app. It is intentionally not part of this web redesign and must not be replaced with a web branch. |
+| `new-ui` | Recoverable premium web-interface branch. Continue new-UI work here, then promote reviewed app revisions to `main`. |
+| `old-ui` | Preserved pre-redesign Cloudflare web app. Use only for comparison or temporary rollback. |
+| `expo` | Separate native Expo / Expo Go app. It is intentionally not part of this web redesign and must not be replaced with a web branch. |
 | `old-rsa-app` | Historical original/RSA-era implementation. Archive/reference only. |
 
 See [`docs/branch-map.md`](docs/branch-map.md) before merging or asking an AI agent to change branches. Expo and web share concepts and substantial code, but platform-specific files, dependencies, and permissions must be tested separately. Do not replace one platform's setup with the other's.
@@ -126,8 +126,8 @@ See [`docs/account-sync.md`](docs/account-sync.md) for migration behavior, free-
 Use Node.js and npm. Current locked Firebase dependencies declare **Node 24.12.0 or newer**; prefer a supported Node version satisfying the lockfile's engine requirements. The existing Cloudflare build has used Node 22.16.0 with engine warnings—successful deployment is not proof of full dependency support.
 
 ```sh
-git clone https://github.com/ShashankM7/CUBO-APP-CAC.git
-cd CUBO-APP-CAC
+git clone https://github.com/DhruvaValluru/CUBO-APP-SYNCE4DDEVICE.git
+cd CUBO-APP-SYNCE4DDEVICE
 git switch main
 npm ci
 npm run web
@@ -163,7 +163,7 @@ Do not put private credentials in `EXPO_PUBLIC_*`; those values ship to browsers
 | Root directory | Repository root |
 | Public app | [cubo-app-cac.pages.dev](https://cubo-app-cac.pages.dev/) |
 
-Review web changes on `shashank-new-ui`, then promote the exact reviewed app revision to `main` and push. Confirm the production deployment succeeds for that revision. Native-only branches such as `shashank-expo` should be excluded from Pages preview builds.
+Review web changes on `new-ui`, then promote the exact reviewed app revision to `main` and push. Confirm the production deployment succeeds for that revision. Native-only branches such as `expo` should be excluded from Pages preview builds.
 
 The build exports the Expo web app, bundles the optional AI worker, and prepares assets, headers, and install metadata. **Do not skip `scripts/prepare-web.cjs`**: it relocates dependency assets so fonts and icons survive Cloudflare's upload exclusions.
 

@@ -62,12 +62,6 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "70efa5c9-4ab3-49d0-8d66-1a9bdcda14df"
-      }
-    },
-    "owner": "shashankm7"
+    }
   }
 }

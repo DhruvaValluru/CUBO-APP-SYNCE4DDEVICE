@@ -10,8 +10,8 @@ function load(file, requireMock = require, navigatorMock) {
 }
 const { createInvitation, CUBO_INVITE_URL } = load('src/features/invite/invitation.ts');
 test('invitation personalizes only the supplied name and uses production URL', () => {
-  const text = createInvitation('  Shashank  ');
-  assert.match(text, /^Shashank is inviting you to join CUBO!/);
+  const text = createInvitation('  Alex  ');
+  assert.match(text, /^Alex is inviting you to join CUBO!/);
   assert.equal(text.split(CUBO_INVITE_URL).length, 2);
   for (const step of ['Safari', 'Share', 'Add to Home Screen', 'Open as Web App', 'Chrome']) assert.ok(text.includes(step));
   assert.ok(!text.includes('localhost'));
